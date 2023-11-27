@@ -25,6 +25,7 @@
     "dev": "cross-env npm run build:server && medusa develop"
   },
   "dependencies": {
+    "@agilo/medusa-plugin-store-credit": "file:.yalc/@agilo/medusa-plugin-store-credit",
     "@medusajs/admin": "7.1.7",
     "@medusajs/cache-inmemory": "^1.8.9",
     "@medusajs/cache-redis": "^1.8.9",
