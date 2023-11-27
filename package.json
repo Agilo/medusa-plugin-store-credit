@@ -1,0 +1,40 @@
+{
+  "name": "medusa-store-credit",
+  "description": "Monorepo for @agilo/medusa-plugin-store-credit",
+  "homepage": "https://github.com/Agilo/medusa-plugin-store-credit",
+  "author": "Ivo Limić <ivo@agilo.co>",
+  "license": "MIT",
+  "packageManager": "yarn@3.6.3",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "generate:medusa-api:admin": "node --no-warnings=ExperimentalWarning --loader ts-node/esm ./dev/scripts/generate-medusa-client.ts admin",
+    "generate:medusa-api:store": "node --no-warnings=ExperimentalWarning --loader ts-node/esm ./dev/scripts/generate-medusa-client.ts store && cd dev/medusa-plugin-bundles-client && yarn run prepare",
+    "generate:medusa-api": "yarn run generate:medusa-api:admin && yarn run generate:medusa-api:store",
+    "setup": "cd medusa-plugin-bundles && yarn install && yalc publish && cd ../dev/medusa && yalc add @agilo/medusa-plugin-bundles && yarn install && cd ../medusa-plugin-bundles-client && yarn install && yalc publish && cd ../medusa-storefront && yalc add @agilo/medusa-plugin-bundles-client && yarn install && cd ../../tests && yarn install && cd ..",
+    "start": "cd medusa-plugin-bundles && yalc publish && cd .. && cd dev/medusa-plugin-bundles-client && yalc publish && cd ../.. && yarn run sync && cd dev/medusa && yarn run build && cd ../.. && concurrently \"yarn run watch:medusa-plugin-bundles\" \"yarn run watch:medusa-plugin-bundles-client\" --timings --prefix \"[{index}] [{time}] =>\"",
+    "sync:medusa": "cd medusa-plugin-bundles && yalc publish --no-scripts --push",
+    "sync:storefront": "cd dev/medusa-plugin-bundles-client && yalc publish --no-scripts --push",
+    "sync": "yarn run sync:medusa && yarn run sync:storefront",
+    "test-ci": "node --no-warnings=ExperimentalWarning --loader ts-node/esm ./dev/scripts/start-server-and-run-tests.ts",
+    "watch:medusa-plugin-bundles-client": "nodemon -e js,jsx,ts,tsx --watch \"dev/medusa-plugin-bundles-client/src\" --spawn --exec \"cd dev/medusa-plugin-bundles-client && yarn run prepare && cd ../.. && yarn run sync:storefront && cd dev/medusa-storefront && rm -rf .next && yarn run dev\" --delay 1 --verbose",
+    "watch:medusa-plugin-bundles": "nodemon -e js,jsx,ts,tsx --watch \"medusa-plugin-bundles/src\" --spawn --exec \"cd medusa-plugin-bundles && yarn run prepare && cd .. && yarn run sync:medusa && cd dev/medusa && yarn run dev\" --delay 1 --verbose"
+  },
+  "dependencies": {
+    "@medusajs/medusa-oas-cli": "file:.yalc/@medusajs/medusa-oas-cli",
+    "concurrently": "^8.2.2",
+    "execa": "^8.0.1",
+    "fs-extra": "^11.1.1",
+    "nodemon": "^3.0.1",
+    "openapi-filter": "^3.2.3",
+    "replace-in-file": "^7.0.1",
+    "terminate": "^2.6.1",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.2.2",
+    "wait-on": "^7.1.0"
+  },
+  "devDependencies": {
+    "@types/fs-extra": "^11.0.1",
+    "@types/wait-on": "^5.3.4"
+  }
+}
