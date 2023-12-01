@@ -96,7 +96,7 @@ Follow these step-by-step instructions to run the project locally:
 5. Open a new terminal tab
 6. `yarn install && yarn run setup` - install dependencies in all packages
 7. `cd packages/medusa && medusa migrations run && cd ../..` - run the migrations
-8. `cd packages/medusa && yarn run seed:medusa-plugin-bundles && cd ../..` - seed the database
+8. `cd packages/medusa && yarn run seed:medusa-plugin-store-credit && cd ../..` - seed the database
 9. `yarn run start` - build the packages and start the Medusa dev server and plugin watcher
 
 Medusa Admin is now available at http://localhost:7001 and Medusa Storefront at http://localhost:8000
@@ -114,10 +114,10 @@ Once you have the project running locally you can start making changes to the pl
 
 Unfortunately DX when generating migrations which extend or relate to core entities is not great, but here's a workflow that works:
 
-1. Make sure `yarn run start` is running
+1. `yarn run start` - make sure workflow is running
 2. `cp packages/medusa-plugin-store-credit/.env.example packages/medusa-plugin-store-credit/.env` - copy and edit environment variables
-3. Edit/create migration files in `packages/medusa-plugin-store-credit/src/migrations`
-4. `npx typeorm migration:generate -d datasource.js src/migrations/BundleUpdate` - this will generate a migration file with a bunch of migrations in `src/migrations/<timestamp>-BundleUpdate.ts`, the migration file will contain migrations for both core medusa entities and your plugin entities. You can now cherry pick the migrations you want to run and delete the rest.
+3. `cd packages/medusa-plugin-store-credit/src/migrations` - navigate to the plugin dir
+4. `npx typeorm migration:generate -d datasource.js src/migrations/StoreCreditUpdate` - this will generate a migration file with a bunch of migrations in `src/migrations/<timestamp>-StoreCreditUpdate.ts`, the migration file will contain migrations for both core medusa entities and your plugin entities. You can now cherry pick the migrations you want to run and delete the rest.
 5. In the `packages/medusa` dir run `medusa migrations run`
 
 #### Available Commands
