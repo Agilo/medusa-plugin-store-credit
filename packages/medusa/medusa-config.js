@@ -52,6 +52,12 @@ const plugins = [
       },
     },
   },
+  {
+    resolve: "@agilo/medusa-plugin-store-credit",
+    options: {
+      enableUI: true,
+    },
+  },
 ];
 
 const modules = {
