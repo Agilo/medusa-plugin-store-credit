@@ -1237,7 +1237,8 @@
   ],
   "customers": [
     {
-      "email": "ivo@agilo.com",
+      "id": "cus_ivo",
+      "email": "ivo@agilo.co",
       "password": "supersecret",
       "first_name": "Ivo",
       "last_name": "Limić",
@@ -1257,16 +1258,59 @@
       ]
     }
   ],
+  "gift_cards": [
+    {
+      "id": "gift_01HGX2XYMAN58SQG5RAZ20342J",
+      "code": "ZRRC-5MKB-NSB1-5G0E",
+      "value": 1000,
+      "balance": 1000,
+      "region_id": "test-region-eu",
+      "order_id": null,
+      "is_disabled": false,
+      "ends_at": null
+    },
+    {
+      "id": "gift_01HGX2YG4CGK3SPQ77W9Y7PADQ",
+      "code": "TXUR-4V26-UJKA-6LHY",
+      "value": 10000,
+      "balance": 10000,
+      "region_id": "test-region-eu",
+      "order_id": null,
+      "is_disabled": false,
+      "ends_at": null
+    },
+    {
+      "id": "gift_01HGX2YRJKH902JR4VVTXGDQ9X",
+      "code": "VT3W-P9YN-SEOU-ULRE",
+      "value": 100000,
+      "balance": 100000,
+      "region_id": "test-region-eu",
+      "order_id": null,
+      "is_disabled": false,
+      "ends_at": null
+    }
+  ],
   "store_credits": [
     {
       "id": "stcred_01",
-      "value": 100000,
-      "balance": 100000
+      "value": 1000,
+      "balance": 1000,
+      "region_id": "test-region-eu",
+      "customer_id": "cus_ivo"
     },
     {
       "id": "stcred_02",
-      "value": 100,
-      "balance": 100
+      "value": 10000,
+      "balance": 10000,
+      "region_id": "test-region-eu",
+      "customer_id": "cus_ivo"
+    },
+    {
+      "id": "stcred_03",
+      "value": 100000,
+      "balance": 100000,
+      "region_id": "test-region-eu",
+      "customer_id": "cus_ivo"
     }
   ]
 }

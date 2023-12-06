@@ -49,6 +49,7 @@ const loaders = require("@medusajs/medusa/dist/loaders/index").default;
     /* eslint-enable */
 
     const customerService = container.resolve("customerService");
+    const giftCardService = container.resolve("giftCardService");
     const addressRepository_ = container.resolve("addressRepository");
     const storeCreditService = container.resolve("storeCreditService");
 
@@ -61,6 +62,7 @@ const loaders = require("@medusajs/medusa/dist/loaders/index").default;
       users,
       publishable_api_keys = [],
       customers = [],
+      gift_cards = [],
       store_credits = [],
     } = JSON.parse(fs.readFileSync(seedFile, `utf-8`));
 
@@ -218,10 +220,17 @@ const loaders = require("@medusajs/medusa/dist/loaders/index").default;
         }
       }
 
-      // todo: renable this when storeCreditService.create is implemented
-      // for (const sc of store_credits) {
-      //   const newSc = await storeCreditService.withTransaction(tx).create(sc);
-      // }
+      for (const giftCard of gift_cards) {
+        giftCard.region_id = regionIds[giftCard.region_id]; // replace dummy id with real id
+        const newGiftCard = await giftCardService
+          .withTransaction(tx)
+          .create(giftCard);
+      }
+
+      for (const sc of store_credits) {
+        sc.region_id = regionIds[sc.region_id]; // replace dummy id with real id
+        const newSc = await storeCreditService.withTransaction(tx).create(sc);
+      }
     });
 
     await server.shutdown();
