@@ -3,7 +3,9 @@ import { formatAmount } from "medusa-react"
 import React from "react"
 
 type CartTotalsProps = {
-  cart: Omit<Cart, "refundable_amount" | "refunded_total">
+  cart: Omit<Cart, "refundable_amount" | "refunded_total"> & {
+    store_credit_total: number
+  }
 }
 
 const CartTotals: React.FC<CartTotalsProps> = ({ cart }) => {
@@ -11,6 +13,7 @@ const CartTotals: React.FC<CartTotalsProps> = ({ cart }) => {
     subtotal,
     discount_total,
     gift_card_total,
+    store_credit_total,
     tax_total,
     shipping_total,
     total,
@@ -42,6 +45,12 @@ const CartTotals: React.FC<CartTotalsProps> = ({ cart }) => {
             <div className="flex items-center justify-between">
               <span>Gift card</span>
               <span>- {getAmount(gift_card_total)}</span>
+            </div>
+          )}
+          {!!store_credit_total && (
+            <div className="flex items-center justify-between">
+              <span>Store credit</span>
+              <span>- {getAmount(store_credit_total)}</span>
             </div>
           )}
           <div className="flex items-center justify-between">
