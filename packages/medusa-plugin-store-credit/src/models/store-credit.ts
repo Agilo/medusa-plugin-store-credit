@@ -1,5 +1,7 @@
 import {
   Customer,
+  DbAwareColumn,
+  Region,
   SoftDeletableEntity,
   generateEntityId,
 } from "@medusajs/medusa";
@@ -29,13 +31,13 @@ export class StoreCredit extends SoftDeletableEntity {
   @Column("int")
   balance: number;
 
-  // @Index()
-  // @Column()
-  // region_id: string;
+  @Index()
+  @Column()
+  region_id: string;
 
-  // @ManyToOne(() => Region)
-  // @JoinColumn({ name: "region_id" })
-  // region: Region;
+  @ManyToOne(() => Region)
+  @JoinColumn({ name: "region_id" })
+  region: Region;
 
   @Index()
   @Column()
@@ -65,8 +67,8 @@ export class StoreCredit extends SoftDeletableEntity {
   // @Column({ type: "real", nullable: true })
   // tax_rate: number | null;
 
-  // @DbAwareColumn({ type: "jsonb", nullable: true })
-  // metadata: Record<string, unknown>;
+  @DbAwareColumn({ type: "jsonb", nullable: true })
+  metadata: Record<string, unknown>;
 
   /**
    * @apiIgnore
