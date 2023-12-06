@@ -2,9 +2,13 @@ import {
   EventBusService,
   FindConfig,
   QuerySelector,
+  RegionService,
+  Selector,
   TransactionBaseService,
   buildQuery,
+  setMetadata,
 } from "@medusajs/medusa";
+import { MedusaError, isDefined } from "medusa-core-utils";
 import { EntityManager } from "typeorm";
 import { StoreCredit } from "../models/store-credit";
 import StoreCreditRepository from "../repositories/store-credit";
@@ -26,12 +30,31 @@ import StoreCreditRepository from "../repositories/store-credit";
 // import EventBusService from "./event-bus"
 // import RegionService from "./region"
 
+export type CreateStoreCreditInput = {
+  // order_id?: string
+  value?: number;
+  balance?: number;
+  ends_at?: Date;
+  is_disabled?: boolean;
+  region_id: string;
+  metadata?: Record<string, unknown>;
+  // tax_rate?: number | null
+};
+
+export type UpdateStoreCreditInput = {
+  balance?: number;
+  ends_at?: Date | null;
+  is_disabled?: boolean;
+  region_id?: string;
+  metadata?: Record<string, unknown>;
+};
+
 type InjectedDependencies = {
   manager: EntityManager;
   storeCreditRepository: typeof StoreCreditRepository;
   // giftCardRepository: typeof GiftCardRepository;
   // giftCardTransactionRepository: typeof GiftCardTransactionRepository;
-  // regionService: RegionService;
+  regionService: RegionService;
   eventBusService: EventBusService;
 };
 /**
@@ -42,17 +65,17 @@ class StoreCreditService extends TransactionBaseService {
   // protected readonly giftCardRepository_: typeof GiftCardRepository
   // eslint-disable-next-line max-len
   // protected readonly giftCardTransactionRepo_: typeof GiftCardTransactionRepository
-  // protected readonly regionService_: RegionService
+  protected readonly regionService_: RegionService;
   protected readonly eventBus_: EventBusService;
 
-  // static Events = {
-  //   CREATED: "gift_card.created",
-  // };
+  static Events = {
+    CREATED: "store_credit.created",
+  };
 
   constructor({
     // giftCardRepository,
     // giftCardTransactionRepository,
-    // regionService,
+    regionService,
     storeCreditRepository,
     eventBusService,
   }: InjectedDependencies) {
@@ -62,7 +85,7 @@ class StoreCreditService extends TransactionBaseService {
     this.storeCreditRepository_ = storeCreditRepository;
     // this.giftCardRepository_ = giftCardRepository
     // this.giftCardTransactionRepo_ = giftCardTransactionRepository
-    // this.regionService_ = regionService
+    this.regionService_ = regionService;
     this.eventBus_ = eventBusService;
   }
 
@@ -129,44 +152,46 @@ class StoreCreditService extends TransactionBaseService {
   //   return saved.id
   // }
 
-  // /**
-  //  * Creates a gift card with provided data given that the data is validated.
-  //  * @param giftCard - the gift card data to create
-  //  * @return the result of the create operation
-  //  */
-  // async create(giftCard: CreateGiftCardInput): Promise<GiftCard> {
-  //   return await this.atomicPhase_(async (manager) => {
-  //     const giftCardRepo = manager.withRepository(this.giftCardRepository_)
+  /**
+   * Creates a gift card with provided data given that the data is validated.
+   * @param giftCard - the gift card data to create
+   * @return the result of the create operation
+   */
+  async create(storeCredit: CreateStoreCreditInput): Promise<StoreCredit> {
+    return await this.atomicPhase_(async (manager) => {
+      const storeCreditRepo = manager.withRepository(
+        this.storeCreditRepository_
+      );
 
-  //     // Will throw if region does not exist
-  //     const region = await this.regionService_
-  //       .withTransaction(manager)
-  //       .retrieve(giftCard.region_id)
+      // Will throw if region does not exist
+      const region = await this.regionService_
+        .withTransaction(manager)
+        .retrieve(storeCredit.region_id);
 
-  //     const code = StoreCreditService.generateCode()
-  //     const taxRate = StoreCreditService.resolveTaxRate(
-  //       giftCard.tax_rate || null,
-  //       region
-  //     )
-  //     const toCreate = {
-  //       code,
-  //       ...giftCard,
-  //       region_id: region.id,
-  //       tax_rate: taxRate,
-  //     }
+      // const code = StoreCreditService.generateCode()
+      // const taxRate = StoreCreditService.resolveTaxRate(
+      //   giftCard.tax_rate || null,
+      //   region
+      // )
+      const toCreate = {
+        // code,
+        ...storeCredit,
+        region_id: region.id,
+        // tax_rate: taxRate,
+      };
 
-  //     const created = giftCardRepo.create(toCreate)
-  //     const result = await giftCardRepo.save(created)
+      const created = storeCreditRepo.create(toCreate);
+      const result = await storeCreditRepo.save(created);
 
-  //     await this.eventBus_
-  //       .withTransaction(manager)
-  //       .emit(StoreCreditService.Events.CREATED, {
-  //         id: result.id,
-  //       })
+      await this.eventBus_
+        .withTransaction(manager)
+        .emit(StoreCreditService.Events.CREATED, {
+          id: result.id,
+        });
 
-  //     return result
-  //   })
-  // }
+      return result;
+    });
+  }
 
   // /**
   //  * The tax_rate of the giftcard can depend on whether regions tax gift cards, an input
@@ -194,52 +219,52 @@ class StoreCreditService extends TransactionBaseService {
   //   return region.tax_rate || null
   // }
 
-  // protected async retrieve_(
-  //   selector: Selector<GiftCard>,
-  //   config: FindConfig<GiftCard> = {}
-  // ): Promise<GiftCard> {
-  //   const giftCardRepo = this.activeManager_.withRepository(
-  //     this.giftCardRepository_
-  //   )
+  protected async retrieve_(
+    selector: Selector<StoreCredit>,
+    config: FindConfig<StoreCredit> = {}
+  ): Promise<StoreCredit> {
+    const storeCreditRepo = this.activeManager_.withRepository(
+      this.storeCreditRepository_
+    );
 
-  //   const query = buildQuery(selector, config)
-  //   query.relationLoadStrategy = "query"
+    const query = buildQuery(selector, config);
+    query.relationLoadStrategy = "query";
 
-  //   const giftCard = await giftCardRepo.findOne(query)
+    const storeCredit = await storeCreditRepo.findOne(query);
 
-  //   if (!giftCard) {
-  //     const selectorConstraints = Object.entries(selector)
-  //       .map(([key, value]) => `${key}: ${value}`)
-  //       .join(", ")
+    if (!storeCredit) {
+      const selectorConstraints = Object.entries(selector)
+        .map(([key, value]) => `${key}: ${value}`)
+        .join(", ");
 
-  //     throw new MedusaError(
-  //       MedusaError.Types.NOT_FOUND,
-  //       `Gift card with ${selectorConstraints} was not found`
-  //     )
-  //   }
+      throw new MedusaError(
+        MedusaError.Types.NOT_FOUND,
+        `Store credit with ${selectorConstraints} was not found`
+      );
+    }
 
-  //   return giftCard
-  // }
+    return storeCredit;
+  }
 
-  // /**
-  //  * Gets a gift card by id.
-  //  * @param giftCardId - id of gift card to retrieve
-  //  * @param config - optional values to include with gift card query
-  //  * @return the gift card
-  //  */
-  // async retrieve(
-  //   giftCardId: string,
-  //   config: FindConfig<GiftCard> = {}
-  // ): Promise<GiftCard> {
-  //   if (!isDefined(giftCardId)) {
-  //     throw new MedusaError(
-  //       MedusaError.Types.NOT_FOUND,
-  //       `"giftCardId" must be defined`
-  //     )
-  //   }
+  /**
+   * Gets a store credit by id.
+   * @param storeCreditId - id of store credit to retrieve
+   * @param config - optional values to include with store credit query
+   * @return the store card
+   */
+  async retrieve(
+    storeCreditId: string,
+    config: FindConfig<StoreCredit> = {}
+  ): Promise<StoreCredit> {
+    if (!isDefined(storeCreditId)) {
+      throw new MedusaError(
+        MedusaError.Types.NOT_FOUND,
+        `"storeCreditId" must be defined`
+      );
+    }
 
-  //   return await this.retrieve_({ id: giftCardId }, config)
-  // }
+    return await this.retrieve_({ id: storeCreditId }, config);
+  }
 
   // async retrieveByCode(
   //   code: string,
@@ -255,71 +280,75 @@ class StoreCreditService extends TransactionBaseService {
   //   return await this.retrieve_({ code }, config)
   // }
 
-  // /**
-  //  * Updates a giftCard.
-  //  * @param giftCardId - giftCard id of giftCard to update
-  //  * @param update - the data to update the giftCard with
-  //  * @return the result of the update operation
-  //  */
-  // async update(
-  //   giftCardId: string,
-  //   update: UpdateGiftCardInput
-  // ): Promise<GiftCard> {
-  //   return await this.atomicPhase_(async (manager) => {
-  //     const giftCardRepo = manager.withRepository(this.giftCardRepository_)
+  /**
+   * Updates a single store credit.
+   * @param storeCreditId - storeCredit id of store credit to update
+   * @param update - the data to update the storeCredit with
+   * @return the result of the update operation
+   */
+  async update(
+    storeCreditId: string,
+    update: UpdateStoreCreditInput
+  ): Promise<StoreCredit> {
+    return await this.atomicPhase_(async (manager) => {
+      const storeCreditRepo = manager.withRepository(
+        this.storeCreditRepository_
+      );
 
-  //     const giftCard = await this.retrieve(giftCardId)
+      const storeCredit = await this.retrieve(storeCreditId);
 
-  //     const { region_id, metadata, balance, ...rest } = update
+      const { region_id, metadata, balance, ...rest } = update;
 
-  //     if (region_id && region_id !== giftCard.region_id) {
-  //       const region = await this.regionService_
-  //         .withTransaction(manager)
-  //         .retrieve(region_id)
-  //       giftCard.region_id = region.id
-  //     }
+      if (region_id && region_id !== storeCredit.region_id) {
+        const region = await this.regionService_
+          .withTransaction(manager)
+          .retrieve(region_id);
+        storeCredit.region_id = region.id;
+      }
 
-  //     if (metadata) {
-  //       giftCard.metadata = setMetadata(giftCard, metadata)
-  //     }
+      if (metadata) {
+        storeCredit.metadata = setMetadata(storeCredit, metadata);
+      }
 
-  //     if (isDefined(balance)) {
-  //       if (balance < 0 || giftCard.value < balance) {
-  //         throw new MedusaError(
-  //           MedusaError.Types.INVALID_ARGUMENT,
-  //           "new balance is invalid"
-  //         )
-  //       }
+      if (isDefined(balance)) {
+        if (balance < 0 || storeCredit.value < balance) {
+          throw new MedusaError(
+            MedusaError.Types.INVALID_ARGUMENT,
+            "new balance is invalid"
+          );
+        }
 
-  //       giftCard.balance = balance
-  //     }
+        storeCredit.balance = balance;
+      }
 
-  //     for (const [key, value] of Object.entries(rest)) {
-  //       giftCard[key] = value
-  //     }
+      for (const [key, value] of Object.entries(rest)) {
+        storeCredit[key] = value;
+      }
 
-  //     return await giftCardRepo.save(giftCard)
-  //   })
-  // }
+      return await storeCreditRepo.save(storeCredit);
+    });
+  }
 
-  // /**
-  //  * Deletes a gift card idempotently
-  //  * @param giftCardId - id of gift card to delete
-  //  * @return the result of the delete operation
-  //  */
-  // async delete(giftCardId: string): Promise<GiftCard | void> {
-  //   const giftCardRepo = this.activeManager_.withRepository(
-  //     this.giftCardRepository_
-  //   )
+  /**
+   * Deletes store credit idempotently
+   * @param storeCreditId - id of store credit to delete
+   * @return the result of the delete operation
+   */
+  async delete(storeCreditId: string): Promise<StoreCredit | void> {
+    const storeCreditRepo = this.activeManager_.withRepository(
+      this.storeCreditRepository_
+    );
 
-  //   const giftCard = await giftCardRepo.findOne({ where: { id: giftCardId } })
+    const storeCredit = await storeCreditRepo.findOne({
+      where: { id: storeCreditId },
+    });
 
-  //   if (!giftCard) {
-  //     return
-  //   }
+    if (!storeCredit) {
+      return;
+    }
 
-  //   return await giftCardRepo.softRemove(giftCard)
-  // }
+    return await storeCreditRepo.softRemove(storeCredit);
+  }
 }
 
 export default StoreCreditService;
