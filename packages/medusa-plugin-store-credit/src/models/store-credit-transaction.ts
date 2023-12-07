@@ -1,7 +1,8 @@
-import { Order, generateEntityId } from "@medusajs/medusa";
+import { Order, generateEntityId, resolveDbType } from "@medusajs/medusa";
 import {
   BeforeInsert,
   Column,
+  CreateDateColumn,
   Entity,
   Index,
   JoinColumn,
@@ -38,8 +39,8 @@ export class StoreCreditTransaction {
   @Column("int")
   amount: number;
 
-  // @CreateDateColumn({ type: resolveDbType("timestamptz") })
-  // created_at: Date;
+  @CreateDateColumn({ type: resolveDbType("timestamptz") })
+  created_at: Date;
 
   // @Column({ nullable: true })
   // is_taxable: boolean;

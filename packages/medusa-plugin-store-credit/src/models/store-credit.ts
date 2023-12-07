@@ -4,6 +4,7 @@ import {
   Region,
   SoftDeletableEntity,
   generateEntityId,
+  resolveDbType,
 } from "@medusajs/medusa";
 import {
   BeforeInsert,
@@ -55,14 +56,14 @@ export class StoreCredit extends SoftDeletableEntity {
   // @JoinColumn({ name: "order_id" })
   // order: Order;
 
-  // @Column({ default: false })
-  // is_disabled: boolean;
+  @Column({ default: false })
+  is_disabled: boolean;
 
-  // @Column({
-  //   type: resolveDbType("timestamptz"),
-  //   nullable: true,
-  // })
-  // ends_at: Date;
+  @Column({
+    type: resolveDbType("timestamptz"),
+    nullable: true,
+  })
+  ends_at: Date;
 
   // @Column({ type: "real", nullable: true })
   // tax_rate: number | null;
