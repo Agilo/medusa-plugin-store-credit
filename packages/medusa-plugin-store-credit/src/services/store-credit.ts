@@ -1,7 +1,6 @@
 import {
   EventBusService,
   FindConfig,
-  QuerySelector,
   RegionService,
   Selector,
   TransactionBaseService,
@@ -9,9 +8,10 @@ import {
   setMetadata,
 } from "@medusajs/medusa";
 import { MedusaError, isDefined } from "medusa-core-utils";
-import { EntityManager } from "typeorm";
+import { And, EntityManager } from "typeorm";
 import { StoreCredit } from "../models/store-credit";
 import StoreCreditRepository from "../repositories/store-credit";
+import StoreCreditTransactionRepository from "../repositories/store-credit-transaction";
 
 // import { isDefined, MedusaError } from "medusa-core-utils"
 // import randomize from "randomatic"
@@ -49,9 +49,19 @@ export type UpdateStoreCreditInput = {
   metadata?: Record<string, unknown>;
 };
 
+export type CreateStoreCreditTransactionInput = {
+  store_credit_id: string;
+  order_id: string;
+  amount: number;
+  created_at?: Date;
+  // is_taxable?: boolean
+  // tax_rate?: number | null
+};
+
 type InjectedDependencies = {
   manager: EntityManager;
   storeCreditRepository: typeof StoreCreditRepository;
+  storeCreditTransactionRepository: typeof StoreCreditTransactionRepository;
   // giftCardRepository: typeof GiftCardRepository;
   // giftCardTransactionRepository: typeof GiftCardTransactionRepository;
   regionService: RegionService;
@@ -61,10 +71,11 @@ type InjectedDependencies = {
  * Provides layer to manipulate gift cards.
  */
 class StoreCreditService extends TransactionBaseService {
-  protected readonly storeCreditRepository_: typeof StoreCreditRepository;
   // protected readonly giftCardRepository_: typeof GiftCardRepository
   // eslint-disable-next-line max-len
   // protected readonly giftCardTransactionRepo_: typeof GiftCardTransactionRepository
+  protected readonly storeCreditRepository_: typeof StoreCreditRepository;
+  protected readonly storeCreditTransactionRepo_: typeof StoreCreditTransactionRepository;
   protected readonly regionService_: RegionService;
   protected readonly eventBus_: EventBusService;
 
@@ -73,18 +84,20 @@ class StoreCreditService extends TransactionBaseService {
   };
 
   constructor({
+    regionService,
     // giftCardRepository,
     // giftCardTransactionRepository,
-    regionService,
     storeCreditRepository,
+    storeCreditTransactionRepository,
     eventBusService,
   }: InjectedDependencies) {
     // eslint-disable-next-line prefer-rest-params
     super(arguments[0]);
 
-    this.storeCreditRepository_ = storeCreditRepository;
     // this.giftCardRepository_ = giftCardRepository
     // this.giftCardTransactionRepo_ = giftCardTransactionRepository
+    this.storeCreditRepository_ = storeCreditRepository;
+    this.storeCreditTransactionRepo_ = storeCreditTransactionRepository;
     this.regionService_ = regionService;
     this.eventBus_ = eventBusService;
   }
@@ -110,7 +123,7 @@ class StoreCreditService extends TransactionBaseService {
    * @return the result of the find operation
    */
   async listAndCount(
-    selector: QuerySelector<StoreCredit> = {},
+    selector: Selector<StoreCredit> = {},
     config: FindConfig<StoreCredit> = { relations: [], skip: 0, take: 10 }
   ): Promise<[StoreCredit[], number]> {
     const storeCreditRepo = this.activeManager_.withRepository(
@@ -128,6 +141,53 @@ class StoreCreditService extends TransactionBaseService {
     return await storeCreditRepo.listAndCount(query);
   }
 
+  /**
+   * Select only store credits that are:
+   * - tied to this customer
+   * - tied to this region
+   * - not disabled
+   * - not expired
+   * - not used up (have balance > 0)
+   */
+  async getValidStoreCredits(
+    customerId: string,
+    regionId: string
+  ): Promise<[StoreCredit[], number]> {
+    const storeCreditRepo = this.activeManager_.withRepository(
+      this.storeCreditRepository_
+    );
+
+    const query = buildQuery(
+      {
+        customer_id: customerId,
+        region_id: regionId,
+        is_disabled: false,
+        balance: { gt: 0 },
+        ends_at: [null, { gt: new Date() }],
+      },
+      {
+        take: 10, // todo: check that take: undefined works ie. returns all results
+      }
+    );
+
+    console.log("getValidStoreCredits::query", query);
+
+    return await storeCreditRepo.listAndCount(query);
+
+    // return await this.listAndCount(
+    //   {
+    //     customer_id: customerId,
+    //     region_id: regionId,
+    //     is_disabled: false,
+    //     balance: { gt: 0 },
+    //     ends_at: { gt: new Date() },
+    //   },
+    //   {
+    //     take: 10, // todo: check that take: undefined works ie. returns all results
+    //   }
+    // );
+  }
+
   // /**
   //  * @param selector - the query object for find
   //  * @param config - the configuration used to find the objects. contains relations, skip, and take.
@@ -141,16 +201,16 @@ class StoreCreditService extends TransactionBaseService {
   //   return cards
   // }
 
-  // async createTransaction(
-  //   data: CreateGiftCardTransactionInput
-  // ): Promise<string> {
-  //   const gctRepo = this.activeManager_.withRepository(
-  //     this.giftCardTransactionRepo_
-  //   )
-  //   const created = gctRepo.create(data)
-  //   const saved = await gctRepo.save(created)
-  //   return saved.id
-  // }
+  async createTransaction(
+    data: CreateStoreCreditTransactionInput
+  ): Promise<string> {
+    const sctRepo = this.activeManager_.withRepository(
+      this.storeCreditTransactionRepo_
+    );
+    const created = sctRepo.create(data);
+    const saved = await sctRepo.save(created);
+    return saved.id;
+  }
 
   /**
    * Creates a gift card with provided data given that the data is validated.
