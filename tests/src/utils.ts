@@ -16,7 +16,9 @@ export function recursiveStripProps(
       if (props.includes([...path, key].join("."))) {
         // console.log(`stripping ${[...path, key].join(".")}`);
         // @ts-ignore
-        delete data[key];
+        // delete data[key];
+        // @ts-ignore
+        data[key] = "--stripped--";
       } else {
         recursiveStripProps(value, props, [...path, key]);
       }
