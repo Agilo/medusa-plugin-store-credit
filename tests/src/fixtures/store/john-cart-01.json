@@ -96,7 +96,6 @@
         "currency_code": "eur",
         "deleted_at": null,
         "gift_cards_taxable": true,
-        "id": "reg_01HHHWFEB3FSS46PFJPEG7HW51",
         "metadata": null,
         "name": "EU",
         "payment_providers": [
