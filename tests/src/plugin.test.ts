@@ -2,7 +2,10 @@ import { expect, test } from "vitest";
 import config from "./config";
 import { recursiveStripProps } from "./utils";
 
-let cookies: string[];
+const cookies: Record<"john@agilo.co" | "jane@agilo.co", string[]> = {
+  "john@agilo.co": [],
+  "jane@agilo.co": [],
+};
 
 test("Guest cart should have zero store_credit_total", async () => {
   /**
@@ -44,7 +47,7 @@ test("Proper store_credit balance should be returned on auth (john@agilo.co)", a
   });
   const data = await response.json();
 
-  cookies = response.headers.getSetCookie();
+  cookies["john@agilo.co"] = response.headers.getSetCookie();
 
   recursiveStripProps(data, [
     "data.customer.created_at",
@@ -64,7 +67,7 @@ test("Proper store_credit balance should be returned for authenticated customer 
   const response = await fetch(`${config.apiUrl}/store/customers/me`, {
     // credentials: "include", // doesn't work
     headers: {
-      Cookie: cookies.join(";"),
+      Cookie: cookies["john@agilo.co"].join(";"),
     },
   });
   const data = await response.json();
@@ -88,6 +91,9 @@ test("should utilize store credits", async () => {
 
   let response = await fetch(`${config.apiUrl}/store/carts`, {
     method: "POST",
+    headers: {
+      Cookie: cookies["john@agilo.co"].join(";"),
+    },
   });
   let data = await response.json();
 
@@ -118,7 +124,12 @@ test("should utilize store credits", async () => {
    */
 
   response = await fetch(
-    `${config.apiUrl}/store/products/prod_medusasweatpants`
+    `${config.apiUrl}/store/products/prod_medusasweatpants`,
+    {
+      headers: {
+        Cookie: cookies["john@agilo.co"].join(";"),
+      },
+    }
   );
   let { product } = await response.json();
 
@@ -126,6 +137,7 @@ test("should utilize store credits", async () => {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      Cookie: cookies["john@agilo.co"].join(";"),
     },
     body: JSON.stringify({
       variant_id: product.variants[0].id,
@@ -136,6 +148,8 @@ test("should utilize store credits", async () => {
 
   recursiveStripProps(data, [
     "data.cart.created_at",
+    "data.cart.customer.created_at",
+    "data.cart.customer.updated_at",
     "data.cart.id",
     "data.cart.items.cart_id",
     "data.cart.items.created_at",
@@ -177,7 +191,12 @@ test("should utilize store credits", async () => {
    */
 
   response = await fetch(
-    `${config.apiUrl}/store/products/prod_themostexpensivetshirt`
+    `${config.apiUrl}/store/products/prod_themostexpensivetshirt`,
+    {
+      headers: {
+        Cookie: cookies["john@agilo.co"].join(";"),
+      },
+    }
   );
   ({ product } = await response.json());
 
@@ -185,6 +204,7 @@ test("should utilize store credits", async () => {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      Cookie: cookies["john@agilo.co"].join(";"),
     },
     body: JSON.stringify({
       variant_id: product.variants[0].id,
@@ -195,6 +215,8 @@ test("should utilize store credits", async () => {
 
   recursiveStripProps(data, [
     "data.cart.created_at",
+    "data.cart.customer.created_at",
+    "data.cart.customer.updated_at",
     "data.cart.id",
     "data.cart.items.cart_id",
     "data.cart.items.created_at",
@@ -241,7 +263,7 @@ test("Zero store_credit balance should be returned on auth (jane@agilo.co)", asy
   });
   const data = await response.json();
 
-  cookies = response.headers.getSetCookie();
+  cookies["jane@agilo.co"] = response.headers.getSetCookie();
 
   recursiveStripProps(data, [
     "data.customer.created_at",
@@ -260,7 +282,7 @@ test("Zero store_credit balance should be returned on auth (jane@agilo.co)", asy
 test("Zero store_credit balance should be returned for authenticated customer (jane@agilo.co)", async () => {
   const response = await fetch(`${config.apiUrl}/store/customers/me`, {
     headers: {
-      Cookie: cookies.join(";"),
+      Cookie: cookies["jane@agilo.co"].join(";"),
     },
   });
   const data = await response.json();
