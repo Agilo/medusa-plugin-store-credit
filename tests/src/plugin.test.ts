@@ -29,7 +29,7 @@ test("Guest cart should have zero store_credit_total", async () => {
   ]);
 
   expect({ data, status: response.status }).toMatchFileSnapshot(
-    `../../fixtures/store/guest-cart.json`
+    `fixtures/store/guest-cart.json`
   );
 });
 
@@ -56,7 +56,7 @@ test("Proper store_credit balance should be returned on auth (john@agilo.co)", a
   ]);
 
   expect({ data, status: response.status }).toMatchFileSnapshot(
-    `../../fixtures/store/customer-john-01.json`
+    `fixtures/store/customer-john-01.json`
   );
 });
 
@@ -79,7 +79,7 @@ test("Proper store_credit balance should be returned for authenticated customer 
   ]);
 
   expect({ data, status: response.status }).toMatchFileSnapshot(
-    `../../fixtures/store/customer-john-02.json`
+    `fixtures/store/customer-john-02.json`
   );
 });
 
@@ -105,7 +105,7 @@ test("Zero store_credit balance should be returned on auth (jane@agilo.co)", asy
   ]);
 
   expect({ data, status: response.status }).toMatchFileSnapshot(
-    `../../fixtures/store/customer-jane-01.json`
+    `fixtures/store/customer-jane-01.json`
   );
 });
 
@@ -127,6 +127,6 @@ test("Zero store_credit balance should be returned for authenticated customer (j
   ]);
 
   expect({ data, status: response.status }).toMatchFileSnapshot(
-    `../../fixtures/store/customer-jane-02.json`
+    `fixtures/store/customer-jane-02.json`
   );
 });
