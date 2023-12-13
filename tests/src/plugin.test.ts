@@ -121,8 +121,6 @@ test("should utilize store credits", async () => {
   );
   let { product } = await response.json();
 
-  console.log(product);
-
   response = await fetch(`${config.apiUrl}/store/carts/${cartId}/line-items`, {
     method: "POST",
     headers: {
@@ -134,6 +132,25 @@ test("should utilize store credits", async () => {
     }),
   });
   data = await response.json();
+
+  recursiveStripProps(data, [
+    "data.cart.created_at",
+    "data.cart.id",
+    "data.cart.items.cart_id",
+    "data.cart.items.created_at",
+    "data.cart.items.id",
+    "data.cart.items.tax_lines.item_id",
+    "data.cart.items.updated_at",
+    "data.cart.region_id",
+    "data.cart.region.countries.region_id",
+    "data.cart.region.created_at",
+    "data.cart.region.updated_at",
+    "data.cart.sales_channel_id",
+    "data.cart.sales_channel.created_at",
+    "data.cart.sales_channel.id",
+    "data.cart.sales_channel.updated_at",
+    "data.cart.updated_at",
+  ]);
 
   expect({ data, status: response.status }).toMatchFileSnapshot(
     `fixtures/store/john-cart-02.json`
@@ -160,6 +177,25 @@ test("should utilize store credits", async () => {
     }),
   });
   data = await response.json();
+
+  recursiveStripProps(data, [
+    "data.cart.created_at",
+    "data.cart.id",
+    "data.cart.items.cart_id",
+    "data.cart.items.created_at",
+    "data.cart.items.id",
+    "data.cart.items.tax_lines.item_id",
+    "data.cart.items.updated_at",
+    "data.cart.region_id",
+    "data.cart.region.countries.region_id",
+    "data.cart.region.created_at",
+    "data.cart.region.updated_at",
+    "data.cart.sales_channel_id",
+    "data.cart.sales_channel.created_at",
+    "data.cart.sales_channel.id",
+    "data.cart.sales_channel.updated_at",
+    "data.cart.updated_at",
+  ]);
 
   expect({ data, status: response.status }).toMatchFileSnapshot(
     `fixtures/store/john-cart-03.json`
