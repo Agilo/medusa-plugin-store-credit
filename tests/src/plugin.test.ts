@@ -83,6 +83,89 @@ test("Proper store_credit balance should be returned for authenticated customer 
   );
 });
 
+test("should utilize store credits", async () => {
+  // create cart
+
+  let response = await fetch(`${config.apiUrl}/store/carts`, {
+    method: "POST",
+  });
+  let data = await response.json();
+
+  const cartId = data.cart.id;
+
+  recursiveStripProps(data, [
+    "data.cart.created_at",
+    "data.cart.id",
+    "data.cart.region_id",
+    "data.cart.region.countries.region_id",
+    "data.cart.region.created_at",
+    "data.cart.region.updated_at",
+    "data.cart.sales_channel_id",
+    "data.cart.sales_channel.created_at",
+    "data.cart.sales_channel.id",
+    "data.cart.sales_channel.updated_at",
+    "data.cart.updated_at",
+  ]);
+
+  expect({ data, status: response.status }).toMatchFileSnapshot(
+    `fixtures/store/john-cart-01.json`
+  );
+
+  /**
+   * add prod_medusasweatpants to cart
+   * this should use some of the store credits but not all
+   */
+
+  response = await fetch(
+    `${config.apiUrl}/store/products/prod_medusasweatpants`
+  );
+  let { product } = await response.json();
+
+  console.log(product);
+
+  response = await fetch(`${config.apiUrl}/store/carts/${cartId}/line-items`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      variant_id: product.variants[0].id,
+      quantity: 1,
+    }),
+  });
+  data = await response.json();
+
+  expect({ data, status: response.status }).toMatchFileSnapshot(
+    `fixtures/store/john-cart-02.json`
+  );
+
+  /**
+   * add prod_themostexpensivetshirt to cart
+   * this should use up all remaining store credits
+   */
+
+  response = await fetch(
+    `${config.apiUrl}/store/products/prod_themostexpensivetshirt`
+  );
+  ({ product } = await response.json());
+
+  response = await fetch(`${config.apiUrl}/store/carts/${cartId}/line-items`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      variant_id: product.variants[0].id,
+      quantity: 1,
+    }),
+  });
+  data = await response.json();
+
+  expect({ data, status: response.status }).toMatchFileSnapshot(
+    `fixtures/store/john-cart-03.json`
+  );
+});
+
 test("Zero store_credit balance should be returned on auth (jane@agilo.co)", async () => {
   const response = await fetch(`${config.apiUrl}/store/auth`, {
     method: "POST",
