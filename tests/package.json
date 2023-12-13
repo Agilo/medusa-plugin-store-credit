@@ -1,5 +1,6 @@
 {
   "name": "@agilo/medusa-plugin-store-credit-tests",
+  "description": "e2e tests for the @agilo/medusa-plugin-store-credit plugin.",
   "private": true,
   "type": "module",
   "scripts": {

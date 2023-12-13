@@ -1,0 +1,42 @@
+{
+  "data": {
+    "customer": {
+      "billing_address_id": null,
+      "deleted_at": null,
+      "email": "jane@agilo.co",
+      "first_name": "Jane",
+      "has_account": true,
+      "id": "cus_jane",
+      "last_name": "Doe",
+      "metadata": null,
+      "orders": [],
+      "phone": null,
+      "shipping_addresses": [
+        {
+          "address_1": "Mosećka ul. 2",
+          "address_2": null,
+          "city": "Split",
+          "company": "Agilo",
+          "country_code": "hr",
+          "customer_id": "cus_jane",
+          "deleted_at": null,
+          "first_name": "Jane",
+          "last_name": "Doe",
+          "metadata": null,
+          "phone": null,
+          "postal_code": "21000",
+          "province": null,
+        },
+      ],
+      "store_credit": [
+        {
+          "balance": 0,
+        },
+        {
+          "balance": 0,
+        },
+      ],
+    },
+  },
+  "status": 200,
+}
