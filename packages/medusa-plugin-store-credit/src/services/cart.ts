@@ -64,6 +64,10 @@ class CartService extends MedusaCartService {
       return cart_ as Cart & { total: number };
     }
 
+    const storeCredits = await this.storeCreditService_.getValidStoreCreditsForRegion(cart_.customer_id, cart_.region_id);
+
+    // console.log('decorateTotals::cart_::', cart_);
+    // console.log('decorateTotals::storeCredits::', storeCredits);
 
     const storeCreditableAmount = (this.newTotalsService_ as NewTotalsService).getStoreCreditableAmount({
       // gift_cards_taxable: cart.region?.gift_cards_taxable,
