@@ -1,7 +1,7 @@
 import { ExtendedFindConfig } from "@medusajs/medusa";
 import { dataSource } from "@medusajs/medusa/dist/loaders/database";
 import { promiseAll } from "@medusajs/utils";
-import { FindOptionsWhere } from "typeorm";
+import { Brackets, FindOptionsWhere, Repository } from "typeorm";
 import { StoreCredit } from "../models/store-credit";
 
 // import { FindOptionsWhere, ILike, Raw } from "typeorm"
@@ -20,30 +20,49 @@ export const StoreCreditRepository = dataSource
       const query_ = { ...query };
       query_.where = query_.where as FindOptionsWhere<StoreCredit>;
 
-      // if (q) {
-      //   delete query_.where.id
-
-      //   query_.relations = query_.relations ?? {}
-      //   query_.relations.order = query_.relations.order ?? true
-
-      //   query_.where = query_.where as FindOptionsWhere<GiftCard>[]
-      //   query_.where = [
-      //     {
-      //       ...query_.where,
-      //       code: ILike(`%${q}%`),
-      //     },
-      //     {
-      //       ...query_.where,
-      //       order: {
-      //         display_id: Raw((alias) => `CAST(${alias} as varchar) ILike :q`, {
-      //           q: `%${q}%`,
-      //         }),
-      //       },
-      //     },
-      //   ]
-      // }
-
       return await promiseAll([this.find(query_), this.count(query_)]);
+    },
+    async getValidStoreCredits(customerId: string): Promise<StoreCredit[]> {
+      const date = new Date();
+
+      const qb = (this as Repository<StoreCredit>)
+        .createQueryBuilder("store_credit")
+        // .select([`store_credit.id`])
+        .where("customer_id = :customerId", { customerId })
+        .andWhere("is_disabled = false")
+        .andWhere("balance > 0")
+        .andWhere(
+          new Brackets((qb) => {
+            qb.where(`ends_at IS NULL`).orWhere(`ends_at > :date`, {
+              date: date.toUTCString(),
+            });
+          })
+        );
+
+      return qb.getMany();
+    },
+    async getValidStoreCreditsForRegion(
+      customerId: string,
+      regionId: string
+    ): Promise<StoreCredit[]> {
+      const date = new Date();
+
+      const qb = (this as Repository<StoreCredit>)
+        .createQueryBuilder("store_credit")
+        // .select([`store_credit.id`])
+        .where("customer_id = :customerId", { customerId })
+        .andWhere("region_id = :regionId", { regionId })
+        .andWhere("is_disabled = false")
+        .andWhere("balance > 0")
+        .andWhere(
+          new Brackets((qb) => {
+            qb.where(`ends_at IS NULL`).orWhere(`ends_at > :date`, {
+              date: date.toUTCString(),
+            });
+          })
+        );
+
+      return qb.getMany();
     },
   });
 export default StoreCreditRepository;
