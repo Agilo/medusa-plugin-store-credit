@@ -1,5 +1,10 @@
-import { NewTotalsService as MedusaNewTotalsService } from "@medusajs/medusa";
+import {
+  NewTotalsService as MedusaNewTotalsService,
+  Region,
+} from "@medusajs/medusa";
+import { MedusaError } from "medusa-core-utils";
 import { StoreCredit } from "../models/store-credit";
+import { StoreCreditTransaction } from "../models/store-credit-transaction";
 
 // import { FlagRouter } from "@medusajs/utils"
 // import { isDefined, MedusaError } from "medusa-core-utils"
