@@ -149,43 +149,23 @@ class StoreCreditService extends TransactionBaseService {
    * - not expired
    * - not used up (have balance > 0)
    */
-  async getValidStoreCredits(
-    customerId: string,
-    regionId: string
-  ): Promise<[StoreCredit[], number]> {
+  async getValidStoreCredits(customerId: string): Promise<StoreCredit[]> {
     const storeCreditRepo = this.activeManager_.withRepository(
       this.storeCreditRepository_
     );
 
-    const query = buildQuery(
-      {
-        customer_id: customerId,
-        region_id: regionId,
-        is_disabled: false,
-        balance: { gt: 0 },
-        ends_at: [null, { gt: new Date() }],
-      },
-      {
-        take: 10, // todo: check that take: undefined works ie. returns all results
-      }
+    return storeCreditRepo.getValidStoreCredits(customerId);
+  }
+
+  async getValidStoreCreditsForRegion(
+    customerId: string,
+    regionId: string
+  ): Promise<StoreCredit[]> {
+    const storeCreditRepo = this.activeManager_.withRepository(
+      this.storeCreditRepository_
     );
 
-    console.log("getValidStoreCredits::query", query);
-
-    return await storeCreditRepo.listAndCount(query);
-
-    // return await this.listAndCount(
-    //   {
-    //     customer_id: customerId,
-    //     region_id: regionId,
-    //     is_disabled: false,
-    //     balance: { gt: 0 },
-    //     ends_at: { gt: new Date() },
-    //   },
-    //   {
-    //     take: 10, // todo: check that take: undefined works ie. returns all results
-    //   }
-    // );
+    return storeCreditRepo.getValidStoreCreditsForRegion(customerId, regionId);
   }
 
   // /**
