@@ -7,14 +7,14 @@ type OrderSummaryProps = {
 
 const OrderSummary = ({ order }: OrderSummaryProps) => {
   const getAmount = (amount?: number | null) => {
-    if (!amount) {
+    if (amount === null || amount === undefined) {
       return
     }
 
     return formatAmount({ amount, region: order.region, includeTaxes: false })
   }
 
-  console.log('OrderSummary::order', order);
+  console.log("OrderSummary::order", order)
 
   return (
     <div>

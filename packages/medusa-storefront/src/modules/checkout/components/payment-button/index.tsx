@@ -53,8 +53,13 @@ const PaymentButton: React.FC<PaymentButtonProps> = ({ paymentSession }) => {
       return (
         <PayPalPaymentButton notReady={notReady} session={paymentSession} />
       )
-    default:
-      return <Button disabled>Select a payment method</Button>
+    default: {
+      if (cart?.total === 0) {
+        return <NoPaymentButton notReady={notReady} />
+      } else {
+        return <Button disabled>Select a payment method</Button>
+      }
+    }
   }
 }
 
@@ -221,6 +226,26 @@ const PayPalPaymentButton = ({
 }
 
 const ManualTestPaymentButton = ({ notReady }: { notReady: boolean }) => {
+  const [submitting, setSubmitting] = useState(false)
+
+  const { onPaymentCompleted } = useCheckout()
+
+  const handlePayment = () => {
+    setSubmitting(true)
+
+    onPaymentCompleted()
+
+    setSubmitting(false)
+  }
+
+  return (
+    <Button disabled={submitting || notReady} onClick={handlePayment}>
+      {submitting ? <Spinner /> : "Checkout"}
+    </Button>
+  )
+}
+
+const NoPaymentButton = ({ notReady }: { notReady: boolean }) => {
   const [submitting, setSubmitting] = useState(false)
 
   const { onPaymentCompleted } = useCheckout()
