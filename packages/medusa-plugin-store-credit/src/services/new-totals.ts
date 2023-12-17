@@ -92,22 +92,30 @@ export default class NewTotalsService extends MedusaNewTotalsService {
    * todo
    */
   getStoreCreditableAmount({
-    gift_cards_taxable,
+    // gift_cards_taxable,
     subtotal,
     shipping_total,
     discount_total,
     tax_total,
+    gift_card_total,
+    gift_card_tax_total,
   }: {
-    gift_cards_taxable?: boolean;
+    // gift_cards_taxable?: boolean;
     subtotal: number;
     shipping_total: number;
     discount_total: number;
     tax_total: number;
+    gift_card_total: number;
+    gift_card_tax_total: number;
   }): number {
     return (
-      (gift_cards_taxable
-        ? subtotal + shipping_total - discount_total
-        : subtotal + shipping_total + tax_total - discount_total) || 0
+      // (gift_cards_taxable
+      //   ? subtotal + shipping_total - (discount_total + gift_card_total + gift_card_tax_total)
+      //   : subtotal + shipping_total + tax_total - (discount_total + gift_card_total + gift_card_tax_total)) || 0
+      subtotal +
+      shipping_total +
+      tax_total -
+      (discount_total + gift_card_total + gift_card_tax_total)
     );
   }
 }
