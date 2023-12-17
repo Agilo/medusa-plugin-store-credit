@@ -35,38 +35,42 @@ export default class NewTotalsService extends MedusaNewTotalsService {
   async getStoreCreditTotals(
     storeCreditableAmount: number,
     {
-      // giftCardTransactions,
-      // region,
+      region,
       storeCredits,
+      storeCreditTransactions,
     }: {
-      // region: Region;
-      // giftCardTransactions?: GiftCardTransaction[];
-      storeCredits: StoreCredit[];
+      region: Region;
+      storeCredits?: StoreCredit[];
+      storeCreditTransactions?: StoreCreditTransaction[];
     }
   ): Promise<{
     total: number;
     // tax_total: number;
   }> {
-    // if (!storeCredits/* && !giftCardTransactions*/) {
-    //   throw new MedusaError(
-    //     MedusaError.Types.UNEXPECTED_STATE,
-    //     "Cannot calculate the gift cart totals. Neither the gift cards or gift card transactions have been provided"
-    //   );
-    // }
+    if (!storeCredits && !storeCreditTransactions) {
+      throw new MedusaError(
+        MedusaError.Types.UNEXPECTED_STATE,
+        "Cannot calculate the gift cart totals. Neither the gift cards or gift card transactions have been provided"
+      );
+    }
 
-    // if (giftCardTransactions?.length) {
-    //   return this.getGiftCardTransactionsTotals({
-    //     giftCardTransactions,
-    //     region,
-    //   });
-    // }
+    if (storeCreditTransactions?.length) {
+      // return this.getGiftCardTransactionsTotals({
+      //   giftCardTransactions,
+      //   region,
+      // });
+      return this.getStoreCreditTransactionsTotals({
+        storeCreditTransactions,
+        // region,
+      });
+    }
 
     const result = {
       total: 0,
       // tax_total: 0,
     };
 
-    if (!storeCredits.length) {
+    if (!storeCredits?.length) {
       return result;
     }
 
@@ -86,6 +90,49 @@ export default class NewTotalsService extends MedusaNewTotalsService {
     result.total = Math.min(storeCreditableAmount, totalStoreCreditBalance);
 
     return result;
+  }
+
+  // prettier-ignore
+  /**
+   * Calculate and return the store credits totals based on their transactions
+   * todo: handle tax
+   */
+  getStoreCreditTransactionsTotals({
+    storeCreditTransactions,
+    // region,
+  }: {
+    storeCreditTransactions: StoreCreditTransaction[];
+    // region: { store_credits_taxable: boolean; tax_rate: number };
+  }): { total: number /*tax_total: number*/ } {
+    return storeCreditTransactions.reduce(
+      (acc, next) => {
+        // let taxMultiplier = (next.tax_rate || 0) / 100
+
+        // Previously we did not record whether a gift card was taxable or not.
+        // All gift cards where is_taxable === null are from the old system,
+        // where we defaulted to taxable gift cards.
+        //
+        // This is a backwards compatability fix for orders that were created
+        // before we added the gift card tax rate.
+        // We prioritize the giftCard.tax_rate as we create a snapshot of the tax
+        // on order creation to create gift cards on the gift card itself.
+        // If its created outside of the order, we refer to the region tax
+        // if (next.is_taxable === null) {
+        //   if (region?.gift_cards_taxable || next.gift_card?.tax_rate) {
+        //     taxMultiplier = (next.gift_card?.tax_rate ?? region.tax_rate) / 100
+        //   }
+        // }
+
+        return {
+          total: acc.total + next.amount,
+          // tax_total: Math.round(acc.tax_total + next.amount * taxMultiplier),
+        };
+      },
+      {
+        total: 0,
+        // tax_total: 0,
+      }
+    );
   }
 
   /**
