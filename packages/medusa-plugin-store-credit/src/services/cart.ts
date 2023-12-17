@@ -59,12 +59,11 @@ class CartService extends MedusaCartService {
   ): Promise<WithRequiredProperty<Cart, "total">> {
     const cart_: Cart = await super.decorateTotals(cart, totalsConfig);
 
-    /**
-     * Handle store credits
-     * todo: replace with super.decorateTotals() ?
-     */
+    if (!cart_.customer_id) {
+      cart_.store_credit_total = 0;
+      return cart_ as Cart & { total: number };
+    }
 
-    const [storeCredits] = await this.storeCreditService_.listAndCount();
 
     const storeCreditableAmount = (this.newTotalsService_ as NewTotalsService).getStoreCreditableAmount({
       // gift_cards_taxable: cart.region?.gift_cards_taxable,
