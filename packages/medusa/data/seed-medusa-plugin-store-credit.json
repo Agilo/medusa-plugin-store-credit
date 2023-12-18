@@ -31,8 +31,7 @@
         "se",
         "fr",
         "es",
-        "it",
-        "hr"
+        "it"
       ]
     },
     {
@@ -49,6 +48,66 @@
       "countries": [
         "us",
         "ca"
+      ]
+    },
+    {
+      "id": "test-region-hr",
+      "name": "HR",
+      "currency_code": "eur",
+      "tax_rate": 25,
+      "payment_providers": [
+        "manual"
+      ],
+      "fulfillment_providers": [
+        "manual"
+      ],
+      "countries": [
+        "hr"
+      ]
+    },
+    {
+      "id": "test-region-at",
+      "name": "AT",
+      "currency_code": "eur",
+      "tax_rate": 20,
+      "payment_providers": [
+        "manual"
+      ],
+      "fulfillment_providers": [
+        "manual"
+      ],
+      "countries": [
+        "at"
+      ]
+    },
+    {
+      "id": "test-region-bg",
+      "name": "BG",
+      "currency_code": "eur",
+      "tax_rate": 20,
+      "payment_providers": [
+        "manual"
+      ],
+      "fulfillment_providers": [
+        "manual"
+      ],
+      "countries": [
+        "bg"
+      ]
+    },
+    {
+      "id": "test-region-ch",
+      "name": "CH",
+      "currency_code": "eur",
+      "tax_rate": 7.7,
+      "payment_providers": [
+        "manual"
+      ],
+      "fulfillment_providers": [
+        "manual"
+      ],
+      "countries": [
+        "ch"
       ]
     }
   ],
@@ -129,6 +188,174 @@
     {
       "name": "I want to return it myself",
       "region_id": "test-region-na",
+      "provider_id": "manual",
+      "data": {
+        "id": "manual-fulfillment"
+      },
+      "price_type": "flat_rate",
+      "is_return": true,
+      "amount": 0
+    },
+    {
+      "name": "PostFake Standard",
+      "region_id": "test-region-hr",
+      "provider_id": "manual",
+      "data": {
+        "id": "manual-fulfillment"
+      },
+      "price_type": "flat_rate",
+      "amount": 1000
+    },
+    {
+      "name": "PostFake Express",
+      "region_id": "test-region-hr",
+      "provider_id": "manual",
+      "data": {
+        "id": "manual-fulfillment"
+      },
+      "price_type": "flat_rate",
+      "amount": 1500
+    },
+    {
+      "name": "PostFake Return",
+      "region_id": "test-region-hr",
+      "provider_id": "manual",
+      "data": {
+        "id": "manual-fulfillment"
+      },
+      "price_type": "flat_rate",
+      "is_return": true,
+      "amount": 1000
+    },
+    {
+      "name": "I want to return it myself",
+      "region_id": "test-region-hr",
+      "provider_id": "manual",
+      "data": {
+        "id": "manual-fulfillment"
+      },
+      "price_type": "flat_rate",
+      "is_return": true,
+      "amount": 0
+    },
+    {
+      "name": "PostFake Standard",
+      "region_id": "test-region-at",
+      "provider_id": "manual",
+      "data": {
+        "id": "manual-fulfillment"
+      },
+      "price_type": "flat_rate",
+      "amount": 1000
+    },
+    {
+      "name": "PostFake Express",
+      "region_id": "test-region-at",
+      "provider_id": "manual",
+      "data": {
+        "id": "manual-fulfillment"
+      },
+      "price_type": "flat_rate",
+      "amount": 1500
+    },
+    {
+      "name": "PostFake Return",
+      "region_id": "test-region-at",
+      "provider_id": "manual",
+      "data": {
+        "id": "manual-fulfillment"
+      },
+      "price_type": "flat_rate",
+      "is_return": true,
+      "amount": 1000
+    },
+    {
+      "name": "I want to return it myself",
+      "region_id": "test-region-at",
+      "provider_id": "manual",
+      "data": {
+        "id": "manual-fulfillment"
+      },
+      "price_type": "flat_rate",
+      "is_return": true,
+      "amount": 0
+    },
+    {
+      "name": "PostFake Standard",
+      "region_id": "test-region-bg",
+      "provider_id": "manual",
+      "data": {
+        "id": "manual-fulfillment"
+      },
+      "price_type": "flat_rate",
+      "amount": 1000
+    },
+    {
+      "name": "PostFake Express",
+      "region_id": "test-region-bg",
+      "provider_id": "manual",
+      "data": {
+        "id": "manual-fulfillment"
+      },
+      "price_type": "flat_rate",
+      "amount": 1500
+    },
+    {
+      "name": "PostFake Return",
+      "region_id": "test-region-bg",
+      "provider_id": "manual",
+      "data": {
+        "id": "manual-fulfillment"
+      },
+      "price_type": "flat_rate",
+      "is_return": true,
+      "amount": 1000
+    },
+    {
+      "name": "I want to return it myself",
+      "region_id": "test-region-bg",
+      "provider_id": "manual",
+      "data": {
+        "id": "manual-fulfillment"
+      },
+      "price_type": "flat_rate",
+      "is_return": true,
+      "amount": 0
+    },
+    {
+      "name": "PostFake Standard",
+      "region_id": "test-region-ch",
+      "provider_id": "manual",
+      "data": {
+        "id": "manual-fulfillment"
+      },
+      "price_type": "flat_rate",
+      "amount": 1000
+    },
+    {
+      "name": "PostFake Express",
+      "region_id": "test-region-ch",
+      "provider_id": "manual",
+      "data": {
+        "id": "manual-fulfillment"
+      },
+      "price_type": "flat_rate",
+      "amount": 1500
+    },
+    {
+      "name": "PostFake Return",
+      "region_id": "test-region-ch",
+      "provider_id": "manual",
+      "data": {
+        "id": "manual-fulfillment"
+      },
+      "price_type": "flat_rate",
+      "is_return": true,
+      "amount": 1000
+    },
+    {
+      "name": "I want to return it myself",
+      "region_id": "test-region-ch",
       "provider_id": "manual",
       "data": {
         "id": "manual-fulfillment"
@@ -975,6 +1202,106 @@
       ]
     },
     {
+      "id": "prod_medusacoffeemug02",
+      "title": "Expensive Coffee Mug",
+      "categories": [
+        {
+          "id": "pcat_merch"
+        },
+        {
+          "id": "pcat_hidden_featured"
+        }
+      ],
+      "subtitle": null,
+      "description": "Every programmer's best friend.",
+      "handle": "expensive-coffee-mug",
+      "is_giftcard": false,
+      "weight": 400,
+      "images": [
+        "https://medusa-public-images.s3.eu-west-1.amazonaws.com/coffee-mug.png"
+      ],
+      "options": [
+        {
+          "title": "Size",
+          "values": [
+            "One Size"
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "title": "One Size",
+          "prices": [
+            {
+              "currency_code": "eur",
+              "amount": 50000
+            },
+            {
+              "currency_code": "usd",
+              "amount": 50000
+            }
+          ],
+          "options": [
+            {
+              "value": "One Size"
+            }
+          ],
+          "inventory_quantity": 100,
+          "manage_inventory": true
+        }
+      ]
+    },
+    {
+      "id": "prod_medusacoffeemug03",
+      "title": "Most Expensive Coffee Mug",
+      "categories": [
+        {
+          "id": "pcat_merch"
+        },
+        {
+          "id": "pcat_hidden_featured"
+        }
+      ],
+      "subtitle": null,
+      "description": "Every programmer's best friend.",
+      "handle": "most-expensive-coffee-mug",
+      "is_giftcard": false,
+      "weight": 400,
+      "images": [
+        "https://medusa-public-images.s3.eu-west-1.amazonaws.com/coffee-mug.png"
+      ],
+      "options": [
+        {
+          "title": "Size",
+          "values": [
+            "One Size"
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "title": "One Size",
+          "prices": [
+            {
+              "currency_code": "eur",
+              "amount": 100000
+            },
+            {
+              "currency_code": "usd",
+              "amount": 100000
+            }
+          ],
+          "options": [
+            {
+              "value": "One Size"
+            }
+          ],
+          "inventory_quantity": 100,
+          "manage_inventory": true
+        }
+      ]
+    },
+    {
       "id": "prod_themostexpensivetshirt",
       "title": "The Most Expensive T-Shirt",
       "categories": [
@@ -1282,8 +1609,8 @@
   ],
   "gift_cards": [
     {
-      "id": "gift_01HGX2XYMAN58SQG5RAZ20342J",
-      "code": "ZRRC-5MKB-NSB1-5G0E",
+      "id": "gift_01",
+      "code": "TXUR-4V26-UJKA-EU01",
       "value": 1000,
       "balance": 1000,
       "region_id": "test-region-eu",
@@ -1292,8 +1619,8 @@
       "ends_at": null
     },
     {
-      "id": "gift_01HGX2YG4CGK3SPQ77W9Y7PADQ",
-      "code": "TXUR-4V26-UJKA-6LHY",
+      "id": "gift_02",
+      "code": "TXUR-4V26-UJKA-EU02",
       "value": 10000,
       "balance": 10000,
       "region_id": "test-region-eu",
@@ -1302,11 +1629,51 @@
       "ends_at": null
     },
     {
-      "id": "gift_01HGX2YRJKH902JR4VVTXGDQ9X",
-      "code": "VT3W-P9YN-SEOU-ULRE",
+      "id": "gift_03",
+      "code": "TXUR-4V26-UJKA-EU03",
       "value": 100000,
       "balance": 100000,
       "region_id": "test-region-eu",
+      "order_id": null,
+      "is_disabled": false,
+      "ends_at": null
+    },
+    {
+      "id": "gift_04",
+      "code": "TXUR-4V26-UJKA-AT04",
+      "value": 100000,
+      "balance": 100000,
+      "region_id": "test-region-at",
+      "order_id": null,
+      "is_disabled": false,
+      "ends_at": null
+    },
+    {
+      "id": "gift_05",
+      "code": "TXUR-4V26-UJKA-BG05",
+      "value": 100000,
+      "balance": 100000,
+      "region_id": "test-region-bg",
+      "order_id": null,
+      "is_disabled": false,
+      "ends_at": null
+    },
+    {
+      "id": "gift_06",
+      "code": "TXUR-4V26-UJKA-HR06",
+      "value": 100000,
+      "balance": 100000,
+      "region_id": "test-region-hr",
+      "order_id": null,
+      "is_disabled": false,
+      "ends_at": null
+    },
+    {
+      "id": "gift_07",
+      "code": "TXUR-4V26-UJKA-CH07",
+      "value": 100000,
+      "balance": 100000,
+      "region_id": "test-region-ch",
       "order_id": null,
       "is_disabled": false,
       "ends_at": null
