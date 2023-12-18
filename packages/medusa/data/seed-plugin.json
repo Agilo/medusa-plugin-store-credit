@@ -14,8 +14,8 @@
   ],
   "regions": [
     {
-      "id": "test-region-eu19",
-      "name": "EU19",
+      "id": "test-region-eu",
+      "name": "EU",
       "currency_code": "eur",
       "tax_rate": 19,
       "payment_providers": [
