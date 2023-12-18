@@ -109,6 +109,21 @@
       "countries": [
         "ch"
       ]
+    },
+    {
+      "id": "test-region-ky",
+      "name": "KY",
+      "currency_code": "kyd",
+      "tax_rate": 0,
+      "payment_providers": [
+        "manual"
+      ],
+      "fulfillment_providers": [
+        "manual"
+      ],
+      "countries": [
+        "ky"
+      ]
     }
   ],
   "shipping_options": [
