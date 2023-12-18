@@ -1,6 +1,11 @@
 import { beforeAll, describe, expect, test } from "vitest";
 import config from "./config";
-import { getProductById, getRegionByIso2, recursiveStripProps } from "./utils";
+import {
+  getEphemeralCartProps,
+  getProductById,
+  getRegionByIso2,
+  recursiveStripProps,
+} from "./utils";
 
 const cookies: Record<"john@agilo.co" | "jane@agilo.co", string[]> = {
   "john@agilo.co": [],
@@ -149,42 +154,139 @@ describe("Customer login flow 01 (john@agilo.co)", () => {
   });
 });
 
-// describe("Customer purchase flow 01 (john@agilo.co)", () => {
-//   let cartId: string;
+describe("Customer purchase flow 01 (john@agilo.co)", () => {
+  let cartId: string;
 
-//   test("Create cart (john@agilo.co)", async () => {
-//     const response = await fetch(`${config.apiUrl}/store/carts`, {
-//       method: "POST",
-//       headers: {
-//         "Content-Type": "application/json",
-//         Cookie: cookies["john@agilo.co"].join(";"),
-//       },
-//       body: JSON.stringify({ region_id: getRegionByIso2(regions, "de").id }),
-//     });
-//     const data = await response.json();
+  test("Create cart (john@agilo.co)", async () => {
+    const response = await fetch(`${config.apiUrl}/store/carts`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Cookie: cookies["john@agilo.co"].join(";"),
+      },
+      body: JSON.stringify({ region_id: getRegionByIso2(regions, "de").id }),
+    });
+    const data = await response.json();
 
-//     cartId = data.cart.id;
+    cartId = data.cart.id;
 
-//     recursiveStripProps(data, [
-//       "data.cart.created_at",
-//       "data.cart.id",
-//       "data.cart.region_id",
-//       "data.cart.region.countries.region_id",
-//       "data.cart.region.created_at",
-//       "data.cart.region.id",
-//       "data.cart.region.updated_at",
-//       "data.cart.sales_channel_id",
-//       "data.cart.sales_channel.created_at",
-//       "data.cart.sales_channel.id",
-//       "data.cart.sales_channel.updated_at",
-//       "data.cart.updated_at",
-//     ]);
+    recursiveStripProps(data, [...getEphemeralCartProps()]);
 
-//     expect({ data, status: response.status }).toMatchFileSnapshot(
-//       `${__dirname}/fixtures/store/john-purchase-flow-01-cart-01.json`
-//     );
-//   });
-// });
+    expect({ data, status: response.status }).toMatchFileSnapshot(
+      `${__dirname}/fixtures/store/john-purchase-flow-01-cart-01.json`
+    );
+  });
+
+  test("Add product to cart (john@agilo.co)", async () => {
+    /**
+     * add prod_medusacoffeemug to cart
+     * this should use some of the store credits but not all
+     */
+
+    const product = getProductById(products, "prod_medusacoffeemug");
+
+    const response = await fetch(
+      `${config.apiUrl}/store/carts/${cartId}/line-items`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Cookie: cookies["john@agilo.co"].join(";"),
+        },
+        body: JSON.stringify({
+          variant_id: product.variants[0].id,
+          quantity: 2,
+        }),
+      }
+    );
+    const data = await response.json();
+
+    recursiveStripProps(data, [...getEphemeralCartProps()]);
+
+    expect({ data, status: response.status }).toMatchFileSnapshot(
+      `${__dirname}/fixtures/store/john-purchase-flow-01-cart-02.json`
+    );
+  });
+
+  test("Set billing and shipping addresses (john@agilo.co)", async () => {
+    const response = await fetch(`${config.apiUrl}/store/carts/${cartId}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Cookie: cookies["john@agilo.co"].join(";"),
+      },
+      body: JSON.stringify({
+        email: "john@agilo.co",
+        billing_address: customers["john@agilo.co"].billing_address,
+        shipping_address: customers["john@agilo.co"].shipping_address,
+      }),
+    });
+    const data = await response.json();
+
+    recursiveStripProps(data, [...getEphemeralCartProps()]);
+
+    expect({ data, status: response.status }).toMatchFileSnapshot(
+      `${__dirname}/fixtures/store/john-purchase-flow-01-cart-03.json`
+    );
+  });
+
+  test("Set shipping (john@agilo.co)", async () => {
+    let response = await fetch(
+      `${config.apiUrl}/store/shipping-options/${cartId}`,
+      {
+        headers: {
+          Cookie: cookies["john@agilo.co"].join(";"),
+        },
+      }
+    );
+    const { shipping_options } = await response.json();
+
+    response = await fetch(
+      `${config.apiUrl}/store/carts/${cartId}/shipping-methods`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Cookie: cookies["john@agilo.co"].join(";"),
+        },
+        body: JSON.stringify({
+          option_id: shipping_options[0].id,
+        }),
+      }
+    );
+    const data = await response.json();
+
+    recursiveStripProps(data, [...getEphemeralCartProps()]);
+
+    expect({ data, status: response.status }).toMatchFileSnapshot(
+      `${__dirname}/fixtures/store/john-purchase-flow-01-cart-04.json`
+    );
+  });
+
+  test.skipIf(process.env.MEDUSA_PLUGIN_STORE_CREDIT_TEST === "partial")(
+    "Complete checkout (john@agilo.co)",
+    async () => {
+      const response = await fetch(
+        `${config.apiUrl}/store/carts/${cartId}/complete`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Cookie: cookies["john@agilo.co"].join(";"),
+          },
+          body: JSON.stringify({}),
+        }
+      );
+      const data = await response.json();
+
+      // todo: strip ephemeral order props
+
+      expect({ data, status: response.status }).toMatchFileSnapshot(
+        `${__dirname}/fixtures/store/john-purchase-flow-01-order-01.json`
+      );
+    }
+  );
+});
 
 describe("Customer purchase flow 02 (john@agilo.co)", () => {
   let cartId: string;
@@ -273,6 +375,10 @@ describe("Customer purchase flow 02 (john@agilo.co)", () => {
 });
 
 describe("Customer login flow (jane@agilo.co)", () => {
+  /**
+   * Jane has no store credits.
+   */
+
   test("Zero store_credit balance should be returned on auth (jane@agilo.co)", async () => {
     const response = await fetch(`${config.apiUrl}/store/auth`, {
       method: "POST",
