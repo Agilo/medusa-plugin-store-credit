@@ -273,15 +273,6 @@
         "automatic_taxes": true,
         "countries": [
           {
-            "display_name": "Croatia",
-            "id": 55,
-            "iso_2": "hr",
-            "iso_3": "hrv",
-            "name": "CROATIA",
-            "num_code": 191,
-            "region_id": "--stripped--",
-          },
-          {
             "display_name": "Italy",
             "id": 109,
             "iso_2": "it",

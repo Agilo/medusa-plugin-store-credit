@@ -41,6 +41,22 @@
           "balance": 90999,
           "region_id": "--stripped--",
         },
+        {
+          "balance": 0,
+          "region_id": "--stripped--",
+        },
+        {
+          "balance": 0,
+          "region_id": "--stripped--",
+        },
+        {
+          "balance": 0,
+          "region_id": "--stripped--",
+        },
+        {
+          "balance": 0,
+          "region_id": "--stripped--",
+        },
       ],
       "updated_at": "--stripped--",
     },
