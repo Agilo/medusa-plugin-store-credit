@@ -35,20 +35,7 @@ test("Guest cart should have zero store_credit_total", async () => {
   });
   const data = await response.json();
 
-  recursiveStripProps(data, [
-    "data.cart.created_at",
-    "data.cart.id",
-    "data.cart.region_id",
-    "data.cart.region.countries.region_id",
-    "data.cart.region.created_at",
-    "data.cart.region.id",
-    "data.cart.region.updated_at",
-    "data.cart.sales_channel_id",
-    "data.cart.sales_channel.created_at",
-    "data.cart.sales_channel.id",
-    "data.cart.sales_channel.updated_at",
-    "data.cart.updated_at",
-  ]);
+  recursiveStripProps(data, [...getEphemeralCartProps()]);
 
   expect({ data, status: response.status }).toMatchFileSnapshot(
     `${__dirname}/fixtures/store/guest-cart.json`
@@ -160,20 +147,7 @@ describe("Customer purchase flow 02 (john@agilo.co)", () => {
 
     cartId = data.cart.id;
 
-    recursiveStripProps(data, [
-      "data.cart.created_at",
-      "data.cart.id",
-      "data.cart.region_id",
-      "data.cart.region.countries.region_id",
-      "data.cart.region.created_at",
-      "data.cart.region.id",
-      "data.cart.region.updated_at",
-      "data.cart.sales_channel_id",
-      "data.cart.sales_channel.created_at",
-      "data.cart.sales_channel.id",
-      "data.cart.sales_channel.updated_at",
-      "data.cart.updated_at",
-    ]);
+    recursiveStripProps(data, [...getEphemeralCartProps()]);
 
     expect({ data, status: response.status }).toMatchFileSnapshot(
       `${__dirname}/fixtures/store/john-purchase-flow-02-cart-01.json`
@@ -204,40 +178,7 @@ describe("Customer purchase flow 02 (john@agilo.co)", () => {
     );
     const data = await response.json();
 
-    recursiveStripProps(data, [
-      "data.cart.created_at",
-      "data.cart.customer.created_at",
-      "data.cart.customer.updated_at",
-      "data.cart.id",
-      "data.cart.items.cart_id",
-      "data.cart.items.created_at",
-      "data.cart.items.id",
-      "data.cart.items.tax_lines.item_id",
-      "data.cart.items.updated_at",
-      "data.cart.items.variant_id",
-      "data.cart.items.variant.created_at",
-      "data.cart.items.variant.id",
-      "data.cart.items.variant.product.created_at",
-      "data.cart.items.variant.product.profile_id",
-      "data.cart.items.variant.product.profile.created_at",
-      "data.cart.items.variant.product.profile.id",
-      "data.cart.items.variant.product.profile.updated_at",
-      "data.cart.items.variant.product.profiles.created_at",
-      "data.cart.items.variant.product.profiles.id",
-      "data.cart.items.variant.product.profiles.updated_at",
-      "data.cart.items.variant.product.updated_at",
-      "data.cart.items.variant.updated_at",
-      "data.cart.region_id",
-      "data.cart.region.countries.region_id",
-      "data.cart.region.created_at",
-      "data.cart.region.id",
-      "data.cart.region.updated_at",
-      "data.cart.sales_channel_id",
-      "data.cart.sales_channel.created_at",
-      "data.cart.sales_channel.id",
-      "data.cart.sales_channel.updated_at",
-      "data.cart.updated_at",
-    ]);
+    recursiveStripProps(data, [...getEphemeralCartProps()]);
 
     expect({ data, status: response.status }).toMatchFileSnapshot(
       `${__dirname}/fixtures/store/john-purchase-flow-02-cart-02.json`
@@ -268,40 +209,7 @@ describe("Customer purchase flow 02 (john@agilo.co)", () => {
     );
     const data = await response.json();
 
-    recursiveStripProps(data, [
-      "data.cart.created_at",
-      "data.cart.customer.created_at",
-      "data.cart.customer.updated_at",
-      "data.cart.id",
-      "data.cart.items.cart_id",
-      "data.cart.items.created_at",
-      "data.cart.items.id",
-      "data.cart.items.tax_lines.item_id",
-      "data.cart.items.updated_at",
-      "data.cart.items.variant_id",
-      "data.cart.items.variant.created_at",
-      "data.cart.items.variant.id",
-      "data.cart.items.variant.product.created_at",
-      "data.cart.items.variant.product.profile_id",
-      "data.cart.items.variant.product.profile.created_at",
-      "data.cart.items.variant.product.profile.id",
-      "data.cart.items.variant.product.profile.updated_at",
-      "data.cart.items.variant.product.profiles.created_at",
-      "data.cart.items.variant.product.profiles.id",
-      "data.cart.items.variant.product.profiles.updated_at",
-      "data.cart.items.variant.product.updated_at",
-      "data.cart.items.variant.updated_at",
-      "data.cart.region_id",
-      "data.cart.region.countries.region_id",
-      "data.cart.region.created_at",
-      "data.cart.region.id",
-      "data.cart.region.updated_at",
-      "data.cart.sales_channel_id",
-      "data.cart.sales_channel.created_at",
-      "data.cart.sales_channel.id",
-      "data.cart.sales_channel.updated_at",
-      "data.cart.updated_at",
-    ]);
+    recursiveStripProps(data, [...getEphemeralCartProps()]);
 
     expect({ data, status: response.status }).toMatchFileSnapshot(
       `${__dirname}/fixtures/store/john-purchase-flow-02-cart-03.json`
