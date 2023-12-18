@@ -7,6 +7,61 @@ const cookies: Record<"john@agilo.co" | "jane@agilo.co", string[]> = {
   "jane@agilo.co": [],
 };
 
+const customers: Record<"john@agilo.co" | "jane@agilo.co", any> = {
+  "john@agilo.co": {
+    billing_address: {
+      address_1: "Tannenring 76",
+      address_2: "",
+      city: "Wiesbaden",
+      country_code: "de",
+      first_name: "John",
+      last_name: "Doe",
+      phone: "06127 4871",
+      postal_code: "65207",
+      province: "Hesse",
+      company: "Agilo",
+    },
+    shipping_address: {
+      address_1: "Tannenring 76",
+      address_2: "",
+      city: "Wiesbaden",
+      country_code: "de",
+      first_name: "John",
+      last_name: "Doe",
+      phone: "06127 4871",
+      postal_code: "65207",
+      province: "Hesse",
+      company: "Agilo",
+    },
+  },
+  "jane@agilo.co": {
+    billing_address: {
+      address_1: "Mosećka ul. bb",
+      address_2: "",
+      city: "Split",
+      country_code: "hr",
+      first_name: "John",
+      last_name: "Doe",
+      phone: "",
+      postal_code: "21000",
+      province: "",
+      company: "Agilo",
+    },
+    shipping_address: {
+      address_1: "Mosećka ul. bb",
+      address_2: "",
+      city: "Split",
+      country_code: "hr",
+      first_name: "John",
+      last_name: "Doe",
+      phone: "",
+      postal_code: "21000",
+      province: "",
+      company: "Agilo",
+    },
+  },
+};
+
 /**
  * todo:
  *   - test admin dashboard orders list (decorateTotalsLegacy)
