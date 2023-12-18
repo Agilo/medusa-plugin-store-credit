@@ -1,6 +1,6 @@
 import { beforeAll, describe, expect, test } from "vitest";
 import config from "./config";
-import { getRegionByIso2, recursiveStripProps } from "./utils";
+import { getProductById, getRegionByIso2, recursiveStripProps } from "./utils";
 
 const cookies: Record<"john@agilo.co" | "jane@agilo.co", string[]> = {
   "john@agilo.co": [],
@@ -14,11 +14,16 @@ const cookies: Record<"john@agilo.co" | "jane@agilo.co", string[]> = {
  */
 
 let regions: any[];
+let products: any[];
 
 beforeAll(async () => {
-  const response = await fetch(`${config.apiUrl}/store/regions?limit=99999`);
-  const data = await response.json();
+  let response = await fetch(`${config.apiUrl}/store/regions?limit=99999`);
+  let data = await response.json();
   regions = data.regions;
+
+  response = await fetch(`${config.apiUrl}/store/products?limit=99999`);
+  data = await response.json();
+  products = data.products;
 });
 
 test("Guest cart should have zero store_credit_total", async () => {
@@ -50,9 +55,7 @@ test("Guest cart should have zero store_credit_total", async () => {
   );
 });
 
-describe("Customer purchase flow (john@agilo.co)", () => {
-  let cartId: string;
-
+describe("Customer login flow 01 (john@agilo.co)", () => {
   test("Proper store_credit balance should be returned on auth (john@agilo.co)", async () => {
     const response = await fetch(`${config.apiUrl}/store/auth`, {
       // credentials: "include", // doesn't work
@@ -76,7 +79,7 @@ describe("Customer purchase flow (john@agilo.co)", () => {
     ]);
 
     expect({ data, status: response.status }).toMatchFileSnapshot(
-      `${__dirname}/fixtures/store/john-flow-01-customer-01.json`
+      `${__dirname}/fixtures/store/john-login-flow-01-customer-01.json`
     );
   });
 
@@ -99,9 +102,50 @@ describe("Customer purchase flow (john@agilo.co)", () => {
     ]);
 
     expect({ data, status: response.status }).toMatchFileSnapshot(
-      `${__dirname}/fixtures/store/john-flow-01-customer-02.json`
+      `${__dirname}/fixtures/store/john-login-flow-01-customer-02.json`
     );
   });
+});
+
+// describe("Customer purchase flow 01 (john@agilo.co)", () => {
+//   let cartId: string;
+
+//   test("Create cart (john@agilo.co)", async () => {
+//     const response = await fetch(`${config.apiUrl}/store/carts`, {
+//       method: "POST",
+//       headers: {
+//         "Content-Type": "application/json",
+//         Cookie: cookies["john@agilo.co"].join(";"),
+//       },
+//       body: JSON.stringify({ region_id: getRegionByIso2(regions, "de").id }),
+//     });
+//     const data = await response.json();
+
+//     cartId = data.cart.id;
+
+//     recursiveStripProps(data, [
+//       "data.cart.created_at",
+//       "data.cart.id",
+//       "data.cart.region_id",
+//       "data.cart.region.countries.region_id",
+//       "data.cart.region.created_at",
+//       "data.cart.region.id",
+//       "data.cart.region.updated_at",
+//       "data.cart.sales_channel_id",
+//       "data.cart.sales_channel.created_at",
+//       "data.cart.sales_channel.id",
+//       "data.cart.sales_channel.updated_at",
+//       "data.cart.updated_at",
+//     ]);
+
+//     expect({ data, status: response.status }).toMatchFileSnapshot(
+//       `${__dirname}/fixtures/store/john-purchase-flow-01-cart-01.json`
+//     );
+//   });
+// });
+
+describe("Customer purchase flow 02 (john@agilo.co)", () => {
+  let cartId: string;
 
   test("Create cart (john@agilo.co)", async () => {
     const response = await fetch(`${config.apiUrl}/store/carts`, {
@@ -132,7 +176,7 @@ describe("Customer purchase flow (john@agilo.co)", () => {
     ]);
 
     expect({ data, status: response.status }).toMatchFileSnapshot(
-      `${__dirname}/fixtures/store/john-flow-01-cart-01.json`
+      `${__dirname}/fixtures/store/john-purchase-flow-02-cart-01.json`
     );
   });
 
@@ -142,17 +186,9 @@ describe("Customer purchase flow (john@agilo.co)", () => {
      * this should use some of the store credits but not all
      */
 
-    let response = await fetch(
-      `${config.apiUrl}/store/products/prod_medusasweatpants`,
-      {
-        headers: {
-          Cookie: cookies["john@agilo.co"].join(";"),
-        },
-      }
-    );
-    const { product } = await response.json();
+    const product = getProductById(products, "prod_medusasweatpants");
 
-    response = await fetch(
+    const response = await fetch(
       `${config.apiUrl}/store/carts/${cartId}/line-items`,
       {
         method: "POST",
@@ -204,7 +240,7 @@ describe("Customer purchase flow (john@agilo.co)", () => {
     ]);
 
     expect({ data, status: response.status }).toMatchFileSnapshot(
-      `${__dirname}/fixtures/store/john-flow-01-cart-02.json`
+      `${__dirname}/fixtures/store/john-purchase-flow-02-cart-02.json`
     );
   });
 
@@ -214,17 +250,9 @@ describe("Customer purchase flow (john@agilo.co)", () => {
      * this should use up all remaining store credits
      */
 
-    let response = await fetch(
-      `${config.apiUrl}/store/products/prod_themostexpensivetshirt`,
-      {
-        headers: {
-          Cookie: cookies["john@agilo.co"].join(";"),
-        },
-      }
-    );
-    const { product } = await response.json();
+    const product = getProductById(products, "prod_themostexpensivetshirt");
 
-    response = await fetch(
+    const response = await fetch(
       `${config.apiUrl}/store/carts/${cartId}/line-items`,
       {
         method: "POST",
@@ -276,7 +304,7 @@ describe("Customer purchase flow (john@agilo.co)", () => {
     ]);
 
     expect({ data, status: response.status }).toMatchFileSnapshot(
-      `${__dirname}/fixtures/store/john-flow-01-cart-03.json`
+      `${__dirname}/fixtures/store/john-purchase-flow-02-cart-03.json`
     );
   });
 });
