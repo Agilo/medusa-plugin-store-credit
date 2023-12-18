@@ -39,3 +39,15 @@ export function getRegionByIso2(regions: any[], iso2: string) {
 
   return region;
 }
+
+export function getProductById(products: any[], id: string) {
+  const product = products.find((product) => {
+    return product.id === id;
+  });
+
+  if (!product) {
+    throw new Error(`No product found for id: ${id}`);
+  }
+
+  return product;
+}
