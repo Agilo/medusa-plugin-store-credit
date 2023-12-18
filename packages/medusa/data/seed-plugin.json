@@ -14,10 +14,10 @@
   ],
   "regions": [
     {
-      "id": "test-region-eu",
-      "name": "EU",
+      "id": "test-region-eu19",
+      "name": "EU19",
       "currency_code": "eur",
-      "tax_rate": 0,
+      "tax_rate": 19,
       "payment_providers": [
         "manual"
       ],
@@ -25,13 +25,9 @@
         "manual"
       ],
       "countries": [
-        "gb",
+        "cy",
         "de",
-        "dk",
-        "se",
-        "fr",
-        "es",
-        "it"
+        "ro"
       ]
     },
     {
