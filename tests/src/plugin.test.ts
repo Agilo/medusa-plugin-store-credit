@@ -76,7 +76,7 @@ describe("Customer purchase flow (john@agilo.co)", () => {
     ]);
 
     expect({ data, status: response.status }).toMatchFileSnapshot(
-      `${__dirname}/fixtures/store/customer-john-01.json`
+      `${__dirname}/fixtures/store/john-flow-01-customer-01.json`
     );
   });
 
@@ -99,7 +99,7 @@ describe("Customer purchase flow (john@agilo.co)", () => {
     ]);
 
     expect({ data, status: response.status }).toMatchFileSnapshot(
-      `${__dirname}/fixtures/store/customer-john-02.json`
+      `${__dirname}/fixtures/store/john-flow-01-customer-02.json`
     );
   });
 
@@ -132,7 +132,7 @@ describe("Customer purchase flow (john@agilo.co)", () => {
     ]);
 
     expect({ data, status: response.status }).toMatchFileSnapshot(
-      `${__dirname}/fixtures/store/john-cart-01.json`
+      `${__dirname}/fixtures/store/john-flow-01-cart-01.json`
     );
   });
 
@@ -204,7 +204,7 @@ describe("Customer purchase flow (john@agilo.co)", () => {
     ]);
 
     expect({ data, status: response.status }).toMatchFileSnapshot(
-      `${__dirname}/fixtures/store/john-cart-02.json`
+      `${__dirname}/fixtures/store/john-flow-01-cart-02.json`
     );
   });
 
@@ -276,7 +276,7 @@ describe("Customer purchase flow (john@agilo.co)", () => {
     ]);
 
     expect({ data, status: response.status }).toMatchFileSnapshot(
-      `${__dirname}/fixtures/store/john-cart-03.json`
+      `${__dirname}/fixtures/store/john-flow-01-cart-03.json`
     );
   });
 });
