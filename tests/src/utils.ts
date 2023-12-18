@@ -30,6 +30,10 @@ export function recursiveStripProps(
 
 export function getEphemeralCartProps(prefix: string = "data.cart"): string[] {
   return [
+    `${prefix}.billing_address_id`,
+    `${prefix}.billing_address.created_at`,
+    `${prefix}.billing_address.id`,
+    `${prefix}.billing_address.updated_at`,
     `${prefix}.created_at`,
     `${prefix}.customer.created_at`,
     `${prefix}.customer.updated_at`,
@@ -61,6 +65,19 @@ export function getEphemeralCartProps(prefix: string = "data.cart"): string[] {
     `${prefix}.sales_channel.created_at`,
     `${prefix}.sales_channel.id`,
     `${prefix}.sales_channel.updated_at`,
+    `${prefix}.shipping_address_id`,
+    `${prefix}.shipping_address.created_at`,
+    `${prefix}.shipping_address.id`,
+    `${prefix}.shipping_address.updated_at`,
+    `${prefix}.shipping_methods.cart_id`,
+    `${prefix}.shipping_methods.id`,
+    `${prefix}.shipping_methods.shipping_option_id`,
+    `${prefix}.shipping_methods.shipping_option.created_at`,
+    `${prefix}.shipping_methods.shipping_option.id`,
+    `${prefix}.shipping_methods.shipping_option.profile_id`,
+    `${prefix}.shipping_methods.shipping_option.region_id`,
+    `${prefix}.shipping_methods.shipping_option.updated_at`,
+    `${prefix}.shipping_methods.tax_lines.shipping_method_id`,
     `${prefix}.updated_at`,
   ];
 }
