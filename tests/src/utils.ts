@@ -27,3 +27,15 @@ export function recursiveStripProps(
     // noop
   }
 }
+
+export function getRegionByIso2(regions: any[], iso2: string) {
+  const region = regions.find((region) => {
+    return region.countries.find((country: any) => country.iso_2 === iso2);
+  });
+
+  if (!region) {
+    throw new Error(`No region found for iso2: ${iso2}`);
+  }
+
+  return region;
+}

@@ -1,11 +1,25 @@
-import { describe, expect, test } from "vitest";
+import { beforeAll, describe, expect, test } from "vitest";
 import config from "./config";
-import { recursiveStripProps } from "./utils";
+import { getRegionByIso2, recursiveStripProps } from "./utils";
 
 const cookies: Record<"john@agilo.co" | "jane@agilo.co", string[]> = {
   "john@agilo.co": [],
   "jane@agilo.co": [],
 };
+
+/**
+ * todo:
+ *   - test admin dashboard orders list (decorateTotalsLegacy)
+ *   - test order detail
+ */
+
+let regions: any[];
+
+beforeAll(async () => {
+  const response = await fetch(`${config.apiUrl}/store/regions?limit=99999`);
+  const data = await response.json();
+  regions = data.regions;
+});
 
 test("Guest cart should have zero store_credit_total", async () => {
   /**
@@ -93,8 +107,10 @@ describe("Customer purchase flow (john@agilo.co)", () => {
     const response = await fetch(`${config.apiUrl}/store/carts`, {
       method: "POST",
       headers: {
+        "Content-Type": "application/json",
         Cookie: cookies["john@agilo.co"].join(";"),
       },
+      body: JSON.stringify({ region_id: getRegionByIso2(regions, "de").id }),
     });
     const data = await response.json();
 
