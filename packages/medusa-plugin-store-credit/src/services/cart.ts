@@ -52,50 +52,50 @@ class CartService extends MedusaCartService {
     this.storeCreditService_ = storeCreditService
   }
 
-  // prettier-ignore
   async decorateTotals(
     cart: Cart,
     totalsConfig: TotalsConfig = {}
   ): Promise<WithRequiredProperty<Cart, "total">> {
     const cart_: Cart = await super.decorateTotals(cart, totalsConfig);
+    return await this.decorateStoreCreditTotals(cart_);
+  }
+
+  async decorateStoreCreditTotals(
+    cart: Cart
+  ): Promise<WithRequiredProperty<Cart, "total">> {
+    const cart_: Cart = cart;
 
     if (!cart_.customer_id) {
       cart_.store_credit_total = 0;
       return cart_ as Cart & { total: number };
     }
 
-    const storeCredits = await this.storeCreditService_.getValidStoreCreditsForRegion(cart_.customer_id, cart_.region_id);
+    const storeCredits =
+      await this.storeCreditService_.getValidStoreCreditsForRegion(
+        cart_.customer_id,
+        cart_.region_id
+      );
 
-    // console.log('decorateTotals::cart_::', cart_);
-    // console.log('decorateTotals::storeCredits::', storeCredits);
+    const storeCreditableAmount = (
+      this.newTotalsService_ as NewTotalsService
+    ).getStoreCreditableAmount(cart_.total);
 
-    const storeCreditableAmount = (this.newTotalsService_ as NewTotalsService).getStoreCreditableAmount({
-      // gift_cards_taxable: cart.region?.gift_cards_taxable,
-      subtotal: cart_.subtotal,
-      discount_total: cart_.discount_total,
-      shipping_total: cart_.shipping_total,
-      tax_total: cart_.tax_total,
-      gift_card_total: cart_.gift_card_total,
-      gift_card_tax_total: cart_.gift_card_tax_total,
+    const storeCreditTotal = (
+      this.newTotalsService_ as NewTotalsService
+    ).getStoreCreditTotals(storeCreditableAmount, {
+      storeCredits: storeCredits,
     });
 
-    const storeCreditTotal = await (this.newTotalsService_ as NewTotalsService).getStoreCreditTotals(
-      storeCreditableAmount,
-      {
-        region: cart_.region,
-        storeCredits: storeCredits,
-      }
-    );
+    cart_.store_credit_total = storeCreditTotal;
 
-    cart_.store_credit_total = storeCreditTotal.total || 0;
-
+    // prettier-ignore
     cart_.total =
-    cart_.subtotal +
-    cart_.shipping_total +
-    cart_.tax_total -
+      cart_.subtotal +
+      cart_.shipping_total +
+      cart_.tax_total -
       (cart_.gift_card_total + cart_.discount_total + cart_.gift_card_tax_total + cart_.store_credit_total)
 
-    return cart_ as Cart & { total: number }
+    return cart_ as Cart & { total: number };
   }
 }
 
