@@ -237,8 +237,5 @@ const loaders = require("@medusajs/medusa/dist/loaders/index").default;
     process.exit(0);
   }
 
-  await seed(
-    `${process.cwd()}`,
-    `${process.cwd()}/data/seed-medusa-plugin-store-credit.json`
-  );
+  await seed(`${process.cwd()}`, `${process.cwd()}/data/seed-plugin.json`);
 })();
