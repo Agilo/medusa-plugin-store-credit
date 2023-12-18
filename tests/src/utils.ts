@@ -28,6 +28,43 @@ export function recursiveStripProps(
   }
 }
 
+export function getEphemeralCartProps(prefix: string = "data.cart"): string[] {
+  return [
+    `${prefix}.created_at`,
+    `${prefix}.customer.created_at`,
+    `${prefix}.customer.updated_at`,
+    `${prefix}.id`,
+    `${prefix}.items.cart_id`,
+    `${prefix}.items.created_at`,
+    `${prefix}.items.id`,
+    `${prefix}.items.tax_lines.item_id`,
+    `${prefix}.items.updated_at`,
+    `${prefix}.items.variant_id`,
+    `${prefix}.items.variant.created_at`,
+    `${prefix}.items.variant.id`,
+    `${prefix}.items.variant.product.created_at`,
+    `${prefix}.items.variant.product.profile_id`,
+    `${prefix}.items.variant.product.profile.created_at`,
+    `${prefix}.items.variant.product.profile.id`,
+    `${prefix}.items.variant.product.profile.updated_at`,
+    `${prefix}.items.variant.product.profiles.created_at`,
+    `${prefix}.items.variant.product.profiles.id`,
+    `${prefix}.items.variant.product.profiles.updated_at`,
+    `${prefix}.items.variant.product.updated_at`,
+    `${prefix}.items.variant.updated_at`,
+    `${prefix}.region_id`,
+    `${prefix}.region.countries.region_id`,
+    `${prefix}.region.created_at`,
+    `${prefix}.region.id`,
+    `${prefix}.region.updated_at`,
+    `${prefix}.sales_channel_id`,
+    `${prefix}.sales_channel.created_at`,
+    `${prefix}.sales_channel.id`,
+    `${prefix}.sales_channel.updated_at`,
+    `${prefix}.updated_at`,
+  ];
+}
+
 export function getRegionByIso2(regions: any[], iso2: string) {
   const region = regions.find((region) => {
     return region.countries.find((country: any) => country.iso_2 === iso2);
