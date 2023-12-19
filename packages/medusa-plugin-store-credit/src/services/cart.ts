@@ -10,40 +10,38 @@ type TotalsConfig = {
   force_taxes?: boolean;
 };
 
-console.log(" ---------- cart.ts ---------- ");
-
 class CartService extends MedusaCartService {
   protected readonly storeCreditService_: StoreCreditService;
 
   // prettier-ignore
   constructor({
-    cartRepository,
-    shippingMethodRepository,
-    lineItemRepository,
-    eventBusService,
-    paymentProviderService,
-    productService,
-    productVariantService,
-    taxProviderService,
-    regionService,
-    lineItemService,
-    shippingOptionService,
-    shippingProfileService,
-    customerService,
-    discountService,
-    giftCardService,
-    totalsService,
-    newTotalsService,
-    addressRepository,
-    paymentSessionRepository,
-    customShippingOptionService,
-    lineItemAdjustmentService,
-    priceSelectionStrategy,
-    salesChannelService,
-    featureFlagRouter,
-    storeService,
-    productVariantInventoryService,
-    pricingService,
+    // cartRepository,
+    // shippingMethodRepository,
+    // lineItemRepository,
+    // eventBusService,
+    // paymentProviderService,
+    // productService,
+    // productVariantService,
+    // taxProviderService,
+    // regionService,
+    // lineItemService,
+    // shippingOptionService,
+    // shippingProfileService,
+    // customerService,
+    // discountService,
+    // giftCardService,
+    // totalsService,
+    // newTotalsService,
+    // addressRepository,
+    // paymentSessionRepository,
+    // customShippingOptionService,
+    // lineItemAdjustmentService,
+    // priceSelectionStrategy,
+    // salesChannelService,
+    // featureFlagRouter,
+    // storeService,
+    // productVariantInventoryService,
+    // pricingService,
     storeCreditService,
   }) {
     // eslint-disable-next-line prefer-rest-params
