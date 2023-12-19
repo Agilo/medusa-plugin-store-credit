@@ -1,42 +1,8 @@
-import {
-  TotalsService as MedusaTotalsService,
-  Cart,
-  Order,
-} from "@medusajs/medusa";
-
-// import { isDefined, MedusaError } from "@medusajs/utils"
-// import { EntityManager } from "typeorm"
-// import {
-//   ITaxCalculationStrategy,
-//   TaxCalculationContext,
-//   TransactionBaseService,
-// } from "../interfaces"
-// import {
-//   Cart,
-//   ClaimOrder,
-//   Discount,
-//   DiscountRuleType,
-//   LineItem,
-//   LineItemTaxLine,
-//   Order,
-//   ShippingMethod,
-//   ShippingMethodTaxLine,
-//   Swap,
-// } from "../models"
-// import { isCart } from "../types/cart"
-// import { isOrder } from "../types/orders"
-// import {
-//   CalculationContextData,
-//   LineAllocationsMap,
-//   LineDiscount,
-//   LineDiscountAmount,
-//   SubtotalOptions,
-// } from "../types/totals"
-// import { NewTotalsService, TaxProviderService } from "./index"
-
-// import { FlagRouter } from "@medusajs/utils"
-// import TaxInclusivePricingFeatureFlag from "../loaders/feature-flags/tax-inclusive-pricing"
-// import { calculatePriceTaxAmount } from "../utils"
+import { TotalsService as MedusaTotalsService } from "@medusajs/medusa";
+import { Cart } from "../models/cart";
+import { Order } from "../models/order";
+import NewTotalsService from "./new-totals";
+import StoreCreditService from "./store-credit";
 
 type GetTotalsOptions = {
   exclude_gift_cards?: boolean;
@@ -44,65 +10,59 @@ type GetTotalsOptions = {
 };
 
 class TotalsService extends MedusaTotalsService {
-  // prettier-ignore
+  protected readonly storeCreditService_: StoreCreditService;
+
+  constructor({
+    // taxProviderService,
+    // newTotalsService,
+    // taxCalculationStrategy,
+    // featureFlagRouter,
+    storeCreditService,
+  }) {
+    // eslint-disable-next-line prefer-rest-params
+    super(arguments[0]);
+
+    this.storeCreditService_ = storeCreditService;
+  }
+
   /**
-   * Calculates total of a given cart or order.
-   * @param cartOrOrder - object to calculate total for
-   * @param options - options to calculate by
-   * @return the calculated subtotal
+   * todo: handle options?
    */
   async getTotal(
     cartOrOrder: Cart | Order,
     options: GetTotalsOptions = {}
   ): Promise<number> {
-    const subtotal = await this.getSubtotal(cartOrOrder);
-    const taxTotal =
-      (await this.getTaxTotal(cartOrOrder, options.force_taxes)) || 0;
-    const discountTotal = await this.getDiscountTotal(cartOrOrder);
-    const giftCardTotal = options.exclude_gift_cards
-      ? { total: 0 }
-      : await this.getGiftCardTotal(cartOrOrder);
-    const shippingTotal = await this.getShippingTotal(cartOrOrder);
+    const newTotalsService = this.newTotalsService_ as NewTotalsService;
+    const total = await super.getTotal(cartOrOrder, options);
+    const storeCreditableAmount =
+      newTotalsService.getStoreCreditableAmount(total);
 
-    const storeCreditTotal = await this.getStoreCreditTotal(cartOrOrder, giftCardTotal);
+    console.log(cartOrOrder);
 
-    return (
-      subtotal + taxTotal + shippingTotal - discountTotal - giftCardTotal.total - storeCreditTotal.total
-    );
-  }
+    let storeCreditTotal = 0;
 
-  /**
-   * Gets the store credit amount on a cart or order.
-   * @param cartOrOrder - the cart or order to get store credit amount for
-   * @return the store credit amount applied to the cart or order
-   */
-  async getStoreCreditTotal(
-    cartOrOrder: Cart | Order,
-    giftCardTotal:
-      | {
-          total: number;
+    if (cartOrOrder.object === "cart" && cartOrOrder.customer_id) {
+      const storeCredits =
+        await this.storeCreditService_.getValidStoreCreditsForRegion(
+          cartOrOrder.customer_id,
+          cartOrOrder.region_id
+        );
+      storeCreditTotal = newTotalsService.getStoreCreditTotals(
+        storeCreditableAmount,
+        {
+          storeCredits,
         }
-      | {
-          total: number;
-          tax_total: number;
+      );
+    } else if (cartOrOrder.object === "order") {
+      storeCreditTotal = newTotalsService.getStoreCreditTotals(
+        storeCreditableAmount,
+        {
+          storeCreditTransactions: cartOrOrder.store_credit_transactions || [],
         }
-  ): Promise<{
-    total: number;
-    // tax_total: number; // todo
-  }> {
-    let giftCardable: number;
+      );
+    }
 
-    const subtotal = await this.getSubtotal(cartOrOrder);
-    const discountTotal = await this.getDiscountTotal(cartOrOrder);
-
-    // todo: subtract giftCardTotal.tax_total?
-    giftCardable = subtotal - discountTotal - giftCardTotal.total;
-
-    return await this.newTotalsService_.getGiftCardTotals(giftCardable, {
-      region: cartOrOrder.region,
-      giftCards: cartOrOrder.gift_cards || [],
-      giftCardTransactions: cartOrOrder["gift_card_transactions"] || [],
-    });
+    return total - storeCreditTotal;
   }
 }
 
