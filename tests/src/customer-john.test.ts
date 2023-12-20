@@ -3,6 +3,7 @@ import config from "./config";
 import {
   getEphemeralCartProps,
   getEphemeralCustomerProps,
+  getEphemeralOrderProps,
   getProductById,
   getRegionByIso2,
   recursiveStripProps,
@@ -346,7 +347,7 @@ describe("Customer flow (john)", () => {
     );
     const data = await response.json();
 
-    // todo: strip ephemeral order props
+    recursiveStripProps(data, [...getEphemeralOrderProps()]);
 
     expect({ data, status: response.status }).toMatchFileSnapshot(
       `${__dirname}/fixtures/customer-john/john-purchase-flow-01-order-01.json`

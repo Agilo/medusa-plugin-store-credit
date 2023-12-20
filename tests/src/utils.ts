@@ -102,6 +102,59 @@ export function getEphemeralCustomerProps(
   ];
 }
 
+export function getEphemeralOrderProps(prefix: string = "data.data"): string[] {
+  return [
+    `${prefix}.billing_address_id`,
+    `${prefix}.cart_id`,
+    `${prefix}.created_at`,
+    `${prefix}.customer_id`,
+    `${prefix}.display_id`,
+    `${prefix}.email`,
+    `${prefix}.id`,
+    `${prefix}.items.cart_id`,
+    `${prefix}.items.created_at`,
+    `${prefix}.items.id`,
+    `${prefix}.items.order_id`,
+    `${prefix}.items.tax_lines.created_at`,
+    `${prefix}.items.tax_lines.id`,
+    `${prefix}.items.tax_lines.item_id`,
+    `${prefix}.items.tax_lines.updated_at`,
+    `${prefix}.items.updated_at`,
+    `${prefix}.items.variant_id`,
+    `${prefix}.items.variant.created_at`,
+    `${prefix}.items.variant.id`,
+    `${prefix}.items.variant.inventory_quantity`,
+    `${prefix}.items.variant.updated_at`,
+    `${prefix}.region_id`,
+    `${prefix}.region.created_at`,
+    `${prefix}.region.id`,
+    `${prefix}.region.updated_at`,
+    `${prefix}.sales_channel_id`,
+    `${prefix}.shipping_address_id`,
+    `${prefix}.shipping_address.created_at`,
+    `${prefix}.shipping_address.id`,
+    `${prefix}.shipping_address.updated_at`,
+    `${prefix}.shipping_methods.cart_id`,
+    `${prefix}.shipping_methods.id`,
+    `${prefix}.shipping_methods.order_id`,
+    `${prefix}.shipping_methods.shipping_option_id`,
+    `${prefix}.shipping_methods.tax_lines.created_at`,
+    `${prefix}.shipping_methods.tax_lines.id`,
+    `${prefix}.shipping_methods.tax_lines.shipping_method_id`,
+    `${prefix}.shipping_methods.tax_lines.updated_at`,
+    `${prefix}.store_credit_transactions.created_at`,
+    `${prefix}.store_credit_transactions.id`,
+    `${prefix}.store_credit_transactions.order_id`,
+    `${prefix}.store_credit_transactions.store_credit_id`,
+    `${prefix}.store_credits.created_at`,
+    `${prefix}.store_credits.customer_id`,
+    `${prefix}.store_credits.id`,
+    `${prefix}.store_credits.region_id`,
+    `${prefix}.store_credits.updated_at`,
+    `${prefix}.updated_at`,
+  ];
+}
+
 export function getRegionByIso2(regions: any[], iso2: string) {
   const region = regions.find((region) => {
     return region.countries.find((country: any) => country.iso_2 === iso2);
