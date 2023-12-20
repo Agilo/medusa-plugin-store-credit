@@ -7,8 +7,7 @@
     "build": "tsc && vite build",
     "dev": "vite",
     "preview": "vite preview",
-    "test-full": "MEDUSA_PLUGIN_STORE_CREDIT_TEST=full vitest run",
-    "test-partial": "MEDUSA_PLUGIN_STORE_CREDIT_TEST=partial vitest run"
+    "test": "vitest run"
   },
   "devDependencies": {
     "@types/randomatic": "^3.1.5",

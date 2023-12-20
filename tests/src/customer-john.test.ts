@@ -332,29 +332,26 @@ describe("Customer flow (john)", () => {
     );
   });
 
-  test.skipIf(process.env.MEDUSA_PLUGIN_STORE_CREDIT_TEST === "partial")(
-    "Complete checkout (john)",
-    async () => {
-      const response = await fetch(
-        `${config.apiUrl}/store/carts/${cartId}/complete`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Cookie: cookies.join(";"),
-          },
-          body: JSON.stringify({}),
-        }
-      );
-      const data = await response.json();
+  test("Complete checkout (john)", async () => {
+    const response = await fetch(
+      `${config.apiUrl}/store/carts/${cartId}/complete`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Cookie: cookies.join(";"),
+        },
+        body: JSON.stringify({}),
+      }
+    );
+    const data = await response.json();
 
-      // todo: strip ephemeral order props
+    // todo: strip ephemeral order props
 
-      expect({ data, status: response.status }).toMatchFileSnapshot(
-        `${__dirname}/fixtures/customer-john/john-purchase-flow-01-order-01.json`
-      );
-    }
-  );
+    expect({ data, status: response.status }).toMatchFileSnapshot(
+      `${__dirname}/fixtures/customer-john/john-purchase-flow-01-order-01.json`
+    );
+  });
 
   // let cartId: string;
 
