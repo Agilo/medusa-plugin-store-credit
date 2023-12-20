@@ -143,8 +143,6 @@ describe("Customer flow (john)", () => {
 
     customer.id = data.customer.id;
 
-    cookies = response.headers.getSetCookie();
-
     recursiveStripProps(data, [...getEphemeralCustomerProps()]);
 
     expect({ data, status: response.status }).toMatchFileSnapshot(
