@@ -82,6 +82,21 @@ export function getEphemeralCartProps(prefix: string = "data.cart"): string[] {
   ];
 }
 
+export function getEphemeralCustomerProps(
+  prefix: string = "data.customer"
+): string[] {
+  return [
+    `${prefix}.created_at`,
+    `${prefix}.email`,
+    `${prefix}.id`,
+    `${prefix}.shipping_addresses.created_at`,
+    `${prefix}.shipping_addresses.id`,
+    `${prefix}.shipping_addresses.updated_at`,
+    `${prefix}.store_credit.region_id`,
+    `${prefix}.updated_at`,
+  ];
+}
+
 export function getRegionByIso2(regions: any[], iso2: string) {
   const region = regions.find((region) => {
     return region.countries.find((country: any) => country.iso_2 === iso2);
