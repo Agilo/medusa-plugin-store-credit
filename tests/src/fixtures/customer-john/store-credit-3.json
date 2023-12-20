@@ -1,0 +1,18 @@
+{
+  "data": {
+    "storeCredit": {
+      "balance": 100000,
+      "created_at": "--stripped--",
+      "customer_id": "--stripped--",
+      "deleted_at": null,
+      "ends_at": null,
+      "id": "--stripped--",
+      "is_disabled": false,
+      "metadata": null,
+      "region_id": "--stripped--",
+      "updated_at": "--stripped--",
+      "value": 100000,
+    },
+  },
+  "status": 200,
+}

@@ -1,6 +1,7 @@
 {
   "data": {
     "customer": {
+      "billing_address": null,
       "billing_address_id": null,
       "created_at": "--stripped--",
       "deleted_at": null,
@@ -10,16 +11,15 @@
       "id": "--stripped--",
       "last_name": "Doe",
       "metadata": null,
-      "orders": [],
       "phone": "555-555-5555",
       "shipping_addresses": [],
       "store_credit": [
         {
-          "balance": 111000,
+          "balance": 0,
           "region_id": "--stripped--",
         },
         {
-          "balance": 90999,
+          "balance": 0,
           "region_id": "--stripped--",
         },
         {
