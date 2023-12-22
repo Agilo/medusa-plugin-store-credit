@@ -31,7 +31,7 @@ import { Type } from "class-transformer";
  *   - api_token: []
  *   - cookie_auth: []
  * tags:
- *   - Bundles
+ *   - StoreCredits
  * responses:
  *   200:
  *     description: OK
@@ -89,7 +89,7 @@ export default async (req: Request, res: Response) => {
  *     description: The ID of the Region in which the Store Credit can be used.
  *   description:
  *     type: string
- *     description: The description of the Bundle.
+ *     description: The description of the Store Credit.
  *   metadata:
  *     type: object
  *     description: An optional set of key-value pairs to hold additional information.

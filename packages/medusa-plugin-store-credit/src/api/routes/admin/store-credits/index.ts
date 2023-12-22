@@ -1,4 +1,5 @@
 import {
+  PaginatedResponse,
   // PaginatedResponse,
   // Product,
   authenticate,
@@ -20,6 +21,7 @@ import { AdminGetStoreCreditsParams } from "./list-store-credits";
 // import { AdminGetBundlesBundleProductsParams } from "./list-products";
 // import { AdminDeleteProductsFromBundleReq } from "./remove-products";
 import { AdminPostStoreCreditsStoreCreditReq } from "./update-store-credit";
+import { StoreCredit } from "../../../../models/store-credit";
 
 export default function adminRoutes(router: Router, admin_cors: string) {
   const adminRouter = Router();
@@ -83,3 +85,81 @@ export default function adminRoutes(router: Router, admin_cors: string) {
   //   wrapHandler(require("./remove-products").default)
   // );
 }
+
+/**
+ * @schema AdminStoreCreditsRes
+ * type: object
+ * x-expanded-relations:
+ *   field: store_credit
+ *   relations:
+ *     - customer
+ *     - region
+ * required:
+ *   - store_credit
+ * properties:
+ *   store_credit:
+ *     description: Store Credit details.
+ *     $ref: "#/components/schemas/StoreCredit"
+ */
+export type AdminStoreCreditsRes = {
+  store_credit: StoreCredit;
+};
+
+/**
+ * @schema AdminStoreCreditsDeleteRes
+ * type: object
+ * required:
+ *   - id
+ *   - object
+ *   - deleted
+ * properties:
+ *   id:
+ *     type: string
+ *     description: The ID of the deleted Store Credit.
+ *   object:
+ *     type: string
+ *     description: The type of the object that was deleted.
+ *     default: store_credit
+ *   deleted:
+ *     type: boolean
+ *     description: Whether or not the items were deleted.
+ *     default: true
+ */
+export type AdminStoreCreditsDeleteRes = {
+  id: string;
+  object: "store_credit";
+  deleted: boolean;
+};
+
+/**
+ * @schema AdminStoreCreditsListRes
+ * type: object
+ * x-expanded-relations:
+ *   field: store_credits
+ *   relations:
+ *     - customer
+ *     - region
+ * required:
+ *   - store_credits
+ *   - count
+ *   - offset
+ *   - limit
+ * properties:
+ *   store_credits:
+ *     type: array
+ *     description: An array of Store Credit details.
+ *     items:
+ *       $ref: "#/components/schemas/StoreCredit"
+ *   count:
+ *     type: integer
+ *     description: The total number of items available
+ *   offset:
+ *     type: integer
+ *     description: The number of store credits skipped.
+ *   limit:
+ *     type: integer
+ *     description: The number of items per page
+ */
+export type AdminStoreCreditsListRes = PaginatedResponse & {
+  store_credits: StoreCredit[];
+};

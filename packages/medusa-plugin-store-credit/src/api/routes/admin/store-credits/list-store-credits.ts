@@ -10,8 +10,8 @@ import StoreCreditService from "../../../../services/store-credit";
  *   Retrieves a list of store credits.
  * x-authenticated: true
  * parameters:
- *   - (query) offset=0 {integer} The number of bundles to skip when retrieving the bundles.
- *   - (query) limit=10 {integer} Limit the number of bundles returned.
+ *   - (query) offset=0 {integer} The number of store credits to skip when retrieving the store credits.
+ *   - (query) limit=10 {integer} Limit the number of store credits returned.
  * x-codegen:
  *   method: list
  *   queryParams: AdminGetStoreCreditsParams

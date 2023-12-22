@@ -85,7 +85,7 @@ export default async (req, res: Response) => {
  *     description: The ID of the customer this Store Credit is associated with.
  *   description:
  *     type: string
- *     description: The description of the Bundle.
+ *     description: The description of the Store Credit.
  *   metadata:
  *     type: object
  *     description: An optional set of key-value pairs to hold additional information.
