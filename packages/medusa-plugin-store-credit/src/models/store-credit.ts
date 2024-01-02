@@ -28,7 +28,7 @@ export class StoreCredit extends SoftDeletableEntity {
   @Column("int")
   balance: number;
 
-  @Column({ type: "varchar" })
+  @Column({ type: "text", nullable: true })
   description: string | null;
 
   @Index()
