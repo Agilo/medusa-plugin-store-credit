@@ -1,6 +1,8 @@
 import {
+  Customer,
   EventBusService,
   FindConfig,
+  Region,
   RegionService,
   Selector,
   TransactionBaseService,
@@ -139,6 +141,22 @@ class StoreCreditService extends TransactionBaseService {
     const query = buildQuery(selector, config);
 
     return await storeCreditRepo.listAndCount(query);
+  }
+
+  async listAndCountCustomers(
+    selector: { q?: string } = {},
+    config: { skip: number; take: number } = { skip: 0, take: 10 }
+  ): Promise<
+    [
+      { customer: Customer; region: Region; amount: number; balance: number }[],
+      number
+    ]
+  > {
+    const storeCreditRepo = this.activeManager_.withRepository(
+      this.storeCreditRepository_
+    );
+
+    return await storeCreditRepo.listAndCountCustomers(selector, config);
   }
 
   /**

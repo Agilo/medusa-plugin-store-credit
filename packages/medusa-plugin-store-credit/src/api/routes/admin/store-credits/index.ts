@@ -20,8 +20,9 @@ import { AdminPostStoreCreditsReq } from "./create-store-credit";
 import { AdminGetStoreCreditsParams } from "./list-store-credits";
 // import { AdminGetBundlesBundleProductsParams } from "./list-products";
 // import { AdminDeleteProductsFromBundleReq } from "./remove-products";
-import { AdminPostStoreCreditsStoreCreditReq } from "./update-store-credit";
 import { StoreCredit } from "../../../../models/store-credit";
+import { AdminGetStoreCreditsCustomersParams } from "./list-customers";
+import { AdminPostStoreCreditsStoreCreditReq } from "./update-store-credit";
 
 export default function adminRoutes(router: Router, admin_cors: string) {
   const adminRouter = Router();
@@ -54,6 +55,14 @@ export default function adminRoutes(router: Router, admin_cors: string) {
     "/:id",
     transformBody(AdminPostStoreCreditsStoreCreditReq),
     wrapHandler(require("./update-store-credit").default)
+  );
+
+  adminRouter.get(
+    "/customers",
+    transformQuery(AdminGetStoreCreditsCustomersParams, {
+      isList: true,
+    }),
+    wrapHandler(require("./list-customers").default)
   );
 
   adminRouter.get("/:id", wrapHandler(require("./get-store-credit").default));
