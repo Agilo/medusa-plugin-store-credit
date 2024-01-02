@@ -4,18 +4,30 @@ import StoreCreditService from "../../../../services/store-credit";
 
 /**
  * @oas [get] /admin/store-credits/customers
- * operationId: "AdminGetStoreCreditsCustomers"
- * summary: "List Store Credit Customers"
- * description: "Retrieve a list of Store Credit Customers."
+ * operationId: AdminGetStoreCreditsCustomers
+ * summary: List Store Credit Customers
+ * description: |
+ *   Retrieve a list of Store Credit Customers.
  * x-authenticated: true
+ * parameters:
+ *   - (query) q {string} term to search customers' email, first name and last name.
+ *   - (query) offset=0 {integer} The number of customers to skip when retrieving the customers.
+ *   - (query) limit=10 {integer} Limit the number of customers returned.
  * x-codegen:
- *   method: listCustomers
+ *   method: list
+ *   queryParams: AdminGetStoreCreditsCustomersParams
  * security:
  *   - api_token: []
  *   - cookie_auth: []
- *   - jwt_token: []
  * tags:
  *   - StoreCredits
+ * responses:
+ *   200:
+ *     description: OK
+ *     content:
+ *       application/json:
+ *         schema:
+ *           $ref: "#/components/schemas/AdminStoreCreditsCustomersListRes"
  */
 export default async (req, res) => {
   const { skip, take } = req.listConfig;

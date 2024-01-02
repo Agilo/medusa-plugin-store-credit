@@ -1,5 +1,7 @@
 import {
+  Customer,
   PaginatedResponse,
+  Region,
   // PaginatedResponse,
   // Product,
   authenticate,
@@ -172,3 +174,73 @@ export type AdminStoreCreditsDeleteRes = {
 export type AdminStoreCreditsListRes = PaginatedResponse & {
   store_credits: StoreCredit[];
 };
+
+/**
+ * @schema AdminStoreCreditsCustomersListRes
+ * type: object
+ * x-expanded-relations:
+ *   field: customers
+ *   relations:
+ *     - customer
+ *     - region
+ * required:
+ *   - customers
+ *   - count
+ *   - offset
+ *   - limit
+ * properties:
+ *   customers:
+ *     type: array
+ *     description: An array of Store Credit Customer details.
+ *     items:
+ *       $ref: "#/components/schemas/StoreCreditCustomer"
+ *   count:
+ *     type: integer
+ *     description: The total number of items available
+ *   offset:
+ *     type: integer
+ *     description: The number of store credits skipped.
+ *   limit:
+ *     type: integer
+ *     description: The number of items per page
+ */
+export type AdminStoreCreditsCustomersListRes = PaginatedResponse & {
+  store_credits: StoreCredit[];
+  customers: {
+    customer: Customer;
+    region: Region;
+    amount: number;
+    balance: number;
+  }[];
+};
+
+/**
+ * @schema StoreCreditCustomer
+ * title: "StoreCreditCustomer"
+ * description: "Store credit customer."
+ * type: object
+ * required:
+ *   - customer
+ *   - region
+ *   - amount
+ *   - balance
+ * properties:
+ *   customer:
+ *     description: The details of the customer associated with the store credit.
+ *     x-expandable: "customer"
+ *     nullable: true
+ *     $ref: "#/components/schemas/Customer"
+ *   region:
+ *     description: The details of the region this store credit was created in.
+ *     x-expandable: "region"
+ *     nullable: true
+ *     $ref: "#/components/schemas/Region"
+ *   value:
+ *     description: Original store credit value.
+ *     type: number
+ *     example: 1000
+ *   balance:
+ *     description: Current store credit value.
+ *     type: number
+ *     example: 500
+ */
