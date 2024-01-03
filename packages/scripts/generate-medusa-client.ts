@@ -18,6 +18,7 @@ const oasOperationIds = {
   admin: [
     "AdminDeleteStoreCreditsStoreCredit",
     "AdminGetStoreCredits",
+    "AdminGetStoreCreditsCustomers",
     "AdminGetStoreCreditsStoreCredit",
     "AdminPostStoreCredits",
     "AdminPostStoreCreditsStoreCredit",
