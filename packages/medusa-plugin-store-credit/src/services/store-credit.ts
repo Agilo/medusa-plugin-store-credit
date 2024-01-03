@@ -1,8 +1,6 @@
 import {
-  Customer,
   EventBusService,
   FindConfig,
-  Region,
   RegionService,
   Selector,
   TransactionBaseService,
@@ -10,27 +8,10 @@ import {
   setMetadata,
 } from "@medusajs/medusa";
 import { MedusaError, isDefined } from "medusa-core-utils";
-import { And, EntityManager } from "typeorm";
+import { EntityManager } from "typeorm";
 import { StoreCredit } from "../models/store-credit";
 import StoreCreditRepository from "../repositories/store-credit";
 import StoreCreditTransactionRepository from "../repositories/store-credit-transaction";
-
-// import { isDefined, MedusaError } from "medusa-core-utils"
-// import randomize from "randomatic"
-// import { EntityManager } from "typeorm"
-// import { TransactionBaseService } from "../interfaces"
-// import { GiftCard, Region } from "../models"
-// import { GiftCardRepository } from "../repositories/gift-card"
-// import { GiftCardTransactionRepository } from "../repositories/gift-card-transaction"
-// import { FindConfig, QuerySelector, Selector } from "../types/common"
-// import {
-//   CreateGiftCardInput,
-//   CreateGiftCardTransactionInput,
-//   UpdateGiftCardInput,
-// } from "../types/gift-card"
-// import { buildQuery, setMetadata } from "../utils"
-// import EventBusService from "./event-bus"
-// import RegionService from "./region"
 
 export type CreateStoreCreditInput = {
   // order_id?: string
@@ -64,13 +45,11 @@ type InjectedDependencies = {
   manager: EntityManager;
   storeCreditRepository: typeof StoreCreditRepository;
   storeCreditTransactionRepository: typeof StoreCreditTransactionRepository;
-  // giftCardRepository: typeof GiftCardRepository;
-  // giftCardTransactionRepository: typeof GiftCardTransactionRepository;
   regionService: RegionService;
   eventBusService: EventBusService;
 };
 /**
- * Provides layer to manipulate gift cards.
+ * Provides layer to manipulate store credits.
  */
 class StoreCreditService extends TransactionBaseService {
   // protected readonly giftCardRepository_: typeof GiftCardRepository
@@ -87,8 +66,6 @@ class StoreCreditService extends TransactionBaseService {
 
   constructor({
     regionService,
-    // giftCardRepository,
-    // giftCardTransactionRepository,
     storeCreditRepository,
     storeCreditTransactionRepository,
     eventBusService,
@@ -96,28 +73,11 @@ class StoreCreditService extends TransactionBaseService {
     // eslint-disable-next-line prefer-rest-params
     super(arguments[0]);
 
-    // this.giftCardRepository_ = giftCardRepository
-    // this.giftCardTransactionRepo_ = giftCardTransactionRepository
     this.storeCreditRepository_ = storeCreditRepository;
     this.storeCreditTransactionRepo_ = storeCreditTransactionRepository;
     this.regionService_ = regionService;
     this.eventBus_ = eventBusService;
   }
-
-  /**
-   * Generates a 16 character gift card code
-   * @return the generated gift card code
-   */
-  // static generateCode(): string {
-  //   const code = [
-  //     randomize("A0", 4),
-  //     randomize("A0", 4),
-  //     randomize("A0", 4),
-  //     randomize("A0", 4),
-  //   ].join("-");
-
-  //   return code;
-  // }
 
   /**
    * @param selector - the query object for find
@@ -141,22 +101,6 @@ class StoreCreditService extends TransactionBaseService {
     const query = buildQuery(selector, config);
 
     return await storeCreditRepo.listAndCount(query);
-  }
-
-  async listAndCountCustomers(
-    selector: { q?: string } = {},
-    config: { skip: number; take: number } = { skip: 0, take: 10 }
-  ): Promise<
-    [
-      { customer: Customer; region: Region; amount: number; balance: number }[],
-      number
-    ]
-  > {
-    const storeCreditRepo = this.activeManager_.withRepository(
-      this.storeCreditRepository_
-    );
-
-    return await storeCreditRepo.listAndCountCustomers(selector, config);
   }
 
   /**

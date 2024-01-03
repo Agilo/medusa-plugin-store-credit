@@ -1,26 +1,27 @@
-import { isEmpty } from "lodash"
-import { useAdminCustomers } from "medusa-react"
-import qs from "qs"
-import { useEffect, useState } from "react"
-import { useNavigate } from "react-router-dom"
-import { useTranslation } from "react-i18next"
-import { usePagination, useTable } from "react-table"
+import { isEmpty } from "lodash";
+import { useAdminCustomers } from "medusa-react";
+import qs from "qs";
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
+import { usePagination, useTable } from "react-table";
 // import DetailsIcon from "../../fundamentals/details-icon"
 // import EditIcon from "../../fundamentals/icons/edit-icon"
-import Table from "../../../../../../admin-ui/ui/src/components/molecules/table"
-import TableContainer from "../../../../../../admin-ui/ui/src/components/organisms/table-container"
-import { useCustomerColumns } from "./use-customer-columns"
-import { useCustomerFilters } from "./use-customer-filters"
+import { useAdminStoreCreditsCustomers } from "../../../../../../../../admin/packages/admin-client/src";
+import Table from "../../../../../../admin-ui/ui/src/components/molecules/table";
+import TableContainer from "../../../../../../admin-ui/ui/src/components/organisms/table-container";
+import { useCustomerColumns } from "./use-customer-columns";
+import { useCustomerFilters } from "./use-customer-filters";
 
-const DEFAULT_PAGE_SIZE = 15
+const DEFAULT_PAGE_SIZE = 15;
 
 const defaultQueryProps = {
-  expand: "orders",
-}
+  // expand: "orders",
+};
 
 const CustomerTable = () => {
-  const navigate = useNavigate()
-  const { t } = useTranslation()
+  const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const {
     reset,
@@ -28,31 +29,36 @@ const CustomerTable = () => {
     setQuery: setFreeText,
     queryObject,
     representationObject,
-  } = useCustomerFilters(location.search, defaultQueryProps)
+  } = useCustomerFilters(location.search, defaultQueryProps);
 
-  const offs = parseInt(queryObject.offset) || 0
-  const lim = parseInt(queryObject.limit) || DEFAULT_PAGE_SIZE
+  const offs = parseInt(queryObject.offset) || 0;
+  const lim = parseInt(queryObject.limit) || DEFAULT_PAGE_SIZE;
 
-  const { customers, isLoading, count } = useAdminCustomers(
-    {
-      ...queryObject,
-    },
-    {
-      keepPreviousData: true,
-    }
-  )
+  const { customers, isLoading, count } = useAdminStoreCreditsCustomers({
+    ...queryObject,
+  });
+  // console.log('customers2', customers2);
 
-  const [query, setQuery] = useState(queryObject.query)
-  const [numPages, setNumPages] = useState(0)
+  // const { customers, isLoading, count } = useAdminCustomers(
+  //   {
+  //     ...queryObject,
+  //   },
+  //   {
+  //     keepPreviousData: true,
+  //   }
+  // );
+
+  const [query, setQuery] = useState(queryObject.query);
+  const [numPages, setNumPages] = useState(0);
 
   useEffect(() => {
     if (typeof count !== "undefined") {
-      const controlledPageCount = Math.ceil(count / lim)
-      setNumPages(controlledPageCount)
+      const controlledPageCount = Math.ceil(count / lim);
+      setNumPages(controlledPageCount);
     }
-  }, [count])
+  }, [count]);
 
-  const [columns] = useCustomerColumns()
+  const [columns] = useCustomerColumns();
 
   const {
     getTableProps,
@@ -81,57 +87,57 @@ const CustomerTable = () => {
       autoResetPage: false,
     },
     usePagination
-  )
+  );
 
   // Debounced search
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
       if (query) {
-        setFreeText(query)
-        gotoPage(0)
+        setFreeText(query);
+        gotoPage(0);
       } else {
         if (typeof query !== "undefined") {
           // if we delete query string, we reset the table view
-          reset()
+          reset();
         }
       }
-    }, 400)
+    }, 400);
 
-    return () => clearTimeout(delayDebounceFn)
-  }, [query])
+    return () => clearTimeout(delayDebounceFn);
+  }, [query]);
 
   const handleNext = () => {
     if (canNextPage) {
-      paginate(1)
-      nextPage()
+      paginate(1);
+      nextPage();
     }
-  }
+  };
 
   const handlePrev = () => {
     if (canPreviousPage) {
-      paginate(-1)
-      previousPage()
+      paginate(-1);
+      previousPage();
     }
-  }
+  };
 
   const updateUrlFromFilter = (obj = {}) => {
-    const stringified = qs.stringify(obj)
-    window.history.replaceState(`/a/discounts`, "", `${`?${stringified}`}`)
-  }
+    const stringified = qs.stringify(obj);
+    window.history.replaceState(`/a/discounts`, "", `${`?${stringified}`}`);
+  };
 
   const refreshWithFilters = () => {
-    const filterObj = representationObject
+    const filterObj = representationObject;
 
     if (isEmpty(filterObj)) {
-      updateUrlFromFilter({ offset: 0, limit: DEFAULT_PAGE_SIZE })
+      updateUrlFromFilter({ offset: 0, limit: DEFAULT_PAGE_SIZE });
     } else {
-      updateUrlFromFilter(filterObj)
+      updateUrlFromFilter(filterObj);
     }
-  }
+  };
 
   useEffect(() => {
-    refreshWithFilters()
-  }, [representationObject])
+    refreshWithFilters();
+  }, [representationObject]);
 
   return (
     <TableContainer
@@ -170,22 +176,24 @@ const CustomerTable = () => {
         </Table.Head>
         <Table.Body {...getTableBodyProps()}>
           {rows.map((row) => {
-            prepareRow(row)
+            prepareRow(row);
             return (
               <Table.Row
                 color={"inherit"}
-                actions={[
-                  // {
-                  //   label: t("customer-table-edit", "Edit"),
-                  //   onClick: () => navigate(row.original.id),
-                  //   icon: <EditIcon size={20} />,
-                  // },
-                  // {
-                  //   label: t("customer-table-details", "Details"),
-                  //   onClick: () => navigate(row.original.id),
-                  //   icon: <DetailsIcon size={20} />,
-                  // },
-                ]}
+                actions={
+                  [
+                    // {
+                    //   label: t("customer-table-edit", "Edit"),
+                    //   onClick: () => navigate(row.original.id),
+                    //   icon: <EditIcon size={20} />,
+                    // },
+                    // {
+                    //   label: t("customer-table-details", "Details"),
+                    //   onClick: () => navigate(row.original.id),
+                    //   icon: <DetailsIcon size={20} />,
+                    // },
+                  ]
+                }
                 linkTo={row.original.id}
                 {...row.getRowProps()}
               >
@@ -194,15 +202,15 @@ const CustomerTable = () => {
                     <Table.Cell {...cell.getCellProps()}>
                       {cell.render("Cell", { index })}
                     </Table.Cell>
-                  )
+                  );
                 })}
               </Table.Row>
-            )
+            );
           })}
         </Table.Body>
       </Table>
     </TableContainer>
-  )
-}
+  );
+};
 
-export default CustomerTable
+export default CustomerTable;

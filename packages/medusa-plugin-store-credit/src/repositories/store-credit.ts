@@ -1,14 +1,8 @@
-import { Customer, ExtendedFindConfig, Region } from "@medusajs/medusa";
+import { ExtendedFindConfig } from "@medusajs/medusa";
 import { dataSource } from "@medusajs/medusa/dist/loaders/database";
 import { promiseAll } from "@medusajs/utils";
 import { Brackets, FindOptionsWhere, Repository } from "typeorm";
 import { StoreCredit } from "../models/store-credit";
-
-// import { FindOptionsWhere, ILike, Raw } from "typeorm"
-// import { GiftCard } from "../models"
-// import { ExtendedFindConfig } from "../types/common"
-// import { dataSource } from "../loaders/database"
-// import { promiseAll } from "@medusajs/utils"
 
 export const StoreCreditRepository = dataSource
   .getRepository(StoreCredit)
@@ -70,8 +64,8 @@ export const StoreCreditRepository = dataSource
     ): Promise<
       [
         {
-          customer: Customer;
-          region: Region;
+          customer_id: string;
+          region_id: string;
           amount: number;
           balance: number;
         }[],
@@ -89,7 +83,7 @@ export const StoreCreditRepository = dataSource
        * SELECT
        *   "store_credit"."customer_id" AS customer_id,
        *   "store_credit"."region_id" AS region_id,
-       *   SUM("store_credit"."value") FILTER (WHERE is_disabled = false AND (ends_at IS NULL OR ends_at > :date)) AS "value",
+       *   SUM("store_credit"."value") FILTER (WHERE is_disabled = false AND (ends_at IS NULL OR ends_at > :date)) AS "amount",
        *   SUM("store_credit"."balance") FILTER (WHERE is_disabled = false AND (ends_at IS NULL OR ends_at > :date)) AS "balance"
        * FROM
        *   "public"."store_credit" "store_credit"
@@ -100,7 +94,7 @@ export const StoreCreditRepository = dataSource
        *   "store_credit"."deleted_at" IS NULL
        * GROUP BY
        *   "store_credit"."customer_id", "store_credit"."region_id"
-       * ORDER BY value DESC LIMIT 10 OFFSET 0
+       * ORDER BY amount DESC LIMIT 10 OFFSET 0
        */
 
       const qb = (this as Repository<StoreCredit>)
@@ -117,7 +111,7 @@ export const StoreCreditRepository = dataSource
         ])
         .addSelect(
           "SUM(store_credit.value) FILTER (WHERE is_disabled = false AND (ends_at IS NULL OR ends_at > :date))",
-          "value"
+          "amount"
         )
         .addSelect(
           "SUM(store_credit.balance) FILTER (WHERE is_disabled = false AND (ends_at IS NULL OR ends_at > :date))",
@@ -126,7 +120,7 @@ export const StoreCreditRepository = dataSource
         .setParameter("date", date.toUTCString())
         .groupBy("store_credit.customer_id")
         .addGroupBy("store_credit.region_id")
-        .orderBy("value", "DESC");
+        .orderBy("amount", "DESC");
 
       if (selector.q) {
         qb.where(

@@ -16,32 +16,43 @@ export const useCustomerColumns = () => {
       {
         Header: t("customer-table-name", "Name"),
         accessor: "customer",
-        Cell: ({ row }) => (
-          <CustomerAvatarItem
-            customer={row.original}
-            color={getColor(row.index)}
-          />
-        ),
+        Cell: ({ row }) => {
+          console.log("row", row);
+          return (
+            <CustomerAvatarItem
+              customer={row.original.customer}
+              color={getColor(row.index)}
+            />
+          );
+        },
       },
       {
         Header: t("customer-table-email", "Email"),
-        accessor: "email",
+        accessor: "customer.email",
       },
       {
-        Header: "",
-        accessor: "col",
+        Header: t("customer-table-region", "Region"),
+        accessor: "region.name",
       },
       {
-        accessor: "orders",
-        Header: () => (
-          <div className="text-right">
-            {t("customer-table-orders", "Orders")}
-          </div>
-        ),
-        Cell: ({ cell: { value } }) => (
-          <div className="text-right">{value?.length || 0}</div>
-        ),
+        Header: t("customer-table-original-amount", "Original Amount"),
+        accessor: "amount",
       },
+      {
+        Header: t("customer-table-balance", "Balance"),
+        accessor: "balance",
+      },
+      // {
+      //   accessor: "customer.orders",
+      //   Header: () => (
+      //     <div className="text-right">
+      //       {t("customer-table-orders", "Orders")}
+      //     </div>
+      //   ),
+      //   Cell: ({ cell: { value } }) => (
+      //     <div className="text-right">{value?.length || 0}</div>
+      //   ),
+      // },
       {
         Header: "",
         accessor: "col-2",

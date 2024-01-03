@@ -1,6 +1,6 @@
 import { Type } from "class-transformer";
 import { IsNumber, IsOptional, IsString } from "class-validator";
-import StoreCreditService from "../../../../services/store-credit";
+import StoreCreditCustomerService from "../../../../services/store-credit-customer";
 
 /**
  * @oas [get] /admin/store-credits/customers
@@ -32,10 +32,10 @@ import StoreCreditService from "../../../../services/store-credit";
 export default async (req, res) => {
   const { skip, take } = req.listConfig;
 
-  const storeCreditService: StoreCreditService =
-    req.scope.resolve("storeCreditService");
+  const storeCreditCustomerService: StoreCreditCustomerService =
+    req.scope.resolve("storeCreditCustomerService");
 
-  const [customers, count] = await storeCreditService.listAndCountCustomers(
+  const [customers, count] = await storeCreditCustomerService.listAndCount(
     req.filterableFields,
     req.listConfig
   );
