@@ -1560,15 +1560,519 @@
   ],
   "customers": [
     {
-      "id": "cus_john",
-      "email": "john@agilo.co",
+      "id": "cus_john01",
+      "email": "john01@agilo.co",
       "password": "supersecret",
-      "first_name": "John",
+      "first_name": "John01",
       "last_name": "Doe",
       "addresses": [
         {
           "company": "Agilo",
-          "first_name": "John",
+          "first_name": "John01",
+          "last_name": "Doe",
+          "address_1": "Mosećka ul. 1",
+          "address_2": null,
+          "city": "Split",
+          "country_code": "hr",
+          "province": null,
+          "postal_code": "21000",
+          "phone": null
+        }
+      ]
+    },
+    {
+      "id": "cus_john02",
+      "email": "john02@agilo.co",
+      "password": "supersecret",
+      "first_name": "John02",
+      "last_name": "Doe",
+      "addresses": [
+        {
+          "company": "Agilo",
+          "first_name": "John02",
+          "last_name": "Doe",
+          "address_1": "Mosećka ul. 1",
+          "address_2": null,
+          "city": "Split",
+          "country_code": "hr",
+          "province": null,
+          "postal_code": "21000",
+          "phone": null
+        }
+      ]
+    },
+    {
+      "id": "cus_john03",
+      "email": "john03@agilo.co",
+      "password": "supersecret",
+      "first_name": "John03",
+      "last_name": "Doe",
+      "addresses": [
+        {
+          "company": "Agilo",
+          "first_name": "John03",
+          "last_name": "Doe",
+          "address_1": "Mosećka ul. 1",
+          "address_2": null,
+          "city": "Split",
+          "country_code": "hr",
+          "province": null,
+          "postal_code": "21000",
+          "phone": null
+        }
+      ]
+    },
+    {
+      "id": "cus_john04",
+      "email": "john04@agilo.co",
+      "password": "supersecret",
+      "first_name": "John04",
+      "last_name": "Doe",
+      "addresses": [
+        {
+          "company": "Agilo",
+          "first_name": "John04",
+          "last_name": "Doe",
+          "address_1": "Mosećka ul. 1",
+          "address_2": null,
+          "city": "Split",
+          "country_code": "hr",
+          "province": null,
+          "postal_code": "21000",
+          "phone": null
+        }
+      ]
+    },
+    {
+      "id": "cus_john05",
+      "email": "john05@agilo.co",
+      "password": "supersecret",
+      "first_name": "John05",
+      "last_name": "Doe",
+      "addresses": [
+        {
+          "company": "Agilo",
+          "first_name": "John05",
+          "last_name": "Doe",
+          "address_1": "Mosećka ul. 1",
+          "address_2": null,
+          "city": "Split",
+          "country_code": "hr",
+          "province": null,
+          "postal_code": "21000",
+          "phone": null
+        }
+      ]
+    },
+    {
+      "id": "cus_john06",
+      "email": "john06@agilo.co",
+      "password": "supersecret",
+      "first_name": "John06",
+      "last_name": "Doe",
+      "addresses": [
+        {
+          "company": "Agilo",
+          "first_name": "John06",
+          "last_name": "Doe",
+          "address_1": "Mosećka ul. 1",
+          "address_2": null,
+          "city": "Split",
+          "country_code": "hr",
+          "province": null,
+          "postal_code": "21000",
+          "phone": null
+        }
+      ]
+    },
+    {
+      "id": "cus_john07",
+      "email": "john07@agilo.co",
+      "password": "supersecret",
+      "first_name": "John07",
+      "last_name": "Doe",
+      "addresses": [
+        {
+          "company": "Agilo",
+          "first_name": "John07",
+          "last_name": "Doe",
+          "address_1": "Mosećka ul. 1",
+          "address_2": null,
+          "city": "Split",
+          "country_code": "hr",
+          "province": null,
+          "postal_code": "21000",
+          "phone": null
+        }
+      ]
+    },
+    {
+      "id": "cus_john08",
+      "email": "john08@agilo.co",
+      "password": "supersecret",
+      "first_name": "John08",
+      "last_name": "Doe",
+      "addresses": [
+        {
+          "company": "Agilo",
+          "first_name": "John08",
+          "last_name": "Doe",
+          "address_1": "Mosećka ul. 1",
+          "address_2": null,
+          "city": "Split",
+          "country_code": "hr",
+          "province": null,
+          "postal_code": "21000",
+          "phone": null
+        }
+      ]
+    },
+    {
+      "id": "cus_john09",
+      "email": "john09@agilo.co",
+      "password": "supersecret",
+      "first_name": "John09",
+      "last_name": "Doe",
+      "addresses": [
+        {
+          "company": "Agilo",
+          "first_name": "John09",
+          "last_name": "Doe",
+          "address_1": "Mosećka ul. 1",
+          "address_2": null,
+          "city": "Split",
+          "country_code": "hr",
+          "province": null,
+          "postal_code": "21000",
+          "phone": null
+        }
+      ]
+    },
+    {
+      "id": "cus_john10",
+      "email": "john10@agilo.co",
+      "password": "supersecret",
+      "first_name": "John10",
+      "last_name": "Doe",
+      "addresses": [
+        {
+          "company": "Agilo",
+          "first_name": "John10",
+          "last_name": "Doe",
+          "address_1": "Mosećka ul. 1",
+          "address_2": null,
+          "city": "Split",
+          "country_code": "hr",
+          "province": null,
+          "postal_code": "21000",
+          "phone": null
+        }
+      ]
+    },
+    {
+      "id": "cus_john11",
+      "email": "john11@agilo.co",
+      "password": "supersecret",
+      "first_name": "John11",
+      "last_name": "Doe",
+      "addresses": [
+        {
+          "company": "Agilo",
+          "first_name": "John11",
+          "last_name": "Doe",
+          "address_1": "Mosećka ul. 1",
+          "address_2": null,
+          "city": "Split",
+          "country_code": "hr",
+          "province": null,
+          "postal_code": "21000",
+          "phone": null
+        }
+      ]
+    },
+    {
+      "id": "cus_john12",
+      "email": "john12@agilo.co",
+      "password": "supersecret",
+      "first_name": "John12",
+      "last_name": "Doe",
+      "addresses": [
+        {
+          "company": "Agilo",
+          "first_name": "John12",
+          "last_name": "Doe",
+          "address_1": "Mosećka ul. 1",
+          "address_2": null,
+          "city": "Split",
+          "country_code": "hr",
+          "province": null,
+          "postal_code": "21000",
+          "phone": null
+        }
+      ]
+    },
+    {
+      "id": "cus_john13",
+      "email": "john13@agilo.co",
+      "password": "supersecret",
+      "first_name": "John13",
+      "last_name": "Doe",
+      "addresses": [
+        {
+          "company": "Agilo",
+          "first_name": "John13",
+          "last_name": "Doe",
+          "address_1": "Mosećka ul. 1",
+          "address_2": null,
+          "city": "Split",
+          "country_code": "hr",
+          "province": null,
+          "postal_code": "21000",
+          "phone": null
+        }
+      ]
+    },
+    {
+      "id": "cus_john14",
+      "email": "john14@agilo.co",
+      "password": "supersecret",
+      "first_name": "John14",
+      "last_name": "Doe",
+      "addresses": [
+        {
+          "company": "Agilo",
+          "first_name": "John14",
+          "last_name": "Doe",
+          "address_1": "Mosećka ul. 1",
+          "address_2": null,
+          "city": "Split",
+          "country_code": "hr",
+          "province": null,
+          "postal_code": "21000",
+          "phone": null
+        }
+      ]
+    },
+    {
+      "id": "cus_john15",
+      "email": "john15@agilo.co",
+      "password": "supersecret",
+      "first_name": "John15",
+      "last_name": "Doe",
+      "addresses": [
+        {
+          "company": "Agilo",
+          "first_name": "John15",
+          "last_name": "Doe",
+          "address_1": "Mosećka ul. 1",
+          "address_2": null,
+          "city": "Split",
+          "country_code": "hr",
+          "province": null,
+          "postal_code": "21000",
+          "phone": null
+        }
+      ]
+    },
+    {
+      "id": "cus_john16",
+      "email": "john16@agilo.co",
+      "password": "supersecret",
+      "first_name": "John16",
+      "last_name": "Doe",
+      "addresses": [
+        {
+          "company": "Agilo",
+          "first_name": "John16",
+          "last_name": "Doe",
+          "address_1": "Mosećka ul. 1",
+          "address_2": null,
+          "city": "Split",
+          "country_code": "hr",
+          "province": null,
+          "postal_code": "21000",
+          "phone": null
+        }
+      ]
+    },
+    {
+      "id": "cus_john17",
+      "email": "john17@agilo.co",
+      "password": "supersecret",
+      "first_name": "John17",
+      "last_name": "Doe",
+      "addresses": [
+        {
+          "company": "Agilo",
+          "first_name": "John17",
+          "last_name": "Doe",
+          "address_1": "Mosećka ul. 1",
+          "address_2": null,
+          "city": "Split",
+          "country_code": "hr",
+          "province": null,
+          "postal_code": "21000",
+          "phone": null
+        }
+      ]
+    },
+    {
+      "id": "cus_john18",
+      "email": "john18@agilo.co",
+      "password": "supersecret",
+      "first_name": "John18",
+      "last_name": "Doe",
+      "addresses": [
+        {
+          "company": "Agilo",
+          "first_name": "John18",
+          "last_name": "Doe",
+          "address_1": "Mosećka ul. 1",
+          "address_2": null,
+          "city": "Split",
+          "country_code": "hr",
+          "province": null,
+          "postal_code": "21000",
+          "phone": null
+        }
+      ]
+    },
+    {
+      "id": "cus_john19",
+      "email": "john19@agilo.co",
+      "password": "supersecret",
+      "first_name": "John19",
+      "last_name": "Doe",
+      "addresses": [
+        {
+          "company": "Agilo",
+          "first_name": "John19",
+          "last_name": "Doe",
+          "address_1": "Mosećka ul. 1",
+          "address_2": null,
+          "city": "Split",
+          "country_code": "hr",
+          "province": null,
+          "postal_code": "21000",
+          "phone": null
+        }
+      ]
+    },
+    {
+      "id": "cus_john20",
+      "email": "john20@agilo.co",
+      "password": "supersecret",
+      "first_name": "John20",
+      "last_name": "Doe",
+      "addresses": [
+        {
+          "company": "Agilo",
+          "first_name": "John20",
+          "last_name": "Doe",
+          "address_1": "Mosećka ul. 1",
+          "address_2": null,
+          "city": "Split",
+          "country_code": "hr",
+          "province": null,
+          "postal_code": "21000",
+          "phone": null
+        }
+      ]
+    },
+    {
+      "id": "cus_john21",
+      "email": "john21@agilo.co",
+      "password": "supersecret",
+      "first_name": "John21",
+      "last_name": "Doe",
+      "addresses": [
+        {
+          "company": "Agilo",
+          "first_name": "John21",
+          "last_name": "Doe",
+          "address_1": "Mosećka ul. 1",
+          "address_2": null,
+          "city": "Split",
+          "country_code": "hr",
+          "province": null,
+          "postal_code": "21000",
+          "phone": null
+        }
+      ]
+    },
+    {
+      "id": "cus_john22",
+      "email": "john22@agilo.co",
+      "password": "supersecret",
+      "first_name": "John22",
+      "last_name": "Doe",
+      "addresses": [
+        {
+          "company": "Agilo",
+          "first_name": "John22",
+          "last_name": "Doe",
+          "address_1": "Mosećka ul. 1",
+          "address_2": null,
+          "city": "Split",
+          "country_code": "hr",
+          "province": null,
+          "postal_code": "21000",
+          "phone": null
+        }
+      ]
+    },
+    {
+      "id": "cus_john23",
+      "email": "john23@agilo.co",
+      "password": "supersecret",
+      "first_name": "John23",
+      "last_name": "Doe",
+      "addresses": [
+        {
+          "company": "Agilo",
+          "first_name": "John23",
+          "last_name": "Doe",
+          "address_1": "Mosećka ul. 1",
+          "address_2": null,
+          "city": "Split",
+          "country_code": "hr",
+          "province": null,
+          "postal_code": "21000",
+          "phone": null
+        }
+      ]
+    },
+    {
+      "id": "cus_john24",
+      "email": "john24@agilo.co",
+      "password": "supersecret",
+      "first_name": "John24",
+      "last_name": "Doe",
+      "addresses": [
+        {
+          "company": "Agilo",
+          "first_name": "John24",
+          "last_name": "Doe",
+          "address_1": "Mosećka ul. 1",
+          "address_2": null,
+          "city": "Split",
+          "country_code": "hr",
+          "province": null,
+          "postal_code": "21000",
+          "phone": null
+        }
+      ]
+    },
+    {
+      "id": "cus_john25",
+      "email": "john25@agilo.co",
+      "password": "supersecret",
+      "first_name": "John25",
+      "last_name": "Doe",
+      "addresses": [
+        {
+          "company": "Agilo",
+          "first_name": "John25",
           "last_name": "Doe",
           "address_1": "Mosećka ul. 1",
           "address_2": null,
@@ -1680,7 +2184,7 @@
       "value": 1000,
       "balance": 1000,
       "region_id": "test-region-eu",
-      "customer_id": "cus_john",
+      "customer_id": "cus_john01",
       "is_disabled": false,
       "ends_at": null
     },
@@ -1689,7 +2193,7 @@
       "value": 10000,
       "balance": 10000,
       "region_id": "test-region-eu",
-      "customer_id": "cus_john",
+      "customer_id": "cus_john01",
       "is_disabled": false,
       "ends_at": null
     },
@@ -1698,7 +2202,7 @@
       "value": 100000,
       "balance": 100000,
       "region_id": "test-region-eu",
-      "customer_id": "cus_john",
+      "customer_id": "cus_john01",
       "is_disabled": false,
       "ends_at": null
     },
@@ -1707,7 +2211,7 @@
       "value": 1000,
       "balance": 1000,
       "region_id": "test-region-eu",
-      "customer_id": "cus_john",
+      "customer_id": "cus_john01",
       "is_disabled": true,
       "ends_at": null
     },
@@ -1716,7 +2220,7 @@
       "value": 1000,
       "balance": 1000,
       "region_id": "test-region-eu",
-      "customer_id": "cus_john",
+      "customer_id": "cus_john01",
       "is_disabled": false,
       "ends_at": "2020-01-01 14:35:59.752685+00"
     },
@@ -1725,7 +2229,7 @@
       "value": 1000,
       "balance": 0,
       "region_id": "test-region-eu",
-      "customer_id": "cus_john",
+      "customer_id": "cus_john01",
       "is_disabled": false,
       "ends_at": null
     },
@@ -1734,7 +2238,7 @@
       "value": 1000,
       "balance": 1000,
       "region_id": "test-region-na",
-      "customer_id": "cus_john",
+      "customer_id": "cus_john01",
       "is_disabled": false,
       "ends_at": null
     },
@@ -1743,7 +2247,232 @@
       "value": 89999,
       "balance": 89999,
       "region_id": "test-region-na",
-      "customer_id": "cus_john",
+      "customer_id": "cus_john01",
+      "is_disabled": false,
+      "ends_at": null
+    },
+    {
+      "id": "stcred_09",
+      "value": 100000,
+      "balance": 100000,
+      "region_id": "test-region-eu",
+      "customer_id": "cus_john02",
+      "is_disabled": false,
+      "ends_at": null
+    },
+    {
+      "id": "stcred_10",
+      "value": 100000,
+      "balance": 100000,
+      "region_id": "test-region-eu",
+      "customer_id": "cus_john03",
+      "is_disabled": false,
+      "ends_at": null
+    },
+    {
+      "id": "stcred_11",
+      "value": 100000,
+      "balance": 100000,
+      "region_id": "test-region-eu",
+      "customer_id": "cus_john04",
+      "is_disabled": false,
+      "ends_at": null
+    },
+    {
+      "id": "stcred_12",
+      "value": 100000,
+      "balance": 100000,
+      "region_id": "test-region-eu",
+      "customer_id": "cus_john05",
+      "is_disabled": false,
+      "ends_at": null
+    },
+    {
+      "id": "stcred_13",
+      "value": 100000,
+      "balance": 100000,
+      "region_id": "test-region-eu",
+      "customer_id": "cus_john05",
+      "is_disabled": false,
+      "ends_at": null
+    },
+    {
+      "id": "stcred_14",
+      "value": 100000,
+      "balance": 100000,
+      "region_id": "test-region-eu",
+      "customer_id": "cus_john06",
+      "is_disabled": false,
+      "ends_at": null
+    },
+    {
+      "id": "stcred_15",
+      "value": 100000,
+      "balance": 100000,
+      "region_id": "test-region-eu",
+      "customer_id": "cus_john07",
+      "is_disabled": false,
+      "ends_at": null
+    },
+    {
+      "id": "stcred_16",
+      "value": 100000,
+      "balance": 100000,
+      "region_id": "test-region-eu",
+      "customer_id": "cus_john08",
+      "is_disabled": false,
+      "ends_at": null
+    },
+    {
+      "id": "stcred_17",
+      "value": 100000,
+      "balance": 100000,
+      "region_id": "test-region-eu",
+      "customer_id": "cus_john09",
+      "is_disabled": false,
+      "ends_at": null
+    },
+    {
+      "id": "stcred_18",
+      "value": 100000,
+      "balance": 100000,
+      "region_id": "test-region-eu",
+      "customer_id": "cus_john10",
+      "is_disabled": false,
+      "ends_at": null
+    },
+    {
+      "id": "stcred_19",
+      "value": 100000,
+      "balance": 100000,
+      "region_id": "test-region-eu",
+      "customer_id": "cus_john11",
+      "is_disabled": false,
+      "ends_at": null
+    },
+    {
+      "id": "stcred_20",
+      "value": 100000,
+      "balance": 100000,
+      "region_id": "test-region-eu",
+      "customer_id": "cus_john12",
+      "is_disabled": false,
+      "ends_at": null
+    },
+    {
+      "id": "stcred_21",
+      "value": 100000,
+      "balance": 100000,
+      "region_id": "test-region-eu",
+      "customer_id": "cus_john13",
+      "is_disabled": false,
+      "ends_at": null
+    },
+    {
+      "id": "stcred_22",
+      "value": 100000,
+      "balance": 100000,
+      "region_id": "test-region-eu",
+      "customer_id": "cus_john14",
+      "is_disabled": false,
+      "ends_at": null
+    },
+    {
+      "id": "stcred_23",
+      "value": 100000,
+      "balance": 100000,
+      "region_id": "test-region-eu",
+      "customer_id": "cus_john15",
+      "is_disabled": false,
+      "ends_at": null
+    },
+    {
+      "id": "stcred_24",
+      "value": 100000,
+      "balance": 100000,
+      "region_id": "test-region-eu",
+      "customer_id": "cus_john16",
+      "is_disabled": false,
+      "ends_at": null
+    },
+    {
+      "id": "stcred_25",
+      "value": 100000,
+      "balance": 100000,
+      "region_id": "test-region-eu",
+      "customer_id": "cus_john17",
+      "is_disabled": false,
+      "ends_at": null
+    },
+    {
+      "id": "stcred_26",
+      "value": 100000,
+      "balance": 100000,
+      "region_id": "test-region-eu",
+      "customer_id": "cus_john18",
+      "is_disabled": false,
+      "ends_at": null
+    },
+    {
+      "id": "stcred_27",
+      "value": 100000,
+      "balance": 100000,
+      "region_id": "test-region-eu",
+      "customer_id": "cus_john19",
+      "is_disabled": false,
+      "ends_at": null
+    },
+    {
+      "id": "stcred_28",
+      "value": 100000,
+      "balance": 100000,
+      "region_id": "test-region-eu",
+      "customer_id": "cus_john20",
+      "is_disabled": false,
+      "ends_at": null
+    },
+    {
+      "id": "stcred_29",
+      "value": 100000,
+      "balance": 100000,
+      "region_id": "test-region-eu",
+      "customer_id": "cus_john21",
+      "is_disabled": false,
+      "ends_at": null
+    },
+    {
+      "id": "stcred_30",
+      "value": 100000,
+      "balance": 100000,
+      "region_id": "test-region-eu",
+      "customer_id": "cus_john22",
+      "is_disabled": false,
+      "ends_at": null
+    },
+    {
+      "id": "stcred_31",
+      "value": 100000,
+      "balance": 100000,
+      "region_id": "test-region-eu",
+      "customer_id": "cus_john23",
+      "is_disabled": false,
+      "ends_at": null
+    },
+    {
+      "id": "stcred_32",
+      "value": 100000,
+      "balance": 100000,
+      "region_id": "test-region-eu",
+      "customer_id": "cus_john24",
+      "is_disabled": false,
+      "ends_at": null
+    },
+    {
+      "id": "stcred_33",
+      "value": 100000,
+      "balance": 100000,
+      "region_id": "test-region-eu",
+      "customer_id": "cus_john25",
       "is_disabled": false,
       "ends_at": null
     }
