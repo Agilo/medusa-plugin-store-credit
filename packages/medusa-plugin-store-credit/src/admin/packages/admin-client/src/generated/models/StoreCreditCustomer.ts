@@ -21,7 +21,7 @@ export interface StoreCreditCustomer {
   /**
    * Original store credit value.
    */
-  value?: number;
+  value: number;
   /**
    * Current store credit value.
    */
