@@ -26,7 +26,7 @@ import StoreCreditService from "../../../../services/store-credit";
  *     content:
  *       application/json:
  *         schema:
- *           $ref: "#/components/schemas/AdminStoreCreditsListRes"
+ *           $ref: "#/components/schemas/AdminStoreCreditTransactionsListRes"
  */
 export default async (req, res) => {
   const { skip, take } = req.listConfig;

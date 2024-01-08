@@ -33,7 +33,7 @@ export default function adminRoutes(router: Router, admin_cors: string) {
 }
 
 /**
- * @schema AdminStoreCreditsListRes
+ * @schema AdminStoreCreditTransactionsListRes
  * type: object
  * x-expanded-relations:
  *   field: store_credit_transactions
@@ -61,6 +61,6 @@ export default function adminRoutes(router: Router, admin_cors: string) {
  *     type: integer
  *     description: The number of items per page
  */
-export type AdminStoreCreditsListRes = PaginatedResponse & {
+export type AdminStoreCreditTransactionsListRes = PaginatedResponse & {
   store_credit_transactions: StoreCredit[];
 };
