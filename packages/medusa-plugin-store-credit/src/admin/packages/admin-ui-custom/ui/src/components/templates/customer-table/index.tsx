@@ -1,13 +1,13 @@
 import { isEmpty } from "lodash";
-import { useAdminCustomers } from "medusa-react";
+// import { useAdminCustomers } from "medusa-react";
 import qs from "qs";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import { usePagination, useTable } from "react-table";
 // import DetailsIcon from "../../fundamentals/details-icon"
 // import EditIcon from "../../fundamentals/icons/edit-icon"
-import { useAdminStoreCreditsCustomers } from "../../../../../../../../admin/packages/admin-client/src";
+import { useAdminCustomers } from "../../../../../../../../admin/packages/admin-client/src";
 import Table from "../../../../../../admin-ui/ui/src/components/molecules/table";
 import TableContainer from "../../../../../../admin-ui/ui/src/components/organisms/table-container";
 import { useCustomerColumns } from "./use-customer-columns";
@@ -20,7 +20,7 @@ const defaultQueryProps = {
 };
 
 const CustomerTable = () => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const { t } = useTranslation();
 
   const {
@@ -34,7 +34,7 @@ const CustomerTable = () => {
   const offs = parseInt(queryObject.offset) || 0;
   const lim = parseInt(queryObject.limit) || DEFAULT_PAGE_SIZE;
 
-  const { customers, isLoading, count } = useAdminStoreCreditsCustomers({
+  const { customers, isLoading, count } = useAdminCustomers({
     ...queryObject,
   });
   // console.log('customers2', customers2);
@@ -194,7 +194,7 @@ const CustomerTable = () => {
                     // },
                   ]
                 }
-                linkTo={row.original.id}
+                linkTo={`/a/store-credits/customers/${row.original.customer.id}?region_id=${row.original.region.id}`}
                 {...row.getRowProps()}
               >
                 {row.cells.map((cell, index) => {
