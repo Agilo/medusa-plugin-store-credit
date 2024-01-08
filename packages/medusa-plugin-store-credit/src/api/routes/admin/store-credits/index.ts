@@ -68,6 +68,14 @@ export default function adminRoutes(router: Router, admin_cors: string) {
   );
 
   adminRouter.get(
+    "/customers/:id",
+    transformQuery(AdminGetStoreCreditsCustomersCustomerParams, {
+      isList: false,
+    }),
+    wrapHandler(require("./get-customer").default)
+  );
+
+  adminRouter.get(
     "/customers/:id/store-credits",
     transformQuery(AdminGetStoreCreditsCustomersCustomerStoreCreditsParams, {
       isList: true,

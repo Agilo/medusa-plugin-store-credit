@@ -2,14 +2,20 @@ import {
   Customer,
   CustomerService,
   EventBusService,
+  FindConfig,
   Region,
   RegionService,
+  Selector,
   TransactionBaseService,
+  buildQuery,
 } from "@medusajs/medusa";
 import { uniq } from "lodash";
 import { EntityManager } from "typeorm";
 import StoreCreditRepository from "../repositories/store-credit";
 import StoreCreditTransactionRepository from "../repositories/store-credit-transaction";
+import { StoreCredit } from "../models/store-credit";
+import { MedusaError, isDefined } from "medusa-core-utils";
+import { StoreCreditCustomer } from "../admin/packages/admin-client";
 
 type InjectedDependencies = {
   manager: EntityManager;
@@ -114,6 +120,43 @@ class StoreCreditCustomerService extends TransactionBaseService {
     return [store_credits, count];
   }
 
+  async retrieve(
+    customerId: string,
+    regionId: string
+  ): Promise<StoreCreditCustomer> {
+    if (!isDefined(customerId)) {
+      throw new MedusaError(
+        MedusaError.Types.NOT_FOUND,
+        `"customerId" must be defined`
+      );
+    }
+
+    if (!isDefined(regionId)) {
+      throw new MedusaError(
+        MedusaError.Types.NOT_FOUND,
+        `"regionId" must be defined`
+      );
+    }
+
+    const region = await this.regionService_.retrieve(regionId);
+    const customer = await this.customerService_.retrieve(customerId);
+
+    const storeCreditRepo = this.activeManager_.withRepository(
+      this.storeCreditRepository_
+    );
+
+    const storeCredits = await storeCreditRepo.getValidStoreCreditsForRegion(
+      customerId,
+      regionId
+    );
+
+    return {
+      customer,
+      region,
+      value: storeCredits.reduce((acc, cur) => acc + cur.value, 0),
+      balance: storeCredits.reduce((acc, cur) => acc + cur.balance, 0),
+    };
+  }
 }
 
 export default StoreCreditCustomerService;
