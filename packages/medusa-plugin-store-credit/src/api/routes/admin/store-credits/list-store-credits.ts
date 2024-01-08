@@ -1,5 +1,5 @@
 import { Type } from "class-transformer";
-import { IsNumber, IsOptional } from "class-validator";
+import { IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
 import StoreCreditService from "../../../../services/store-credit";
 
 /**
@@ -12,6 +12,10 @@ import StoreCreditService from "../../../../services/store-credit";
  * parameters:
  *   - (query) offset=0 {integer} The number of store credits to skip when retrieving the store credits.
  *   - (query) limit=10 {integer} Limit the number of store credits returned.
+ *   - (query) expand {string} Comma-separated relations that should be expanded.
+ *   - (query) fields {string} Comma-separated fields that should be included.
+ *   - (query) customer_id {string} Filter by customer.
+ *   - (query) region_id {string} Filter by region.
  * x-codegen:
  *   method: list
  *   queryParams: AdminGetStoreCreditsParams
@@ -48,24 +52,47 @@ export default async (req, res) => {
 };
 
 export class AdminGetStoreCreditsParams {
-  // @IsString()
-  // @IsOptional()
-  // @Type(() => String)
-  // q?: string;
-
+  /**
+   * {@inheritDoc FindPaginationParams.offset}
+   * @defaultValue 0
+   */
   @IsNumber()
   @IsOptional()
   @Type(() => Number)
   offset?: number = 0;
 
+  /**
+   * {@inheritDoc FindPaginationParams.limit}
+   * @defaultValue 10
+   */
   @IsNumber()
   @IsOptional()
   @Type(() => Number)
   limit?: number = 10;
 
-  // @IsString()
-  // @IsOptional()
-  // @IsNotEmpty()
-  // @Type(() => String)
-  // product_id?: string;
+  /**
+   * {@inheritDoc FindParams.expand}
+   */
+  @IsString()
+  @IsOptional()
+  expand?: string;
+
+  /**
+   * {@inheritDoc FindParams.fields}
+   */
+  @IsString()
+  @IsOptional()
+  fields?: string;
+
+  @IsString()
+  @IsOptional()
+  @IsNotEmpty()
+  @Type(() => String)
+  customer_id?: string;
+
+  @IsString()
+  @IsOptional()
+  @IsNotEmpty()
+  @Type(() => String)
+  region_id?: string;
 }
