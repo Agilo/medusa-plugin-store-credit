@@ -1,16 +1,16 @@
 import { validator } from "@medusajs/medusa";
-import { Request, Response } from "express";
-import { EntityManager } from "typeorm";
-import StoreCreditService from "../../../../services/store-credit";
+import { Type } from "class-transformer";
 import {
   IsBoolean,
   IsDate,
   IsInt,
+  IsObject,
   IsOptional,
   IsString,
-  IsObject,
 } from "class-validator";
-import { Type } from "class-transformer";
+import { Request, Response } from "express";
+import { EntityManager } from "typeorm";
+import StoreCreditService from "../../../../services/store-credit";
 
 /**
  * @oas [post] /admin/store-credits/{id}
@@ -48,6 +48,8 @@ export default async (req: Request, res: Response) => {
     req.body
   );
 
+  // TODO: make sure balance is not greater than original amount
+
   const storeCreditService: StoreCreditService =
     req.scope.resolve("storeCreditService");
   const manager: EntityManager = req.scope.resolve("manager");
@@ -83,10 +85,7 @@ export default async (req: Request, res: Response) => {
  *   is_disabled:
  *     type: boolean
  *     description: >-
- *       Whether the Store Credit is disabled on creation.
- *   region_id:
- *     type: string
- *     description: The ID of the Region in which the Store Credit can be used.
+ *       Whether the Store Credit is disabled.
  *   description:
  *     type: string
  *     description: The description of the Store Credit.
@@ -95,10 +94,7 @@ export default async (req: Request, res: Response) => {
  *     description: An optional set of key-value pairs to hold additional information.
  */
 export class AdminPostStoreCreditsStoreCreditReq {
-  //
-  // todo: implement this
-  //
-
+  @IsOptional()
   @IsInt()
   balance?: number;
 
@@ -110,12 +106,6 @@ export class AdminPostStoreCreditsStoreCreditReq {
   @IsOptional()
   @IsBoolean()
   is_disabled?: boolean;
-
-  @IsString()
-  region_id?: string;
-
-  // @IsString()
-  // customer_id: string;
 
   @IsString()
   @IsOptional()

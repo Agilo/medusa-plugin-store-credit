@@ -4,10 +4,20 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Column } from "react-table";
 import { StoreCredit } from "../../../../../../../../models/store-credit";
+import StatusIndicator from "../../../../../../admin-ui/ui/src/components/fundamentals/status-indicator";
 import { formatAmountWithSymbol } from "../../../../../../admin-ui/ui/src/utils/prices";
 
 export const useCustomerStoreCreditsColumns = (): Column<Order>[] => {
   const { t } = useTranslation();
+
+  const getStoreCreditStatus = (is_disabled) => {
+    if (is_disabled) {
+      return <StatusIndicator title={"Disabled"} variant={"default"} />;
+    } else {
+      return <StatusIndicator title={"Active"} variant={"success"} />;
+    }
+  };
+
   const columns = useMemo(() => {
     return [
       {
@@ -41,6 +51,11 @@ export const useCustomerStoreCreditsColumns = (): Column<Order>[] => {
         Cell: ({ value }) => {
           return value ? moment(value).format("DD MMM YYYY hh:mm") : "Never";
         },
+      },
+      {
+        Header: t("customer-store-credits-table-status", "Status"),
+        accessor: "is_disabled",
+        Cell: ({ value }) => getStoreCreditStatus(value),
       },
       {
         Header: t("customer-store-credits-table-created", "Created"),

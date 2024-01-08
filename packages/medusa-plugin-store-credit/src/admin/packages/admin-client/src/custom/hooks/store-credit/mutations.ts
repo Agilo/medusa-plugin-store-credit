@@ -1,18 +1,16 @@
 import { Response } from "@medusajs/medusa-js";
-// import {
-//   useMutation,
-//   UseMutationOptions,
-//   useQueryClient,
-// } from "@tanstack/react-query";
-// import { useMedusa } from "medusa-react";
-// import {
-//   AdminBundlesDeleteRes,
-//   AdminBundlesRes,
-//   AdminPostBundlesBundleReq,
-//   AdminPostBundlesReq,
-// } from "../../../generated/models";
-// import { buildOptions } from "../utils/buildOptions";
-// import { adminBundleKeys } from "./queries";
+import {
+  useMutation,
+  UseMutationOptions,
+  useQueryClient,
+} from "@tanstack/react-query";
+import { useMedusa } from "medusa-react";
+import {
+  AdminPostStoreCreditsStoreCreditReq,
+  AdminStoreCreditsRes,
+} from "../../../generated/models";
+import { buildOptions } from "../utils/buildOptions";
+import { adminStoreCreditKeys } from "./queries";
 
 // export const useAdminCreateBundle = (
 //   options?: UseMutationOptions<
@@ -30,27 +28,27 @@ import { Response } from "@medusajs/medusa-js";
 //   );
 // };
 
-// export const useAdminUpdateBundle = (
-//   id: string,
-//   options?: UseMutationOptions<
-//     Response<AdminBundlesRes>,
-//     Error,
-//     AdminPostBundlesBundleReq
-//   >
-// ) => {
-//   const { client } = useMedusa();
-//   const queryClient = useQueryClient();
+export const useAdminUpdateStoreCredit = (
+  id: string,
+  options?: UseMutationOptions<
+    Response<AdminStoreCreditsRes>,
+    Error,
+    AdminPostStoreCreditsStoreCreditReq
+  >
+) => {
+  const { client } = useMedusa();
+  const queryClient = useQueryClient();
 
-//   return useMutation(
-//     (payload: AdminPostBundlesBundleReq) =>
-//       client.client.request("POST", `/admin/bundles/${id}`, payload),
-//     buildOptions(
-//       queryClient,
-//       [adminBundleKeys.lists(), adminBundleKeys.detail(id)],
-//       options
-//     )
-//   );
-// };
+  return useMutation(
+    (payload: AdminPostStoreCreditsStoreCreditReq) =>
+      client.client.request("POST", `/admin/store-credits/${id}`, payload),
+    buildOptions(
+      queryClient,
+      [adminStoreCreditKeys.lists(), adminStoreCreditKeys.detail(id)],
+      options
+    )
+  );
+};
 
 // export const useAdminDeleteBundle = (
 //   id: string,

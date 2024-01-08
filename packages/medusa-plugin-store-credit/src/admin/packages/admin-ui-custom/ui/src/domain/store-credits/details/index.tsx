@@ -2,7 +2,10 @@ import moment from "moment";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate, useParams } from "react-router-dom";
-import { useAdminStoreCredit } from "../../../../../../../packages/admin-client";
+import {
+  useAdminStoreCredit,
+  useAdminUpdateStoreCredit,
+} from "../../../../../../../packages/admin-client";
 import { formatAmountWithSymbol } from "../../../../../../../packages/admin-ui/ui/src/utils/prices";
 import BackButton from "../../../../../../admin-ui/ui/src/components/atoms/back-button";
 import Spinner from "../../../../../../admin-ui/ui/src/components/atoms/spinner";
@@ -10,9 +13,12 @@ import EditIcon from "../../../../../../admin-ui/ui/src/components/fundamentals/
 import Actionables, {
   ActionType,
 } from "../../../../../../admin-ui/ui/src/components/molecules/actionables";
+import StatusSelector from "../../../../../../admin-ui/ui/src/components/molecules/status-selector";
 import BodyCard from "../../../../../../admin-ui/ui/src/components/organisms/body-card";
 import RawJSON from "../../../../../../admin-ui/ui/src/components/organisms/raw-json";
 import Section from "../../../../../../admin-ui/ui/src/components/organisms/section";
+import useNotification from "../../../../../../admin-ui/ui/src/hooks/use-notification";
+import { getErrorMessage } from "../../../../../../admin-ui/ui/src/utils/error-messages";
 import { getErrorStatus } from "../../../../../../admin-ui/ui/src/utils/get-error-status";
 
 const StoreCreditDetail = () => {
@@ -22,6 +28,7 @@ const StoreCreditDetail = () => {
   const { store_credit, isLoading, error } = useAdminStoreCredit(id!, {
     expand: "customer,region,store_credit_transactions",
   });
+  const updateStoreCredit = useAdminUpdateStoreCredit(store_credit?.id);
   const { t } = useTranslation();
   const [showEdit, setShowEdit] = useState(false);
 
@@ -46,6 +53,33 @@ const StoreCreditDetail = () => {
   ];
 
   // const { getWidgets } = useWidgets()
+
+  const notification = useNotification();
+
+  const updateStatus = (data: { is_disabled?: boolean }) => {
+    console.log("updateStoreCredit.mutate todo...");
+    updateStoreCredit.mutate(
+      { is_disabled: data.is_disabled },
+      {
+        onSuccess: () => {
+          notification(
+            t("details-updated-status", "Updated status"),
+            t(
+              "details-successfully-updated-the-status-of-the-gift-card",
+              "Successfully updated the status of the Gift Card"
+            ),
+            "success"
+          );
+        },
+        onError: (err) =>
+          notification(
+            t("details-error", "Error"),
+            getErrorMessage(err),
+            "error"
+          ),
+      }
+    );
+  };
 
   if (error) {
     const errorStatus = getErrorStatus(error);
@@ -89,16 +123,24 @@ const StoreCreditDetail = () => {
           )
         })} */}
 
-        <Section>
-          <div className="flex w-full items-start justify-between">
+        <BodyCard
+          title={storeCreditName}
+          status={
+            <StatusSelector
+              isDraft={!!store_credit.is_disabled}
+              activeState={"Active"}
+              draftState={"Disable"}
+              onChange={() =>
+                updateStatus({ is_disabled: !store_credit.is_disabled })
+              }
+            />
+          }
+          actionables={actions}
+          forceDropdown={true}
+        >
+          {/* <div className="flex w-full items-start justify-between">
             <div className="gap-x-base flex w-full items-center">
-              {/* <div className="h-[64px] w-[64px]">
-                <Avatar
-                  user={customer}
-                  font="inter-2xlarge-semibold w-full h-full"
-                  color="bg-fuschia-40"
-                />
-              </div> */}
+              
               <div className="flex grow flex-col">
                 <h1 className="inter-xlarge-semibold text-grey-90 max-w-[50%] truncate">
                   {storeCreditName}
@@ -109,85 +151,62 @@ const StoreCreditDetail = () => {
               </div>
             </div>
             <Actionables actions={actions} forceDropdown />
-          </div>
-          <div className="mt-6 flex space-x-6 divide-x">
-            {/* <div className="flex flex-col">
-              <div className="inter-smaller-regular text-grey-50 mb-1">
-                {t("details-first-seen", "First seen")}
+          </div> */}
+          <div className="flex justify-between">
+            <div className="flex space-x-6 divide-x">
+              <div className="flex flex-col">
+                <div className="inter-smaller-regular text-grey-50 mb-1">
+                  {t("store-credit-detail-user", "User")}
+                </div>
+                <div>{store_credit.customer.email}</div>
               </div>
-              <div>{moment(customer.created_at).format("DD MMM YYYY")}</div>
-            </div> */}
-            {/* <div className="flex flex-col pl-6">
-              <div className="inter-smaller-regular text-grey-50 mb-1">
-                {t("details-phone", "Phone")}
+              <div className="flex flex-col pl-6">
+                <div className="inter-smaller-regular text-grey-50 mb-1">
+                  {t("store-credit-detail-original-amount", "Original amount")}
+                </div>
+                <div>
+                  {formatAmountWithSymbol({
+                    amount: store_credit.value,
+                    currency: store_credit.region.currency_code,
+                    digits: 2,
+                  })}
+                </div>
               </div>
-              <div className="max-w-[200px] truncate">
-                {customer.phone || "N/A"}
+              <div className="flex flex-col pl-6">
+                <div className="inter-smaller-regular text-grey-50 mb-1">
+                  {t("store-credit-detail-balance", "Balance")}
+                </div>
+                <div>
+                  {formatAmountWithSymbol({
+                    amount: store_credit.balance,
+                    currency: store_credit.region.currency_code,
+                    digits: 2,
+                  })}
+                </div>
               </div>
-            </div> */}
-            {/* <div className="flex flex-col pl-6">
-              <div className="inter-smaller-regular text-grey-50 mb-1">
-                {t("details-orders", "Orders")}
+              <div className="flex flex-col pl-6">
+                <div className="inter-smaller-regular text-grey-50 mb-1">
+                  {t("store-credit-detail-region", "Region")}
+                </div>
+                <div>{store_credit.region.name}</div>
               </div>
-              <div>{customer.orders.length}</div>
-            </div> */}
-            {/* <div className="h-100 flex flex-col pl-6">
-              <div className="inter-smaller-regular text-grey-50 mb-1">
-                {t("details-user", "User")}
+              <div className="flex flex-col pl-6">
+                <div className="inter-smaller-regular text-grey-50 mb-1">
+                  {t("store-credit-detail-expiry", "Expiry")}
+                </div>
+                <div>
+                  {store_credit.ends_at
+                    ? moment(store_credit.ends_at).format("DD MMM YYYY hh:mm")
+                    : "Never"}
+                </div>
               </div>
-              <div className="h-50 flex items-center justify-center">
-                <StatusDot
-                  variant={customer.has_account ? "success" : "danger"}
-                  title={customer.has_account ? "Registered" : "Guest"}
-                />
-              </div>
-            </div> */}
-            <div className="flex flex-col">
-              <div className="inter-smaller-regular text-grey-50 mb-1">
-                {t("store-credit-detail-original-amount", "Original amount")}
-              </div>
-              <div>
-                {formatAmountWithSymbol({
-                  amount: store_credit.value,
-                  currency: store_credit.region.currency_code,
-                  digits: 2,
-                })}
-              </div>
-            </div>
-            <div className="flex flex-col pl-6">
-              <div className="inter-smaller-regular text-grey-50 mb-1">
-                {t("store-credit-detail-balance", "Balance")}
-              </div>
-              <div>
-                {formatAmountWithSymbol({
-                  amount: store_credit.balance,
-                  currency: store_credit.region.currency_code,
-                  digits: 2,
-                })}
-              </div>
-            </div>
-            <div className="flex flex-col pl-6">
-              <div className="inter-smaller-regular text-grey-50 mb-1">
-                {t("store-credit-detail-region", "Region")}
-              </div>
-              <div>{store_credit.region.name}</div>
-            </div>
-            <div className="flex flex-col pl-6">
-              <div className="inter-smaller-regular text-grey-50 mb-1">
-                {t("store-credit-detail-expiry", "Expiry")}
-              </div>
-              <div>
-                {store_credit.ends_at
-                  ? moment(store_credit.ends_at).format("DD MMM YYYY hh:mm")
-                  : "Never"}
-              </div>
-            </div>
-            <div className="flex flex-col pl-6">
-              <div className="inter-smaller-regular text-grey-50 mb-1">
-                {t("store-credit-detail-created", "Created")}
-              </div>
-              <div>
-                {moment(store_credit.created_at).format("DD MMM YYYY hh:mm")}
+              <div className="flex flex-col pl-6">
+                <div className="inter-smaller-regular text-grey-50 mb-1">
+                  {t("store-credit-detail-created", "Created")}
+                </div>
+                <div>
+                  {moment(store_credit.created_at).format("DD MMM YYYY hh:mm")}
+                </div>
               </div>
             </div>
           </div>
@@ -197,7 +216,7 @@ const StoreCreditDetail = () => {
             </div>
             <div>{store_credit.description}</div>
           </div>
-        </Section>
+        </BodyCard>
         <BodyCard
           title={t(
             "store-credit-detail-transactions",
