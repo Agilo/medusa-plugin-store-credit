@@ -24,7 +24,7 @@ export const StoreCreditRepository = dataSource
         // .select([`store_credit.id`])
         .where("customer_id = :customerId", { customerId })
         .andWhere("is_disabled = false")
-        .andWhere("balance > 0")
+        // .andWhere("balance > 0")
         .andWhere(
           new Brackets((qb) => {
             qb.where(`ends_at IS NULL`).orWhere(`ends_at > :date`, {
@@ -47,7 +47,7 @@ export const StoreCreditRepository = dataSource
         .where("customer_id = :customerId", { customerId })
         .andWhere("region_id = :regionId", { regionId })
         .andWhere("is_disabled = false")
-        .andWhere("balance > 0")
+        // .andWhere("balance > 0")
         .andWhere(
           new Brackets((qb) => {
             qb.where(`ends_at IS NULL`).orWhere(`ends_at > :date`, {
