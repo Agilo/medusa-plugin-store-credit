@@ -9,17 +9,17 @@ import {
 import { formatAmountWithSymbol } from "../../../../../../../packages/admin-ui/ui/src/utils/prices";
 import BackButton from "../../../../../../admin-ui/ui/src/components/atoms/back-button";
 import Spinner from "../../../../../../admin-ui/ui/src/components/atoms/spinner";
+import DollarSignIcon from "../../../../../../admin-ui/ui/src/components/fundamentals/icons/dollar-sign-icon";
 import EditIcon from "../../../../../../admin-ui/ui/src/components/fundamentals/icons/edit-icon";
-import Actionables, {
-  ActionType,
-} from "../../../../../../admin-ui/ui/src/components/molecules/actionables";
+import { ActionType } from "../../../../../../admin-ui/ui/src/components/molecules/actionables";
 import StatusSelector from "../../../../../../admin-ui/ui/src/components/molecules/status-selector";
 import BodyCard from "../../../../../../admin-ui/ui/src/components/organisms/body-card";
 import RawJSON from "../../../../../../admin-ui/ui/src/components/organisms/raw-json";
-import Section from "../../../../../../admin-ui/ui/src/components/organisms/section";
 import useNotification from "../../../../../../admin-ui/ui/src/hooks/use-notification";
+import useToggleState from "../../../../../../admin-ui/ui/src/hooks/use-toggle-state";
 import { getErrorMessage } from "../../../../../../admin-ui/ui/src/utils/error-messages";
 import { getErrorStatus } from "../../../../../../admin-ui/ui/src/utils/get-error-status";
+import UpdateBalanceModal from "./update-balance-modal";
 
 const StoreCreditDetail = () => {
   const { id } = useParams();
@@ -44,11 +44,28 @@ const StoreCreditDetail = () => {
       : ""
   }`;
 
+  const {
+    state: editState,
+    open: openEdit,
+    close: closeEdit,
+  } = useToggleState();
+
+  const {
+    state: balanceState,
+    open: openBalance,
+    close: closeBalance,
+  } = useToggleState();
+
   const actions: ActionType[] = [
     {
-      label: t("store-credit-detail-edit", "Edit"),
-      onClick: () => setShowEdit(true),
+      label: t("store-credit-detail-edit-details", "Edit details"),
+      onClick: openEdit,
       icon: <EditIcon size={20} />,
+    },
+    {
+      label: t("store-credit-detail-update-balance-label", "Update balance"),
+      onClick: openBalance,
+      icon: <DollarSignIcon size={20} />,
     },
   ];
 
@@ -249,12 +266,17 @@ const StoreCreditDetail = () => {
         />
       </div>
 
-      {/* {showEdit && customer && (
-        <EditCustomerModal
-          customer={customer}
-          handleClose={() => setShowEdit(false)}
-        />
-      )} */}
+      <UpdateBalanceModal
+        storeCredit={store_credit}
+        onClose={closeBalance}
+        open={balanceState}
+      />
+
+      {/* <EditGiftCardModal
+        onClose={closeEdit}
+        open={editState}
+        giftCard={giftCard}
+      /> */}
     </div>
   );
 };
