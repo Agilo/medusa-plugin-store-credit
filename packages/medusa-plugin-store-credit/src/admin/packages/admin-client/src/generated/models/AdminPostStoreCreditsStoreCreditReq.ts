@@ -13,13 +13,9 @@ export interface AdminPostStoreCreditsStoreCreditReq {
    */
   ends_at?: string;
   /**
-   * Whether the Store Credit is disabled on creation.
+   * Whether the Store Credit is disabled.
    */
   is_disabled?: boolean;
-  /**
-   * The ID of the Region in which the Store Credit can be used.
-   */
-  region_id?: string;
   /**
    * The description of the Store Credit.
    */
