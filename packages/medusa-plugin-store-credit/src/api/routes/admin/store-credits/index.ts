@@ -2,28 +2,21 @@ import {
   Customer,
   PaginatedResponse,
   Region,
-  // PaginatedResponse,
-  // Product,
   authenticate,
-  // defaultAdminProductFields,
-  // defaultAdminProductRelations,
   transformBody,
   transformQuery,
-  // transformQuery,
   wrapHandler,
 } from "@medusajs/medusa";
-// import { PricedProduct } from "@medusajs/medusa/dist/types/pricing";
 import cors from "cors";
 import { Router } from "express";
 import { parseCorsOrigins } from "medusa-core-utils";
-// import { Bundle } from "../../../../models/bundle";
-// import { AdminPostProductsToBundleReq } from "./add-products";
-import { AdminPostStoreCreditsReq } from "./create-store-credit";
-import { AdminGetStoreCreditsParams } from "./list-store-credits";
-// import { AdminGetBundlesBundleProductsParams } from "./list-products";
-// import { AdminDeleteProductsFromBundleReq } from "./remove-products";
 import { StoreCredit } from "../../../../models/store-credit";
+import { AdminPostStoreCreditsReq } from "./create-store-credit";
+import { AdminGetStoreCreditsCustomersCustomerParams } from "./get-customer";
+import { AdminGetStoreCreditParams } from "./get-store-credit";
+import { AdminGetStoreCreditsCustomersCustomerStoreCreditsParams } from "./list-customer-store-credits";
 import { AdminGetStoreCreditsCustomersParams } from "./list-customers";
+import { AdminGetStoreCreditsParams } from "./list-store-credits";
 import { AdminPostStoreCreditsStoreCreditReq } from "./update-store-credit";
 
 export default function adminRoutes(router: Router, admin_cors: string) {
@@ -82,6 +75,15 @@ export default function adminRoutes(router: Router, admin_cors: string) {
       defaultRelations: ["region"],
     }),
     wrapHandler(require("./list-customer-store-credits").default)
+  );
+
+  adminRouter.get(
+    "/:id",
+    transformQuery(AdminGetStoreCreditParams, {
+      // defaultRelations: ["store_credit_transactions"],
+      isList: false,
+    }),
+    wrapHandler(require("./get-store-credit").default)
   );
 
   adminRouter.delete(
@@ -220,8 +222,31 @@ export type AdminStoreCreditsListRes = PaginatedResponse & {
  *     description: The number of items per page
  */
 export type AdminStoreCreditsCustomersListRes = PaginatedResponse & {
-  store_credits: StoreCredit[];
   customers: {
+    customer: Customer;
+    region: Region;
+    amount: number;
+    balance: number;
+  }[];
+};
+
+/**
+ * @schema AdminStoreCreditsCustomersCustomerRes
+ * type: object
+ * x-expanded-relations:
+ *   field: customer
+ *   relations:
+ *     - customer
+ *     - region
+ * required:
+ *   - customer
+ * properties:
+ *   customer:
+ *     description: Store Credit Customer.
+ *     $ref: "#/components/schemas/StoreCreditCustomer"
+ */
+export type AdminStoreCreditsCustomersCustomerRes = {
+  customer: {
     customer: Customer;
     region: Region;
     amount: number;
@@ -237,7 +262,7 @@ export type AdminStoreCreditsCustomersListRes = PaginatedResponse & {
  * required:
  *   - customer
  *   - region
- *   - amount
+ *   - value
  *   - balance
  * properties:
  *   customer:
@@ -259,3 +284,32 @@ export type AdminStoreCreditsCustomersListRes = PaginatedResponse & {
  *     type: number
  *     example: 500
  */
+
+/**
+ * @schema AdminStoreCreditsCustomersCustomerStoreCreditsListRes
+ * type: object
+ * required:
+ *   - store_credits
+ *   - count
+ *   - offset
+ *   - limit
+ * properties:
+ *   store_credits:
+ *     type: array
+ *     description: An array of Store Credit details.
+ *     items:
+ *       $ref: "#/components/schemas/StoreCredit"
+ *   count:
+ *     type: integer
+ *     description: The total number of items available
+ *   offset:
+ *     type: integer
+ *     description: The number of store credits skipped.
+ *   limit:
+ *     type: integer
+ *     description: The number of items per page
+ */
+export type AdminStoreCreditsCustomersCustomerStoreCreditsListRes =
+  PaginatedResponse & {
+    store_credits: StoreCredit[];
+  };

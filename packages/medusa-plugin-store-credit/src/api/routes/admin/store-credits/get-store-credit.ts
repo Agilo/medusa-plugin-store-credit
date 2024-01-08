@@ -1,3 +1,4 @@
+import { FindParams } from "@medusajs/medusa";
 import StoreCreditService from "../../../../services/store-credit";
 
 /**
@@ -10,6 +11,7 @@ import StoreCreditService from "../../../../services/store-credit";
  *   - (path) id=* {string} The ID of the Store Credit.
  * x-codegen:
  *   method: retrieve
+ *   queryParams: AdminGetStoreCreditParams
  * security:
  *   - api_token: []
  *   - cookie_auth: []
@@ -21,12 +23,14 @@ import StoreCreditService from "../../../../services/store-credit";
  *     content:
  *       application/json:
  *         schema:
- *           $ref: "#/components/schemas/AdminStoreCreditsRes"
+ *           $ref: "#/components/schemas/AdminStoreCreditsCustomersCustomerRes"
  */
 export default async (req, res) => {
   const { id } = req.params;
   const storeCreditService: StoreCreditService =
     req.scope.resolve("storeCreditService");
-  const storeCredit = await storeCreditService.retrieve(id);
+  const storeCredit = await storeCreditService.retrieve(id, req.retrieveConfig);
   res.json({ store_credit: storeCredit });
 };
+
+export class AdminGetStoreCreditParams extends FindParams {}
