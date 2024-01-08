@@ -1,8 +1,7 @@
-// import StoreCreditDetails from "../../../packages/admin-ui-custom/ui/src/domain/bundles/overview/details";
+import CustomerDetail from "../../../../packages/admin-ui-custom/ui/src/domain/store-credits/customers/details";
 
 const Page = () => {
-  return <>Store credit customer detail</>
-  // return <StoreCreditDetails />;
+  return <CustomerDetail />;
 };
 
 export default Page;
