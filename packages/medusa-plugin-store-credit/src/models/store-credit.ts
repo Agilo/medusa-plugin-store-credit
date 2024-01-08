@@ -13,12 +13,9 @@ import {
   Index,
   JoinColumn,
   ManyToOne,
+  OneToMany,
 } from "typeorm";
-// import { Order } from "./order";
-// import { Region } from "./region";
-// import { DbAwareColumn, resolveDbType } from "../utils/db-aware-column";
-// import { SoftDeletableEntity } from "../interfaces/models/soft-deletable-entity";
-// import { generateEntityId } from "../utils/generate-entity-id";
+import { StoreCreditTransaction } from "./store-credit-transaction";
 
 @Entity()
 export class StoreCredit extends SoftDeletableEntity {
@@ -30,6 +27,9 @@ export class StoreCredit extends SoftDeletableEntity {
 
   @Column({ type: "text", nullable: true })
   description: string | null;
+
+  @OneToMany(() => StoreCreditTransaction, (sct) => sct.store_credit)
+  store_credit_transactions: StoreCreditTransaction[];
 
   @Index()
   @Column()
@@ -63,9 +63,6 @@ export class StoreCredit extends SoftDeletableEntity {
     nullable: true,
   })
   ends_at: Date;
-
-  // @Column({ type: "real", nullable: true })
-  // tax_rate: number | null;
 
   @DbAwareColumn({ type: "jsonb", nullable: true })
   metadata: Record<string, unknown>;
@@ -114,6 +111,12 @@ export class StoreCredit extends SoftDeletableEntity {
  *     nullable: true
  *     type: string
  *     example: Refund for order xyz.
+ *   store_credit_transactions:
+ *     description: The store credit transactions made in the order.
+ *     type: array
+ *     x-expandable: "store_credit_transactions"
+ *     items:
+ *       $ref: "#/components/schemas/StoreCreditTransaction"
  *   region_id:
  *     description: The ID of the region this store credit was created in.
  *     type: string
