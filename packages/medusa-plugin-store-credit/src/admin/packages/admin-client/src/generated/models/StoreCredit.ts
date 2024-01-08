@@ -5,6 +5,7 @@ import { SetRelation, Merge } from '../core/ModelUtils';
 
 import type { Customer } from '@medusajs/medusa';
 import type { Region } from '@medusajs/medusa';
+import type { StoreCreditTransaction } from './StoreCreditTransaction';
 
 /**
  * Store credit.
@@ -26,6 +27,10 @@ export interface StoreCredit {
    * A short description of the Store Credit.
    */
   description: string | null;
+  /**
+   * The store credit transactions made in the order.
+   */
+  store_credit_transactions?: Array<StoreCreditTransaction>;
   /**
    * The ID of the region this store credit was created in.
    */

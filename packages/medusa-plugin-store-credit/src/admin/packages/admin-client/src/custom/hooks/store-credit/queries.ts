@@ -2,9 +2,14 @@ import { Response } from "@medusajs/medusa-js";
 import { useQuery } from "@tanstack/react-query";
 import { useMedusa } from "medusa-react";
 import qs from "qs";
-import { AdminGetStoreCreditsCustomersParams } from "../../../../../../../api/routes/admin/store-credits/list-customers";
 import {
+  AdminGetStoreCreditParams,
+  AdminGetStoreCreditsCustomersCustomerParams,
+  AdminGetStoreCreditsCustomersCustomerStoreCreditsParams,
+  AdminGetStoreCreditsCustomersParams,
   AdminGetStoreCreditsParams,
+  AdminStoreCreditsCustomersCustomerRes,
+  AdminStoreCreditsCustomersCustomerStoreCreditsListRes,
   AdminStoreCreditsCustomersListRes,
   AdminStoreCreditsListRes,
   AdminStoreCreditsRes,
@@ -17,9 +22,18 @@ const ADMIN_STORE_CREDITS_QUERY_KEY = `admin_store_credits` as const;
 export const adminStoreCreditKeys = {
   ...queryKeysFactory(ADMIN_STORE_CREDITS_QUERY_KEY),
   listCustomers(query?: any) {
+    return [...this.all, "list", "customers", { ...(query || {}) }] as const;
+  },
+  detailCustomer(customerId: string, regionId: string) {
+    return [...this.all, "customers", "detail", customerId, regionId];
+  },
+  listCustomerStoreCredits(id: string, query?: any) {
     return [
-      ...this.list(query),
-      "customers" as const,
+      ...this.all,
+      "list",
+      "customer",
+      id,
+      "store-credits",
       { ...(query || {}) },
     ] as const;
   },
@@ -54,6 +68,7 @@ export const useAdminStoreCredits = (
 
 export const useAdminStoreCredit = (
   id: string,
+  query?: AdminGetStoreCreditParams,
   options?: UseQueryOptionsWrapper<
     Response<AdminStoreCreditsRes>,
     Error,
@@ -61,15 +76,23 @@ export const useAdminStoreCredit = (
   >
 ) => {
   const { client } = useMedusa();
+
+  let path = `/admin/store-credits/${id}`;
+
+  if (query) {
+    const queryString = qs.stringify(query);
+    path = `/admin/store-credits/${id}?${queryString}`;
+  }
+
   const { data, ...rest } = useQuery(
     adminStoreCreditKeys.detail(id),
-    () => client.client.request("GET", `/admin/store-credits/${id}`),
+    () => client.client.request("GET", path),
     options
   );
   return { ...data, ...rest } as const;
 };
 
-export const useAdminStoreCreditsCustomers = (
+export const useAdminCustomers = (
   query?: AdminGetStoreCreditsCustomersParams,
   options?: UseQueryOptionsWrapper<
     Response<AdminStoreCreditsCustomersListRes>,
@@ -94,29 +117,52 @@ export const useAdminStoreCreditsCustomers = (
   return { ...data, ...rest } as const;
 };
 
-// export const useAdminBundleProducts = (
-//   id: string,
-//   query?: AdminGetBundlesBundleProductsParams,
-//   options?: UseQueryOptionsWrapper<
-//     Response<AdminBundlesBundleProductsListRes>,
-//     Error,
-//     ReturnType<StoreCreditQueryKeys["detailProducts"]>
-//   >
-// ) => {
-//   const { client } = useMedusa();
+export const useAdminCustomer = (
+  customerId: string,
+  regionId: string,
+  options?: UseQueryOptionsWrapper<
+    Response<AdminStoreCreditsCustomersCustomerRes>,
+    Error,
+    ReturnType<StoreCreditQueryKeys["detailCustomer"]>
+  >
+) => {
+  const { client } = useMedusa();
 
-//   let path = `/store/bundles/${id}/products`;
+  const { data, ...rest } = useQuery(
+    adminStoreCreditKeys.detailCustomer(customerId, regionId),
+    () =>
+      client.client.request(
+        "GET",
+        `/admin/store-credits/customers/${customerId}?region_id=${regionId}`
+      ),
+    options
+  );
+  return { ...data, ...rest } as const;
+};
 
-//   if (query) {
-//     const queryString = qs.stringify(query);
-//     path = `/admin/bundles/${id}/products?${queryString}`;
-//   }
+export const useAdminCustomerStoreCredits = (
+  id: string,
+  query?: AdminGetStoreCreditsCustomersCustomerStoreCreditsParams,
+  options?: UseQueryOptionsWrapper<
+    Response<AdminStoreCreditsCustomersCustomerStoreCreditsListRes>,
+    Error,
+    ReturnType<StoreCreditQueryKeys["listCustomerStoreCredits"]>
+  >
+) => {
+  const { client } = useMedusa();
 
-//   const { data, ...rest } = useQuery(
-//     adminStoreCreditKeys.detailProducts(id, query),
-//     () => client.client.request("GET", path),
-//     options
-//   );
+  let path = `/admin/store-credits/customers/${id}/store-credits`;
 
-//   return { ...data, ...rest } as const;
-// };
+  if (query) {
+    const queryString = qs.stringify(query);
+    path = `/admin/store-credits/customers/${id}/store-credits?${queryString}`;
+  }
+
+  const { data, ...rest } = useQuery(
+    adminStoreCreditKeys.listCustomerStoreCredits(id, query),
+    () => client.client.request("GET", path),
+    options
+  );
+
+  return { ...data, ...rest } as const;
+};

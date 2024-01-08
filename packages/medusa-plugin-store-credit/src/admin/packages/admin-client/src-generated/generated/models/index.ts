@@ -2,10 +2,15 @@
 /* tslint:disable */
 /* eslint-disable */
 export type { Address } from './Address';
+export type { AdminGetStoreCreditParams } from './AdminGetStoreCreditParams';
+export type { AdminGetStoreCreditsCustomersCustomerParams } from './AdminGetStoreCreditsCustomersCustomerParams';
+export type { AdminGetStoreCreditsCustomersCustomerStoreCreditsParams } from './AdminGetStoreCreditsCustomersCustomerStoreCreditsParams';
 export type { AdminGetStoreCreditsCustomersParams } from './AdminGetStoreCreditsCustomersParams';
 export type { AdminGetStoreCreditsParams } from './AdminGetStoreCreditsParams';
 export type { AdminPostStoreCreditsReq } from './AdminPostStoreCreditsReq';
 export type { AdminPostStoreCreditsStoreCreditReq } from './AdminPostStoreCreditsStoreCreditReq';
+export type { AdminStoreCreditsCustomersCustomerRes } from './AdminStoreCreditsCustomersCustomerRes';
+export type { AdminStoreCreditsCustomersCustomerStoreCreditsListRes } from './AdminStoreCreditsCustomersCustomerStoreCreditsListRes';
 export type { AdminStoreCreditsCustomersListRes } from './AdminStoreCreditsCustomersListRes';
 export type { AdminStoreCreditsDeleteRes } from './AdminStoreCreditsDeleteRes';
 export type { AdminStoreCreditsListRes } from './AdminStoreCreditsListRes';
@@ -64,6 +69,7 @@ export type { ShippingOptionRequirement } from './ShippingOptionRequirement';
 export type { ShippingProfile } from './ShippingProfile';
 export type { StoreCredit } from './StoreCredit';
 export type { StoreCreditCustomer } from './StoreCreditCustomer';
+export type { StoreCreditTransaction } from './StoreCreditTransaction';
 export type { Swap } from './Swap';
 export type { TaxProvider } from './TaxProvider';
 export type { TaxRate } from './TaxRate';

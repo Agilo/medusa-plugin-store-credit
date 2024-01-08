@@ -12,6 +12,22 @@ export interface AdminGetStoreCreditsParams {
    * Limit the number of store credits returned.
    */
   limit?: number;
+  /**
+   * Comma-separated relations that should be expanded.
+   */
+  expand?: string;
+  /**
+   * Comma-separated fields that should be included.
+   */
+  fields?: string;
+  /**
+   * Filter by customer.
+   */
+  customer_id?: string;
+  /**
+   * Filter by region.
+   */
+  region_id?: string;
 };
 
 
