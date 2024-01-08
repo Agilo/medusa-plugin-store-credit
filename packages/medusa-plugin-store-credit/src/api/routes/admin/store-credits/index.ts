@@ -67,7 +67,14 @@ export default function adminRoutes(router: Router, admin_cors: string) {
     wrapHandler(require("./list-customers").default)
   );
 
-  adminRouter.get("/:id", wrapHandler(require("./get-store-credit").default));
+  adminRouter.get(
+    "/customers/:id/store-credits",
+    transformQuery(AdminGetStoreCreditsCustomersCustomerStoreCreditsParams, {
+      isList: true,
+      defaultRelations: ["region"],
+    }),
+    wrapHandler(require("./list-customer-store-credits").default)
+  );
 
   adminRouter.delete(
     "/:id",

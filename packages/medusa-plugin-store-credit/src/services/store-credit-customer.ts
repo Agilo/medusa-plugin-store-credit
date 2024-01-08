@@ -89,6 +89,31 @@ class StoreCreditCustomerService extends TransactionBaseService {
 
     return [completeStoreCreditCustomers, count];
   }
+
+  async listAndCountStoreCredits(
+    selector: Selector<StoreCredit> & { customer_id: string },
+    config: FindConfig<StoreCredit> = { skip: 0, take: 10 }
+  ): Promise<[StoreCredit[], number]> {
+    if (!isDefined(selector.customer_id)) {
+      throw new MedusaError(
+        MedusaError.Types.NOT_FOUND,
+        `"customer_id" must be defined`
+      );
+    }
+
+    const storeCreditRepo = this.activeManager_.withRepository(
+      this.storeCreditRepository_
+    );
+
+    const query = buildQuery(selector, config);
+
+    const [store_credits, count] = await storeCreditRepo.findAndCount(query);
+
+    console.log("store_credits", store_credits);
+
+    return [store_credits, count];
+  }
+
 }
 
 export default StoreCreditCustomerService;
