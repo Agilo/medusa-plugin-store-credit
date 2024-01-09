@@ -12,6 +12,7 @@ import MetadataForm, {
 } from "../../../../../../admin-ui/ui/src/components/forms/general/metadata-form";
 import Button from "../../../../../../admin-ui/ui/src/components/fundamentals/button";
 import Modal from "../../../../../../admin-ui/ui/src/components/molecules/modal";
+import TextArea from "../../../../../../admin-ui/ui/src/components/molecules/textarea";
 import useNotification from "../../../../../../admin-ui/ui/src/hooks/use-notification";
 import { getErrorMessage } from "../../../../../../admin-ui/ui/src/utils/error-messages";
 import { nestedForm } from "../../../../../../admin-ui/ui/src/utils/nested-form";
@@ -28,6 +29,7 @@ type EditStoreCreditModalProps = {
 type EditStoreCreditFormType = {
   // region: GiftCardRegionFormType;
   ends_at: StoreCreditEndsAtFormType;
+  description: string;
   metadata: MetadataFormType;
 };
 
@@ -44,6 +46,7 @@ const EditStoreCreditModal = ({
     handleSubmit,
     reset,
     formState: { isDirty },
+    register,
   } = form;
 
   const { mutate, isLoading } = useAdminUpdateStoreCredit(storeCredit.id);
@@ -55,6 +58,7 @@ const EditStoreCreditModal = ({
       {
         // region_id: data.region.region_id.value,
         ends_at: data.ends_at.ends_at ? data.ends_at.ends_at.toJSON() : null,
+        description: data.description,
         metadata: getSubmittableMetadata(data.metadata),
       },
       {
@@ -108,6 +112,14 @@ const EditStoreCreditModal = ({
                 {/* <GiftCardRegionForm form={nestedForm(form, "region")} /> */}
               </div>
               <StoreCreditEndsAtForm form={nestedForm(form, "ends_at")} />
+              <TextArea
+                label="Description"
+                placeholder={""}
+                rows={3}
+                className="mb-small"
+                {...register("description")}
+                // errors={errors}
+              />
               <div>
                 <h2 className="inter-base-semibold mb-base">
                   {t("details-metadata", "Metadata")}
@@ -157,6 +169,7 @@ const getDefaultValues = (
     ends_at: {
       ends_at: storeCredit.ends_at ? new Date(storeCredit.ends_at) : null,
     },
+    description: storeCredit.description || null,
     metadata: getMetadataFormValues(storeCredit.metadata),
   };
 };
