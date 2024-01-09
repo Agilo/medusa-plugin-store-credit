@@ -7,6 +7,7 @@ export type { AdminGetStoreCreditsCustomersCustomerParams } from './AdminGetStor
 export type { AdminGetStoreCreditsCustomersCustomerStoreCreditsParams } from './AdminGetStoreCreditsCustomersCustomerStoreCreditsParams';
 export type { AdminGetStoreCreditsCustomersParams } from './AdminGetStoreCreditsCustomersParams';
 export type { AdminGetStoreCreditsParams } from './AdminGetStoreCreditsParams';
+export type { AdminGetStoreCreditTransactionsParams } from './AdminGetStoreCreditTransactionsParams';
 export type { AdminPostStoreCreditsReq } from './AdminPostStoreCreditsReq';
 export type { AdminPostStoreCreditsStoreCreditReq } from './AdminPostStoreCreditsStoreCreditReq';
 export type { AdminStoreCreditsCustomersCustomerRes } from './AdminStoreCreditsCustomersCustomerRes';
@@ -15,6 +16,7 @@ export type { AdminStoreCreditsCustomersListRes } from './AdminStoreCreditsCusto
 export type { AdminStoreCreditsDeleteRes } from './AdminStoreCreditsDeleteRes';
 export type { AdminStoreCreditsListRes } from './AdminStoreCreditsListRes';
 export type { AdminStoreCreditsRes } from './AdminStoreCreditsRes';
+export type { AdminStoreCreditTransactionsListRes } from './AdminStoreCreditTransactionsListRes';
 export type { Cart } from './Cart';
 export type { ClaimImage } from './ClaimImage';
 export type { ClaimItem } from './ClaimItem';
