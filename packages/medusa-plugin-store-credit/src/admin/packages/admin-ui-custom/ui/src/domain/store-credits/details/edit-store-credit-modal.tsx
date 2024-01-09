@@ -1,18 +1,23 @@
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import StoreCreditEndsAtForm, {
-  StoreCreditEndsAtFormType,
-} from "../../../components/forms/store-credit/store-credit-ends-at-form";
 import {
   StoreCredit,
   useAdminUpdateStoreCredit,
 } from "../../../../../../admin-client";
+import MetadataForm, {
+  MetadataFormType,
+  getMetadataFormValues,
+  getSubmittableMetadata,
+} from "../../../../../../admin-ui/ui/src/components/forms/general/metadata-form";
 import Button from "../../../../../../admin-ui/ui/src/components/fundamentals/button";
 import Modal from "../../../../../../admin-ui/ui/src/components/molecules/modal";
 import useNotification from "../../../../../../admin-ui/ui/src/hooks/use-notification";
 import { getErrorMessage } from "../../../../../../admin-ui/ui/src/utils/error-messages";
 import { nestedForm } from "../../../../../../admin-ui/ui/src/utils/nested-form";
+import StoreCreditEndsAtForm, {
+  StoreCreditEndsAtFormType,
+} from "../../../components/forms/store-credit/store-credit-ends-at-form";
 
 type EditStoreCreditModalProps = {
   onClose: () => void;
@@ -23,7 +28,7 @@ type EditStoreCreditModalProps = {
 type EditStoreCreditFormType = {
   // region: GiftCardRegionFormType;
   ends_at: StoreCreditEndsAtFormType;
-  // metadata: MetadataFormType
+  metadata: MetadataFormType;
 };
 
 const EditStoreCreditModal = ({
@@ -50,6 +55,7 @@ const EditStoreCreditModal = ({
       {
         // region_id: data.region.region_id.value,
         ends_at: data.ends_at.ends_at ? data.ends_at.ends_at.toJSON() : null,
+        metadata: getSubmittableMetadata(data.metadata),
       },
       {
         onSuccess: () => {
@@ -102,6 +108,12 @@ const EditStoreCreditModal = ({
                 {/* <GiftCardRegionForm form={nestedForm(form, "region")} /> */}
               </div>
               <StoreCreditEndsAtForm form={nestedForm(form, "ends_at")} />
+              <div>
+                <h2 className="inter-base-semibold mb-base">
+                  {t("details-metadata", "Metadata")}
+                </h2>
+                <MetadataForm form={nestedForm(form, "metadata")} />
+              </div>
             </div>
           </Modal.Content>
           <Modal.Footer>
@@ -145,6 +157,7 @@ const getDefaultValues = (
     ends_at: {
       ends_at: storeCredit.ends_at ? new Date(storeCredit.ends_at) : null,
     },
+    metadata: getMetadataFormValues(storeCredit.metadata),
   };
 };
 
