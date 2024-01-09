@@ -22,6 +22,7 @@ const oasOperationIds = {
     "AdminGetStoreCreditsCustomersCustomer",
     "AdminGetStoreCreditsCustomersCustomerStoreCredits",
     "AdminGetStoreCreditsStoreCredit",
+    "AdminGetStoreCreditTransactions",
     "AdminPostStoreCredits",
     "AdminPostStoreCreditsStoreCredit",
   ],
