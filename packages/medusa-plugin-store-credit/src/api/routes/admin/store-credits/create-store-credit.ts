@@ -6,7 +6,7 @@ import {
   IsOptional,
   IsString,
 } from "class-validator";
-import { Request, Response } from "express";
+import { Response } from "express";
 import { EntityManager } from "typeorm";
 import StoreCreditService from "../../../../services/store-credit";
 

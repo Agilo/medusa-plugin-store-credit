@@ -6,27 +6,28 @@ import {
 } from "@tanstack/react-query";
 import { useMedusa } from "medusa-react";
 import {
+  AdminPostStoreCreditsReq,
   AdminPostStoreCreditsStoreCreditReq,
   AdminStoreCreditsRes,
 } from "../../../generated/models";
 import { buildOptions } from "../utils/buildOptions";
 import { adminStoreCreditKeys } from "./queries";
 
-// export const useAdminCreateBundle = (
-//   options?: UseMutationOptions<
-//     Response<AdminBundlesRes>,
-//     Error,
-//     AdminPostBundlesReq
-//   >
-// ) => {
-//   const { client } = useMedusa();
-//   const queryClient = useQueryClient();
-//   return useMutation(
-//     (payload: AdminPostBundlesReq) =>
-//       client.client.request("POST", "/admin/bundles", payload),
-//     buildOptions(queryClient, adminBundleKeys.lists(), options)
-//   );
-// };
+export const useAdminCreateStoreCredit = (
+  options?: UseMutationOptions<
+    Response<AdminStoreCreditsRes>,
+    Error,
+    AdminPostStoreCreditsReq
+  >
+) => {
+  const { client } = useMedusa();
+  const queryClient = useQueryClient();
+  return useMutation(
+    (payload: AdminPostStoreCreditsReq) =>
+      client.client.request("POST", "/admin/store-credits", payload),
+    buildOptions(queryClient, adminStoreCreditKeys.lists(), options)
+  );
+};
 
 export const useAdminUpdateStoreCredit = (
   id: string,
