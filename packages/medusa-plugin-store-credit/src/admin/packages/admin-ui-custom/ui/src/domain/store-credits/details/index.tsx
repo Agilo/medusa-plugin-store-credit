@@ -19,6 +19,7 @@ import useNotification from "../../../../../../admin-ui/ui/src/hooks/use-notific
 import useToggleState from "../../../../../../admin-ui/ui/src/hooks/use-toggle-state";
 import { getErrorMessage } from "../../../../../../admin-ui/ui/src/utils/error-messages";
 import { getErrorStatus } from "../../../../../../admin-ui/ui/src/utils/get-error-status";
+import EditStoreCreditModal from "./edit-store-credit-modal";
 import UpdateBalanceModal from "./update-balance-modal";
 
 const StoreCreditDetail = () => {
@@ -272,11 +273,11 @@ const StoreCreditDetail = () => {
         open={balanceState}
       />
 
-      {/* <EditGiftCardModal
+      <EditStoreCreditModal
         onClose={closeEdit}
         open={editState}
-        giftCard={giftCard}
-      /> */}
+        storeCredit={store_credit}
+      />
     </div>
   );
 };
