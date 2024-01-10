@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { usePagination, useTable } from "react-table";
-import { useAdminCustomerStoreCredits } from "../../../../../../admin-client";
+import { useAdminStoreCreditTransactions } from "../../../../../../admin-client";
 import Table from "../../../../../../admin-ui/ui/src/components/molecules/table";
 import TableContainer from "../../../../../../admin-ui/ui/src/components/organisms/table-container";
 import { useCustomerStoreCreditsColumns } from "./use-customer-store-credits-columns";
@@ -18,17 +18,12 @@ const StoreCreditTransactionsTable = ({ id }: Props) => {
   //   useState<Order | null>(null)
 
   const [offset, setOffset] = useState(0);
-  const { store_credits, isLoading, count } = useAdminStoreCreditTransactions(
-    id,
-    {
-      // customer_id: id!,
-      offset: offset,
+  const { store_credit_transactions, isLoading, count } =
+    useAdminStoreCreditTransactions({
       limit: LIMIT,
-    },
-    {
-      keepPreviousData: true,
-    }
-  );
+      offset: offset,
+      store_credit_id: id!,
+    });
   // const { orders, isLoading, count } = useAdminOrders(
   //   {
   //     customer_id: id!,
@@ -60,13 +55,13 @@ const StoreCreditTransactionsTable = ({ id }: Props) => {
   } = useTable(
     {
       columns,
-      data: store_credits || [],
+      data: store_credit_transactions || [],
       manualPagination: true,
       initialState: {
         pageSize: LIMIT,
         pageIndex: Math.floor(offset / LIMIT),
       },
-      pageCount: Math.ceil(count || 0 / LIMIT),
+      pageCount: Math.ceil((count || 0) / LIMIT),
       autoResetPage: false,
     },
     usePagination
