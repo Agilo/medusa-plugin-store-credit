@@ -5,7 +5,6 @@ import qs from "qs";
 import {
   AdminGetStoreCreditTransactionsParams,
   AdminStoreCreditTransactionsListRes,
-  AdminStoreCreditsRes,
 } from "../../../generated/models";
 import { UseQueryOptionsWrapper } from "../../types";
 import { queryKeysFactory } from "../utils/queryKeysFactory";
@@ -13,22 +12,9 @@ import { queryKeysFactory } from "../utils/queryKeysFactory";
 const ADMIN_STORE_CREDIT_TRANSACTIONS_QUERY_KEY =
   `admin_store_credit_transactions` as const;
 
-export const adminStoreCreditTransactionKeys = {
-  ...queryKeysFactory(ADMIN_STORE_CREDIT_TRANSACTIONS_QUERY_KEY),
-  // listCustomers(query?: any) {
-  //   return [...this.all, "list", "customers", { ...(query || {}) }] as const;
-  // },
-  // listCustomerStoreCredits(id: string, query?: any) {
-  //   return [
-  //     ...this.all,
-  //     "list",
-  //     "customer",
-  //     id,
-  //     "store-credits",
-  //     { ...(query || {}) },
-  //   ] as const;
-  // },
-};
+export const adminStoreCreditTransactionKeys = queryKeysFactory(
+  ADMIN_STORE_CREDIT_TRANSACTIONS_QUERY_KEY
+);
 
 type StoreCreditQueryKeys = typeof adminStoreCreditTransactionKeys;
 
@@ -42,11 +28,11 @@ export const useAdminStoreCreditTransactions = (
 ) => {
   const { client } = useMedusa();
 
-  let path = "/admin/store-credits";
+  let path = "/admin/store-credit-transactions";
 
   if (query) {
     const queryString = qs.stringify(query);
-    path = `/admin/store-credits?${queryString}`;
+    path = `/admin/store-credit-transactions?${queryString}`;
   }
 
   const { data, ...rest } = useQuery(
@@ -57,22 +43,22 @@ export const useAdminStoreCreditTransactions = (
   return { ...data, ...rest } as const;
 };
 
-export const useAdminStoreCredit = (
-  id: string,
-  options?: UseQueryOptionsWrapper<
-    Response<AdminStoreCreditsRes>,
-    Error,
-    ReturnType<StoreCreditQueryKeys["detail"]>
-  >
-) => {
-  const { client } = useMedusa();
-  const { data, ...rest } = useQuery(
-    adminStoreCreditTransactionKeys.detail(id),
-    () => client.client.request("GET", `/admin/store-credits/${id}`),
-    options
-  );
-  return { ...data, ...rest } as const;
-};
+// export const useAdminStoreCredit = (
+//   id: string,
+//   options?: UseQueryOptionsWrapper<
+//     Response<AdminStoreCreditsRes>,
+//     Error,
+//     ReturnType<StoreCreditQueryKeys["detail"]>
+//   >
+// ) => {
+//   const { client } = useMedusa();
+//   const { data, ...rest } = useQuery(
+//     adminStoreCreditTransactionKeys.detail(id),
+//     () => client.client.request("GET", `/admin/store-credits/${id}`),
+//     options
+//   );
+//   return { ...data, ...rest } as const;
+// };
 
 // export const useAdminCustomers = (
 //   query?: AdminGetStoreCreditsCustomersParams,

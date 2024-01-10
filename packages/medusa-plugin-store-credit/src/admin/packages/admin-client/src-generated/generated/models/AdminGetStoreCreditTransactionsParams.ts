@@ -12,6 +12,10 @@ export interface AdminGetStoreCreditTransactionsParams {
    * Limit the number of store credits returned.
    */
   limit?: number;
+  /**
+   * Filter by customer.
+   */
+  store_credit_id?: string;
 };
 
 

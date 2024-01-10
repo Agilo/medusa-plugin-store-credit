@@ -1,5 +1,5 @@
 import { Type } from "class-transformer";
-import { IsNumber, IsOptional } from "class-validator";
+import { IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
 import StoreCreditService from "../../../../services/store-credit";
 
 /**
@@ -12,6 +12,7 @@ import StoreCreditService from "../../../../services/store-credit";
  * parameters:
  *   - (query) offset=0 {integer} The number of store credits to skip when retrieving the store credits.
  *   - (query) limit=10 {integer} Limit the number of store credits returned.
+ *   - (query) store_credit_id {string} Filter by customer.
  * x-codegen:
  *   method: list
  *   queryParams: AdminGetStoreCreditTransactionsParams
@@ -60,6 +61,12 @@ export class AdminGetStoreCreditTransactionsParams {
   @IsOptional()
   @Type(() => Number)
   limit?: number = 10;
+
+  @IsString()
+  @IsOptional()
+  @IsNotEmpty()
+  @Type(() => String)
+  store_credit_id?: string;
 
   // @IsString()
   // @IsOptional()
