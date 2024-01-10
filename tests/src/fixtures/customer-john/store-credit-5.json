@@ -5,6 +5,7 @@
       "created_at": "--stripped--",
       "customer_id": "--stripped--",
       "deleted_at": null,
+      "description": "",
       "ends_at": "2020-01-01T14:35:59.752Z",
       "id": "--stripped--",
       "is_disabled": false,

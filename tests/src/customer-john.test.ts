@@ -48,7 +48,7 @@ const customer = {
       country: "de",
       is_disabled: false,
       ends_at: null,
-      description: "",
+      description: "10 euro store credit",
     },
     {
       value: 10000,
@@ -56,7 +56,7 @@ const customer = {
       country: "de",
       is_disabled: false,
       ends_at: null,
-      description: "",
+      description: "100 euro store credit",
     },
     {
       value: 100000,
