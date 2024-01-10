@@ -142,6 +142,7 @@ const StoreCreditDetail = () => {
         })} */}
 
         <BodyCard
+          compact={true}
           title={storeCreditName}
           status={
             <StatusSelector
@@ -228,12 +229,14 @@ const StoreCreditDetail = () => {
               </div>
             </div>
           </div>
-          <div className="mt-6">
-            <div className="inter-smaller-regular text-grey-50 mb-1">
-              {t("store-credit-detail-description", "Description")}
+          {store_credit.description && (
+            <div className="mt-6">
+              <div className="inter-smaller-regular text-grey-50 mb-1">
+                {t("store-credit-detail-description", "Description")}
+              </div>
+              <div>{store_credit.description}</div>
             </div>
-            <div>{store_credit.description}</div>
-          </div>
+          )}
         </BodyCard>
         <BodyCard
           title={t(
