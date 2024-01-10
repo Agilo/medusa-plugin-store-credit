@@ -100,7 +100,10 @@ const CustomerStoreCreditsTable = ({ customerId, regionId }: Props) => {
           count: count!,
           offset,
           pageSize: offset + rows.length,
-          title: t("customer-orders-table-orders", "Orders"),
+          title: t(
+            "customer-store-credits-table-store-credits",
+            "Store Credits"
+          ),
           currentPage: pageIndex + 1,
           pageCount: pageCount,
           nextPage: handleNext,
@@ -135,7 +138,7 @@ const CustomerStoreCreditsTable = ({ customerId, regionId }: Props) => {
                   //   [
                   //     {
                   //       label: t(
-                  //         "customer-orders-table-transfer-order",
+                  //         "customer-store-credits-table-transfer-order",
                   //         "Transfer order"
                   //       ),
                   //       icon: <RefreshIcon size={"20"} />,
