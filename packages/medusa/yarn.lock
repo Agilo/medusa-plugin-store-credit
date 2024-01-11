@@ -7,10 +7,10 @@ __metadata:
 
 "@agilo/medusa-plugin-store-credit@file:.yalc/@agilo/medusa-plugin-store-credit::locator=medusa-starter-default%40workspace%3A.":
   version: 1.0.0-alpha.0
-  resolution: "@agilo/medusa-plugin-store-credit@file:.yalc/@agilo/medusa-plugin-store-credit#.yalc/@agilo/medusa-plugin-store-credit::hash=8fd937&locator=medusa-starter-default%40workspace%3A."
+  resolution: "@agilo/medusa-plugin-store-credit@file:.yalc/@agilo/medusa-plugin-store-credit#.yalc/@agilo/medusa-plugin-store-credit::hash=3142ea&locator=medusa-starter-default%40workspace%3A."
   dependencies:
     medusa-core-utils: ^1.2.0
-  checksum: 6186de515cb68c4aab6a3f73cfad71aa3aa9afdb3529b5f12d803b6eaa09f1084b7f3b8826f0f2472eb941b33311b6dfbbc323f2ad12f65fa18a4662abcebc05
+  checksum: 542428ba91d04c5b33e4b9800e5dd8b9477a9641f824a2b980a290cf773421c20128d127183f6b5c2ae53a81d0a87b33c44615fb6352d5e1401cbe7522cac4e4
   languageName: node
   linkType: hard
 
@@ -10446,12 +10446,12 @@ __metadata:
   linkType: hard
 
 "follow-redirects@npm:^1.0.0, follow-redirects@npm:^1.14.0, follow-redirects@npm:^1.14.4":
-  version: 1.15.3
-  resolution: "follow-redirects@npm:1.15.3"
+  version: 1.15.4
+  resolution: "follow-redirects@npm:1.15.4"
   peerDependenciesMeta:
     debug:
       optional: true
-  checksum: 584da22ec5420c837bd096559ebfb8fe69d82512d5585004e36a3b4a6ef6d5905780e0c74508c7b72f907d1fa2b7bd339e613859e9c304d0dc96af2027fd0231
+  checksum: e178d1deff8b23d5d24ec3f7a94cde6e47d74d0dc649c35fc9857041267c12ec5d44650a0c5597ef83056ada9ea6ca0c30e7c4f97dbf07d035086be9e6a5b7b6
   languageName: node
   linkType: hard
 
