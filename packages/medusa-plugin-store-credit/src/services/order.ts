@@ -1,200 +1,16 @@
-import {
-  FindConfig,
-  OrderService as MedusaOrderService,
-  isString,
-} from "@medusajs/medusa";
-import SalesChannelFeatureFlag from "@medusajs/medusa/dist/loaders/feature-flags/sales-channels";
-import { promiseAll } from "@medusajs/utils";
-import { MedusaError, isDefined } from "medusa-core-utils";
+import { OrderService as MedusaOrderService, isString } from "@medusajs/medusa";
 import { Cart } from "../models/cart";
 import { Order } from "../models/order";
 import NewTotalsService from "./new-totals";
 import StoreCreditService from "./store-credit";
 
-// import { IInventoryService } from "@medusajs/types";
-// import {
-//   buildRelations,
-//   buildSelects,
-//   FlagRouter,
-//   isDefined,
-//   MedusaError,
-//   promiseAll,
-// } from "@medusajs/utils";
-// import {
-//   EntityManager,
-//   FindManyOptions,
-//   FindOptionsWhere,
-//   ILike,
-//   IsNull,
-//   Not,
-//   Raw,
-// } from "typeorm";
-// import {
-//   CartService,
-//   CustomerService,
-//   DiscountService,
-//   DraftOrderService,
-//   FulfillmentProviderService,
-//   FulfillmentService,
-//   GiftCardService,
-//   LineItemService,
-//   NewTotalsService,
-//   PaymentProviderService,
-//   ProductVariantInventoryService,
-//   RegionService,
-//   ShippingOptionService,
-//   ShippingProfileService,
-//   TaxProviderService,
-//   TotalsService,
-// } from ".";
-// import { TransactionBaseService } from "../interfaces";
-// import SalesChannelFeatureFlag from "../loaders/feature-flags/sales-channels";
-// import {
-//   Address,
-//   Cart,
-//   ClaimOrder,
-//   Fulfillment,
-//   FulfillmentItem,
-//   FulfillmentStatus,
-//   GiftCard,
-//   LineItem,
-//   Order,
-//   OrderStatus,
-//   Payment,
-//   PaymentStatus,
-//   Return,
-//   Swap,
-//   TrackingLink,
-// } from "../models";
-// import { AddressRepository } from "../repositories/address";
-// import { OrderRepository } from "../repositories/order";
-// import { FindConfig, QuerySelector, Selector } from "../types/common";
-// import {
-//   CreateFulfillmentOrder,
-//   FulFillmentItemType,
-// } from "../types/fulfillment";
-// import { TotalsContext, UpdateOrderInput } from "../types/orders";
-// import { CreateShippingMethodDto } from "../types/shipping-options";
-// import { buildQuery, isString, setMetadata } from "../utils";
-// import EventBusService from "./event-bus";
-
-export const ORDER_CART_ALREADY_EXISTS_ERROR = "Order from cart already exists";
-
-// type InjectedDependencies = {
-//   manager: EntityManager;
-//   orderRepository: typeof OrderRepository;
-//   customerService: CustomerService;
-//   paymentProviderService: PaymentProviderService;
-//   shippingOptionService: ShippingOptionService;
-//   shippingProfileService: ShippingProfileService;
-//   discountService: DiscountService;
-//   fulfillmentProviderService: FulfillmentProviderService;
-//   fulfillmentService: FulfillmentService;
-//   lineItemService: LineItemService;
-//   totalsService: TotalsService;
-//   newTotalsService: NewTotalsService;
-//   taxProviderService: TaxProviderService;
-//   regionService: RegionService;
-//   cartService: CartService;
-//   addressRepository: typeof AddressRepository;
-//   giftCardService: GiftCardService;
-//   draftOrderService: DraftOrderService;
-//   inventoryService: IInventoryService;
-//   eventBusService: EventBusService;
-//   featureFlagRouter: FlagRouter;
-//   productVariantInventoryService: ProductVariantInventoryService;
-// };
-
 class OrderService extends MedusaOrderService {
-  // static readonly Events = {
-  //   GIFT_CARD_CREATED: "order.gift_card_created",
-  //   PAYMENT_CAPTURED: "order.payment_captured",
-  //   PAYMENT_CAPTURE_FAILED: "order.payment_capture_failed",
-  //   SHIPMENT_CREATED: "order.shipment_created",
-  //   FULFILLMENT_CREATED: "order.fulfillment_created",
-  //   FULFILLMENT_CANCELED: "order.fulfillment_canceled",
-  //   RETURN_REQUESTED: "order.return_requested",
-  //   ITEMS_RETURNED: "order.items_returned",
-  //   RETURN_ACTION_REQUIRED: "order.return_action_required",
-  //   REFUND_CREATED: "order.refund_created",
-  //   REFUND_FAILED: "order.refund_failed",
-  //   SWAP_CREATED: "order.swap_created",
-  //   PLACED: "order.placed",
-  //   UPDATED: "order.updated",
-  //   CANCELED: "order.canceled",
-  //   COMPLETED: "order.completed",
-  // }
-
-  // protected readonly orderRepository_: typeof OrderRepository
-  // protected readonly customerService_: CustomerService
-  // protected readonly paymentProviderService_: PaymentProviderService
-  // protected readonly shippingOptionService_: ShippingOptionService
-  // protected readonly shippingProfileService_: ShippingProfileService
-  // protected readonly discountService_: DiscountService
-  // protected readonly fulfillmentProviderService_: FulfillmentProviderService
-  // protected readonly fulfillmentService_: FulfillmentService
-  // protected readonly lineItemService_: LineItemService
-  // protected readonly totalsService_: TotalsService
-  // protected readonly newTotalsService_: NewTotalsService
-  // protected readonly taxProviderService_: TaxProviderService
-  // protected readonly regionService_: RegionService
-  // protected readonly cartService_: CartService
-  // protected readonly addressRepository_: typeof AddressRepository
-  // protected readonly giftCardService_: GiftCardService
-  // protected readonly draftOrderService_: DraftOrderService
-  // protected readonly inventoryService_: IInventoryService
-  // protected readonly eventBus_: EventBusService
-  // protected readonly featureFlagRouter_: FlagRouter
-  // // eslint-disable-next-line max-len
-  // protected readonly productVariantInventoryService_: ProductVariantInventoryService
   protected readonly storeCreditService_: StoreCreditService;
 
-  constructor({
-    orderRepository,
-    customerService,
-    paymentProviderService,
-    shippingOptionService,
-    shippingProfileService,
-    discountService,
-    fulfillmentProviderService,
-    fulfillmentService,
-    lineItemService,
-    totalsService,
-    newTotalsService,
-    taxProviderService,
-    regionService,
-    cartService,
-    addressRepository,
-    giftCardService,
-    draftOrderService,
-    eventBusService,
-    featureFlagRouter,
-    productVariantInventoryService,
-    storeCreditService,
-  }) {
+  constructor({ storeCreditService }) {
     // eslint-disable-next-line prefer-rest-params
     super(arguments[0]);
 
-    // this.orderRepository_ = orderRepository
-    // this.customerService_ = customerService
-    // this.paymentProviderService_ = paymentProviderService
-    // this.shippingProfileService_ = shippingProfileService
-    // this.fulfillmentProviderService_ = fulfillmentProviderService
-    // this.lineItemService_ = lineItemService
-    // this.totalsService_ = totalsService
-    // this.newTotalsService_ = newTotalsService
-    // this.taxProviderService_ = taxProviderService
-    // this.regionService_ = regionService
-    // this.fulfillmentService_ = fulfillmentService
-    // this.discountService_ = discountService
-    // this.giftCardService_ = giftCardService
-    // this.eventBus_ = eventBusService
-    // this.shippingOptionService_ = shippingOptionService
-    // this.cartService_ = cartService
-    // this.addressRepository_ = addressRepository
-    // this.draftOrderService_ = draftOrderService
-    // this.featureFlagRouter_ = featureFlagRouter
-    // this.productVariantInventoryService_ = productVariantInventoryService
     this.storeCreditService_ = storeCreditService;
   }
 
@@ -298,7 +114,7 @@ class OrderService extends MedusaOrderService {
   async decorateTotals(order: Order, totalsFieldsOrContext?): Promise<Order> {
     const order_ = (await super.decorateTotals(
       order,
-      totalsFieldsOrContext
+      totalsFieldsOrContext,
     )) as Order;
 
     if (Array.isArray(totalsFieldsOrContext)) {
@@ -309,11 +125,6 @@ class OrderService extends MedusaOrderService {
       totalsFieldsOrContext = {};
     }
 
-    console.log(
-      "order.ts::decorateTotals::totalsFieldsOrContext",
-      totalsFieldsOrContext
-    );
-
     return await this.decorateStoreCreditTotals(order_);
   }
 
@@ -321,7 +132,7 @@ class OrderService extends MedusaOrderService {
     const newTotalsService = this.newTotalsService_ as NewTotalsService;
 
     const storeCreditableAmount = newTotalsService.getStoreCreditableAmount(
-      order.total
+      order.total,
     );
 
     // console.log('order.ts::decorateTotals::order.store_credits', order.store_credits);
@@ -332,11 +143,9 @@ class OrderService extends MedusaOrderService {
       {
         storeCredits: order.store_credits,
         storeCreditTransactions: order.store_credit_transactions ?? [],
-      }
+      },
     );
     order.store_credit_total = storeCreditTotal;
-
-    console.log("order.ts::decorateTotals::order", order);
 
     // prettier-ignore
     order.total =
