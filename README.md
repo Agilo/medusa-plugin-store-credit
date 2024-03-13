@@ -96,7 +96,7 @@ Follow these step-by-step instructions to run the project locally:
 5. Open a new terminal tab
 6. `yarn install && yarn run setup` - install dependencies in all packages
 7. `cd packages/medusa && medusa migrations run && cd ../..` - run the migrations
-8. `cd packages/medusa && yarn run seed:medusa-plugin-store-credit && cd ../..` - seed the database
+8. `cd packages/medusa && yarn run seed:plugin && cd ../..` - seed the database
 9. `yarn run start` - build the packages and start the Medusa dev server and plugin watcher
 
 Medusa Admin is now available at http://localhost:7001 and Medusa Storefront at http://localhost:8000
