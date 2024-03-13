@@ -21,7 +21,7 @@ export class StoreCreditTransaction {
   @Column()
   store_credit_id: string;
 
-  @ManyToOne(() => StoreCredit)
+  @ManyToOne(() => StoreCredit, (sc) => sc.store_credit_transactions)
   @JoinColumn({ name: "store_credit_id" })
   store_credit: StoreCredit;
 
