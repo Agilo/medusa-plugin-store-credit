@@ -17,11 +17,11 @@ export class Order extends MedusaOrder {
       referencedColumnName: "id",
     },
   })
-  store_credits: StoreCredit[];
+  store_credits?: StoreCredit[];
 
   @OneToMany(() => StoreCreditTransaction, (sc) => sc.order)
-  store_credit_transactions: StoreCreditTransaction[];
+  store_credit_transactions?: StoreCreditTransaction[];
 
-  store_credit_total: number;
+  store_credit_total?: number;
   // store_credit_tax_total: number
 }
