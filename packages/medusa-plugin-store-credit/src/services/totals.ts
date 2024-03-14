@@ -12,25 +12,16 @@ type GetTotalsOptions = {
 class TotalsService extends MedusaTotalsService {
   protected readonly storeCreditService_: StoreCreditService;
 
-  constructor({
-    // taxProviderService,
-    // newTotalsService,
-    // taxCalculationStrategy,
-    // featureFlagRouter,
-    storeCreditService,
-  }) {
+  constructor({ storeCreditService }) {
     // eslint-disable-next-line prefer-rest-params
     super(arguments[0]);
 
     this.storeCreditService_ = storeCreditService;
   }
 
-  /**
-   * todo: handle options?
-   */
   async getTotal(
     cartOrOrder: Cart | Order,
-    options: GetTotalsOptions = {}
+    options: GetTotalsOptions = {},
   ): Promise<number> {
     const newTotalsService = this.newTotalsService_ as NewTotalsService;
     const total = await super.getTotal(cartOrOrder, options);
@@ -45,20 +36,20 @@ class TotalsService extends MedusaTotalsService {
       const storeCredits =
         await this.storeCreditService_.getValidStoreCreditsForRegion(
           cartOrOrder.customer_id,
-          cartOrOrder.region_id
+          cartOrOrder.region_id,
         );
       storeCreditTotal = newTotalsService.getStoreCreditTotals(
         storeCreditableAmount,
         {
           storeCredits,
-        }
+        },
       );
     } else if (cartOrOrder.object === "order") {
       storeCreditTotal = newTotalsService.getStoreCreditTotals(
         storeCreditableAmount,
         {
           storeCreditTransactions: cartOrOrder.store_credit_transactions || [],
-        }
+        },
       );
     }
 

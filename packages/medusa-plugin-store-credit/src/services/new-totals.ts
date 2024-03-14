@@ -15,12 +15,12 @@ export default class NewTotalsService extends MedusaNewTotalsService {
     }: {
       storeCredits?: StoreCredit[];
       storeCreditTransactions?: StoreCreditTransaction[];
-    }
+    },
   ): number {
     if (!storeCredits && !storeCreditTransactions) {
       throw new MedusaError(
         MedusaError.Types.UNEXPECTED_STATE,
-        "Cannot calculate the store credit totals. Neither the store credit or store credit transactions have been provided"
+        "Cannot calculate the store credit totals. Neither the store credit or store credit transactions have been provided",
       );
     }
 
@@ -46,7 +46,7 @@ export default class NewTotalsService extends MedusaNewTotalsService {
    * Calculate and return the store credits totals based on their transactions
    */
   getStoreCreditTransactionsTotals(
-    storeCreditTransactions: StoreCreditTransaction[]
+    storeCreditTransactions: StoreCreditTransaction[],
   ): number {
     return storeCreditTransactions.reduce((acc, storeCreditTransaction) => {
       return acc + storeCreditTransaction.amount;

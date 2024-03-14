@@ -54,33 +54,36 @@ class StoreCreditCustomerService extends TransactionBaseService {
 
   async listAndCount(
     selector: { q?: string } = {},
-    config: { skip: number; take: number } = { skip: 0, take: 10 }
+    config: { skip: number; take: number } = { skip: 0, take: 10 },
   ): Promise<
     [
       { customer: Customer; region: Region; amount: number; balance: number }[],
-      number
+      number,
     ]
   > {
+    const customerService = this.customerService_.withTransaction(
+      this.activeManager_,
+    );
+    const regionService = this.regionService_.withTransaction(
+      this.activeManager_,
+    );
     const storeCreditRepo = this.activeManager_.withRepository(
-      this.storeCreditRepository_
+      this.storeCreditRepository_,
     );
 
     const [storeCreditCustomers, count] =
       await storeCreditRepo.listAndCountCustomers(selector, config);
 
     const customerIds = uniq(
-      storeCreditCustomers.map((scc) => scc.customer_id)
+      storeCreditCustomers.map((scc) => scc.customer_id),
     );
 
-    const customers = await this.customerService_.list(
+    const customers = await customerService.list(
       { id: customerIds },
-      { take: config.take }
+      { take: config.take },
     );
 
-    const regions = await this.regionService_.list(undefined, { take: 99999 });
-
-    console.log("customerIds", customerIds);
-    console.log("customers", customers);
+    const regions = await regionService.list(undefined, { take: 99999 });
 
     const completeStoreCreditCustomers = storeCreditCustomers.map((scc) => {
       const customer = customers.find((c) => c.id === scc.customer_id);
@@ -98,17 +101,17 @@ class StoreCreditCustomerService extends TransactionBaseService {
 
   async listAndCountStoreCredits(
     selector: Selector<StoreCredit> & { customer_id: string },
-    config: FindConfig<StoreCredit> = { skip: 0, take: 10 }
+    config: FindConfig<StoreCredit> = { skip: 0, take: 10 },
   ): Promise<[StoreCredit[], number]> {
     if (!isDefined(selector.customer_id)) {
       throw new MedusaError(
         MedusaError.Types.NOT_FOUND,
-        `"customer_id" must be defined`
+        `"customer_id" must be defined`,
       );
     }
 
     const storeCreditRepo = this.activeManager_.withRepository(
-      this.storeCreditRepository_
+      this.storeCreditRepository_,
     );
 
     const query = buildQuery(selector, config);
@@ -122,32 +125,38 @@ class StoreCreditCustomerService extends TransactionBaseService {
 
   async retrieve(
     customerId: string,
-    regionId: string
+    regionId: string,
   ): Promise<StoreCreditCustomer> {
     if (!isDefined(customerId)) {
       throw new MedusaError(
         MedusaError.Types.NOT_FOUND,
-        `"customerId" must be defined`
+        `"customerId" must be defined`,
       );
     }
 
     if (!isDefined(regionId)) {
       throw new MedusaError(
         MedusaError.Types.NOT_FOUND,
-        `"regionId" must be defined`
+        `"regionId" must be defined`,
       );
     }
 
-    const region = await this.regionService_.retrieve(regionId);
-    const customer = await this.customerService_.retrieve(customerId);
-
-    const storeCreditRepo = this.activeManager_.withRepository(
-      this.storeCreditRepository_
+    const customerService = this.customerService_.withTransaction(
+      this.activeManager_,
     );
+    const regionService = this.regionService_.withTransaction(
+      this.activeManager_,
+    );
+    const storeCreditRepo = this.activeManager_.withRepository(
+      this.storeCreditRepository_,
+    );
+
+    const region = await regionService.retrieve(regionId);
+    const customer = await customerService.retrieve(customerId);
 
     const storeCredits = await storeCreditRepo.getValidStoreCreditsForRegion(
       customerId,
-      regionId
+      regionId,
     );
 
     return {

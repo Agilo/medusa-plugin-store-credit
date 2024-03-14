@@ -23,5 +23,4 @@ export class Order extends MedusaOrder {
   store_credit_transactions?: StoreCreditTransaction[];
 
   store_credit_total?: number;
-  // store_credit_tax_total: number
 }

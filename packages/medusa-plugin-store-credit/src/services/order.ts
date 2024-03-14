@@ -31,8 +31,6 @@ class OrderService extends MedusaOrderService {
       relations.push("store_credit_transactions");
     }
 
-    console.log("order.ts::transformQueryForTotals::config", config);
-    console.log("order.ts::transformQueryForTotals::result", result);
     return result;
   }
 
@@ -94,7 +92,6 @@ class OrderService extends MedusaOrderService {
 
         storeCreditableAmountBalance -= storeCreditBalanceUsed;
 
-        // @ts-ignore
         order.store_credits = [...(order.store_credits ?? []), storeCredit];
 
         if (storeCreditableAmountBalance == 0) {
@@ -129,14 +126,13 @@ class OrderService extends MedusaOrderService {
   }
 
   async decorateStoreCreditTotals(order: Order): Promise<Order> {
-    const newTotalsService = this.newTotalsService_ as NewTotalsService;
+    const newTotalsService = this.newTotalsService_.withTransaction(
+      this.activeManager_,
+    ) as NewTotalsService;
 
     const storeCreditableAmount = newTotalsService.getStoreCreditableAmount(
       order.total,
     );
-
-    // console.log('order.ts::decorateTotals::order.store_credits', order.store_credits);
-    // console.log('order.ts::decorateTotals::order.store_credit_transactions', order.store_credit_transactions);
 
     const storeCreditTotal = await newTotalsService.getStoreCreditTotals(
       storeCreditableAmount,

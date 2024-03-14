@@ -13,87 +13,58 @@ type TotalsConfig = {
 class CartService extends MedusaCartService {
   protected readonly storeCreditService_: StoreCreditService;
 
-  // prettier-ignore
-  constructor({
-    // cartRepository,
-    // shippingMethodRepository,
-    // lineItemRepository,
-    // eventBusService,
-    // paymentProviderService,
-    // productService,
-    // productVariantService,
-    // taxProviderService,
-    // regionService,
-    // lineItemService,
-    // shippingOptionService,
-    // shippingProfileService,
-    // customerService,
-    // discountService,
-    // giftCardService,
-    // totalsService,
-    // newTotalsService,
-    // addressRepository,
-    // paymentSessionRepository,
-    // customShippingOptionService,
-    // lineItemAdjustmentService,
-    // priceSelectionStrategy,
-    // salesChannelService,
-    // featureFlagRouter,
-    // storeService,
-    // productVariantInventoryService,
-    // pricingService,
-    storeCreditService,
-  }) {
+  constructor({ storeCreditService }) {
     // eslint-disable-next-line prefer-rest-params
-    super(arguments[0])
+    super(arguments[0]);
 
-    this.storeCreditService_ = storeCreditService
+    this.storeCreditService_ = storeCreditService;
   }
 
   async decorateTotals(
     cart: Cart,
-    totalsConfig: TotalsConfig = {}
+    totalsConfig: TotalsConfig = {},
   ): Promise<WithRequiredProperty<Cart, "total">> {
-    const cart_: Cart = await super.decorateTotals(cart, totalsConfig);
+    const cart_ = await super.decorateTotals(cart, totalsConfig);
     return await this.decorateStoreCreditTotals(cart_);
   }
 
-  async decorateStoreCreditTotals(
-    cart: Cart
-  ): Promise<WithRequiredProperty<Cart, "total">> {
-    const cart_: Cart = cart;
+  async decorateStoreCreditTotals(cart: WithRequiredProperty<Cart, "total">) {
+    const newTotalsService = this.newTotalsService_.withTransaction(
+      this.activeManager_,
+    ) as NewTotalsService;
 
-    if (!cart_.customer_id) {
-      cart_.store_credit_total = 0;
-      return cart_ as Cart & { total: number };
+    if (!cart.customer_id) {
+      cart.store_credit_total = 0;
+      return cart;
     }
 
     const storeCredits =
       await this.storeCreditService_.getValidStoreCreditsForRegion(
-        cart_.customer_id,
-        cart_.region_id
+        cart.customer_id,
+        cart.region_id,
       );
 
-    const storeCreditableAmount = (
-      this.newTotalsService_ as NewTotalsService
-    ).getStoreCreditableAmount(cart_.total);
+    const storeCreditableAmount = newTotalsService.getStoreCreditableAmount(
+      cart.total,
+    );
 
-    const storeCreditTotal = (
-      this.newTotalsService_ as NewTotalsService
-    ).getStoreCreditTotals(storeCreditableAmount, {
-      storeCredits: storeCredits,
-    });
+    const storeCreditTotal = newTotalsService.getStoreCreditTotals(
+      storeCreditableAmount,
+      {
+        storeCredits: storeCredits,
+      },
+    );
 
-    cart_.store_credit_total = storeCreditTotal;
+    cart.store_credit_total = storeCreditTotal;
 
     // prettier-ignore
-    cart_.total =
-      cart_.subtotal +
-      cart_.shipping_total +
-      cart_.tax_total -
-      (cart_.gift_card_total + cart_.discount_total + cart_.gift_card_tax_total + cart_.store_credit_total)
+    cart.total =
+      cart.subtotal +
+      cart.shipping_total +
+      cart.tax_total -
+      (cart.gift_card_total + cart.discount_total + cart.gift_card_tax_total + cart.store_credit_total)
 
-    return cart_ as Cart & { total: number };
+    return cart;
   }
 }
 
