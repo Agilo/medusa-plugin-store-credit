@@ -1,7 +1,7 @@
 import { Entity } from "typeorm";
 import { Customer as MedusaCustomer } from "@medusajs/medusa";
 
-interface RegionStoreCredit {
+export interface RegionStoreCredit {
   region_id: string;
   balance: number;
 }
