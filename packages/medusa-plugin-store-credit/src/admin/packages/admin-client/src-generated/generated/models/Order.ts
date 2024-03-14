@@ -21,6 +21,8 @@ import type { Region } from './Region';
 import type { Return } from './Return';
 import type { SalesChannel } from './SalesChannel';
 import type { ShippingMethod } from './ShippingMethod';
+import type { StoreCredit } from './StoreCredit';
+import type { StoreCreditTransaction } from './StoreCreditTransaction';
 import type { Swap } from './Swap';
 
 /**
@@ -251,6 +253,22 @@ export interface Order {
    * An optional key-value map with additional details
    */
   metadata: Record<string, any> | null;
+  /**
+   * The associated sales channels.
+   */
+  sales_channels?: Array<SalesChannel> | null;
+  /**
+   * Store credits.
+   */
+  store_credits?: Array<StoreCredit>;
+  /**
+   * Store credit transactions.
+   */
+  store_credit_transactions?: Array<StoreCreditTransaction>;
+  /**
+   * Store credit total.
+   */
+  store_credit_total?: number | null;
 };
 
 
