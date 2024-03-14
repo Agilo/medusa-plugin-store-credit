@@ -25,7 +25,7 @@ const StoreCreditTemplate = () => {
       <div className="flex flex-col gap-y-8 w-full">
         <div className="flex flex-col gap-y-4">
           <ul className="flex flex-col gap-y-4">
-            {storeCredits ? (
+            {storeCredits.length ? (
               storeCredits.map((storeCredit: any) => {
                 const region = regions.find(
                   (r) => r.id === storeCredit.region_id
