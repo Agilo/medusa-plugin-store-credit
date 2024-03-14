@@ -50,6 +50,11 @@ const AccountNav = () => {
                   Orders
                 </AccountNavLink>
               </li>
+              <li>
+                <AccountNavLink href="/account/store-credit" route={route!}>
+                  Store Credit
+                </AccountNavLink>
+              </li>
               <li className="text-grey-700">
                 <button type="button" onClick={handleLogout}>
                   Log out
