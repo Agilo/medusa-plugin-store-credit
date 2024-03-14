@@ -10,6 +10,7 @@ import type { StoreCreditTransaction } from "./StoreCreditTransaction";
 /**
  * A bundle is a group of products.
  */
+// @ts-expect-error - Type 'StoreCredit' is missing the following properties from type 'StoreCredit': beforeInsert, deleted_at
 export interface Order extends MedusaOrder {
   /**
    * Store credits.
