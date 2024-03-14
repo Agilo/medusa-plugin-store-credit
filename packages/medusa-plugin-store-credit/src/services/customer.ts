@@ -21,41 +21,37 @@ class CustomerService extends MedusaCustomerService {
 
   async retrieve(
     customerId: string,
-    config: FindConfig<MedusaCustomer> = {}
+    config: FindConfig<MedusaCustomer> = {},
   ): Promise<Customer> {
     const customer = await super.retrieve(customerId, config);
     return await this.decorateStoreCredits(customer);
   }
 
   async decorateStoreCredits(customer: MedusaCustomer): Promise<Customer> {
-    const regions = await this.regionService_.list(undefined, { take: 99999 });
-
-    const storeCredits = await this.storeCreditService_.getValidStoreCredits(
-      customer.id
+    const regionService = this.regionService_.withTransaction(
+      this.activeManager_,
+    );
+    const storeCreditService = this.storeCreditService_.withTransaction(
+      this.activeManager_,
     );
 
-    // customer.store_credit = [
-    //   {
-    //     region_id: "eu",
-    //     balance: 100,
-    //   },
-    //   {
-    //     region_id: "na",
-    //     balance: 0,
-    //   },
-    // ];
+    const regions = await regionService.list(undefined, { take: 99999 });
 
-    (customer as Customer).store_credit = storeCredits.reduce(
+    const storeCredits = await storeCreditService.getValidStoreCredits(
+      customer.id,
+    );
+
+    customer.store_credits = storeCredits.reduce(
       (acc, curr) => {
         const region = acc.find(
-          (region) => region.region_id === curr.region_id
+          (region) => region.region_id === curr.region_id,
         );
         if (region) {
           region.balance += curr.balance;
         }
         return acc;
       },
-      regions.map((region) => ({ region_id: region.id, balance: 0 }))
+      regions.map((region) => ({ region_id: region.id, balance: 0 })),
     );
 
     return customer;
