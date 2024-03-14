@@ -13,7 +13,7 @@
       "orders": [],
       "phone": "555-555-5555",
       "shipping_addresses": [],
-      "store_credit": [
+      "store_credits": [
         {
           "balance": 0,
           "region_id": "--stripped--",

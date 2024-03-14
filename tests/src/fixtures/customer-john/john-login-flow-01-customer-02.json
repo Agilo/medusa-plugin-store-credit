@@ -13,7 +13,7 @@
       "metadata": null,
       "phone": "555-555-5555",
       "shipping_addresses": [],
-      "store_credit": [
+      "store_credits": [
         {
           "balance": 111000,
           "region_id": "--stripped--",

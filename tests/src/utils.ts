@@ -6,7 +6,7 @@ import { isArray, isObject } from "lodash";
 export function recursiveStripProps(
   data: any,
   props: string[],
-  path: string[] = ["data"]
+  path: string[] = ["data"],
 ) {
   // console.log(path.join("."));
   if (isArray(data)) {
@@ -88,7 +88,7 @@ export function getEphemeralCartProps(prefix: string = "data.cart"): string[] {
 }
 
 export function getEphemeralCustomerProps(
-  prefix: string = "data.customer"
+  prefix: string = "data.customer",
 ): string[] {
   return [
     `${prefix}.created_at`,
@@ -97,7 +97,7 @@ export function getEphemeralCustomerProps(
     `${prefix}.shipping_addresses.created_at`,
     `${prefix}.shipping_addresses.id`,
     `${prefix}.shipping_addresses.updated_at`,
-    `${prefix}.store_credit.region_id`,
+    `${prefix}.store_credits.region_id`,
     `${prefix}.updated_at`,
   ];
 }
