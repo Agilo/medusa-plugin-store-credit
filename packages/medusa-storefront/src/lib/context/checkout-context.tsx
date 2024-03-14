@@ -22,6 +22,7 @@ import {
 import { useRouter } from "next/navigation"
 import React, { createContext, useContext, useEffect, useMemo } from "react"
 import { FormProvider, useForm, useFormContext } from "react-hook-form"
+import { useAccount } from "./account-context"
 import { useStore } from "./store-context"
 
 type AddressValues = {
@@ -101,6 +102,7 @@ export const CheckoutProvider = ({ children }: CheckoutProviderProps) => {
   const { regions } = useRegions()
 
   const { resetCart, setRegion } = useStore()
+  const { refetchCustomer } = useAccount()
   const { push } = useRouter()
 
   const editAddresses = useToggleState()
@@ -317,6 +319,7 @@ export const CheckoutProvider = ({ children }: CheckoutProviderProps) => {
     complete(undefined, {
       onSuccess: ({ data }) => {
         resetCart()
+        refetchCustomer()
         push(`/order/confirmed/${data.id}`)
       },
     })
