@@ -1,4 +1,4 @@
-import { Order } from "../../../../../../admin-client";
+import { Order } from "@medusajs/medusa";
 import Section from "../../../../../../admin-ui/ui/src/components/organisms/section";
 import { formatAmountWithSymbol } from "../../../../../../admin-ui/ui/src/utils/prices";
 

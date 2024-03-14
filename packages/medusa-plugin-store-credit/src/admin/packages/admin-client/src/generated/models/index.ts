@@ -40,7 +40,7 @@ export type { AdminStoreCreditTransactionsListRes } from './AdminStoreCreditTran
 // export type { LineItemAdjustment } from './LineItemAdjustment';
 // export type { LineItemTaxLine } from './LineItemTaxLine';
 // export type { MoneyAmount } from './MoneyAmount';
-export type { Order } from './Order';
+// export type { Order } from './Order';
 // export type { OrderEdit } from './OrderEdit';
 // export type { OrderItemChange } from './OrderItemChange';
 // export type { Payment } from './Payment';
