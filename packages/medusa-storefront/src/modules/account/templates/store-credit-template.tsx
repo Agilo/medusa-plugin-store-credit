@@ -36,7 +36,7 @@ const StoreCreditTemplate = () => {
                 }
 
                 return (
-                  <li key={storeCredit.id}>
+                  <li key={storeCredit.region_id}>
                     <div className="bg-gray-50 flex justify-between items-center p-4">
                       <div className="grid grid-cols-2 grid-rows-2 text-small-regular gap-x-4 flex-1">
                         <span className="font-semibold">Region</span>
