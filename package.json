@@ -14,7 +14,7 @@
     "start": "cd packages/medusa-plugin-store-credit && yalc publish && cd ../.. && yarn run sync && cd packages/medusa && yarn run build && cd ../.. && concurrently \"yarn run watch:medusa-plugin-store-credit\" \"yarn run start:storefront\" --timings --prefix \"[{index}] [{time}] =>\"",
     "sync:medusa": "cd packages/medusa-plugin-store-credit && yalc publish --no-scripts --push",
     "sync": "yarn run sync:medusa",
-    "test": "cd tests && yarn run test",
+    "test-ci": "node --no-warnings=ExperimentalWarning --loader ts-node/esm ./packages/scripts/start-server-and-run-tests.ts",
     "start:storefront": "cd packages/medusa-storefront && rm -rf .next && yarn run dev",
     "watch:medusa-plugin-store-credit": "nodemon -e js,jsx,ts,tsx --watch \"packages/medusa-plugin-store-credit/src\" --spawn --exec \"cd packages/medusa-plugin-store-credit && yarn run prepare && cd ../.. && yarn run sync:medusa && cd packages/medusa && yarn run dev\" --delay 1 --verbose"
   },

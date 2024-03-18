@@ -1,10 +1,10 @@
 name: Test
 
 on:
-  # push:
-  #   branches: ["master"]
-  # pull_request:
-  #   branches: ["master"]
+  push:
+    branches: ["master"]
+  pull_request:
+    branches: ["master"]
   workflow_call:
 
 jobs:
@@ -61,19 +61,19 @@ jobs:
         run: yarn install
 
       - name: Install dependencies
-        run: cd medusa-plugin-store-credit && yarn install && yalc publish && cd ../dev/medusa && yalc add @agilo/medusa-plugin-store-credit && yarn install
+        run: cd medusa-plugin-store-credit && yarn install && yalc publish && cd ../packages/medusa && yalc add @agilo/medusa-plugin-store-credit && yarn install
 
       - name: Install dependencies
         run: cd tests && yarn install
 
       - name: Build medusa
-        run: cd dev/medusa && yarn run build:server
+        run: cd packages/medusa && yarn run build:server
 
       - name: Run migrations
-        run: cd dev/medusa && medusa migrations run
+        run: cd packages/medusa && medusa migrations run
 
       - name: Seed the database
-        run: cd dev/medusa && yarn run seed:plugin
+        run: cd packages/medusa && yarn run seed:plugin
 
       - name: Run server and tests
         run: yarn run test-ci
