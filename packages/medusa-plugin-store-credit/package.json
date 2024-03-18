@@ -1,16 +1,13 @@
 {
   "name": "@agilo/medusa-plugin-store-credit",
   "version": "1.0.0-alpha.0",
-  "description": "todo",
-  "author": "todo",
+  "description": "Offer store credit to customers that they can spend in your shop.",
+  "author": "Ivo Limić <ivo@agilo.co>",
   "license": "MIT",
   "keywords": [
-    "sqlite",
-    "postgres",
-    "typescript",
+    "medusa",
     "ecommerce",
-    "headless",
-    "medusa"
+    "headless"
   ],
   "scripts": {
     "clean": "cross-env ./node_modules/.bin/rimraf dist",
