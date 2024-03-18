@@ -19,11 +19,11 @@ jobs:
         with:
           node-version: 20
           cache: "yarn"
-          cache-dependency-path: "medusa-plugin-store-credit/yarn.lock"
+          cache-dependency-path: "packages/medusa-plugin-store-credit/yarn.lock"
 
       - uses: cschleiden/replace-tokens@v1
         with:
-          files: "medusa-plugin-store-credit/.yarnrc.yml"
+          files: "packages/medusa-plugin-store-credit/.yarnrc.yml"
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
