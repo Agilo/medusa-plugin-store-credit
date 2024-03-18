@@ -1,6 +1,6 @@
 # Medusa Store Credit
 
-todo.
+Give store credit to customers that they can spend in your shop.
 
 <p>
   <a href="./LICENSE">
@@ -16,8 +16,9 @@ todo.
 
 ## Features
 
-- todo.
-- todo.
+- Give store credit to customers that they can spend in your shop.
+- Store credit allows customers to make multiple purchases until the credit is exhausted.
+- It can be used as a personal refund or compensation card in case there’s a problem with your product or service.
 
 ---
 

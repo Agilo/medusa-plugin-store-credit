@@ -1,70 +1,150 @@
-<p align="center">
-  <a href="https://www.medusajs.com">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://user-images.githubusercontent.com/59018053/229103275-b5e482bb-4601-46e6-8142-244f531cebdb.svg">
-    <source media="(prefers-color-scheme: light)" srcset="https://user-images.githubusercontent.com/59018053/229103726-e5b529a3-9b3f-4970-8a1f-c6af37f087bf.svg">
-    <img alt="Medusa logo" src="https://user-images.githubusercontent.com/59018053/229103726-e5b529a3-9b3f-4970-8a1f-c6af37f087bf.svg">
-    </picture>
-  </a>
-</p>
-<h1 align="center">
-  Medusa
-</h1>
+# Medusa Store Credit
 
-<h4 align="center">
-  <a href="https://docs.medusajs.com">Documentation</a> |
-  <a href="https://www.medusajs.com">Website</a>
-</h4>
+Give store credit to customers that they can spend in your shop.
 
-<p align="center">
-  Building blocks for digital commerce
-</p>
-<p align="center">
-  <a href="https://github.com/medusajs/medusa/blob/master/CONTRIBUTING.md">
-    <img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat" alt="PRs welcome!" />
+<p>
+  <a href="./LICENSE">
+    <img src="https://img.shields.io/badge/license-MIT-blue" alt="MedusaWP is released under the MIT license." />
   </a>
-    <a href="https://www.producthunt.com/posts/medusa"><img src="https://img.shields.io/badge/Product%20Hunt-%231%20Product%20of%20the%20Day-%23DA552E" alt="Product Hunt"></a>
-  <a href="https://discord.gg/xpCwq3Kfn8">
-    <img src="https://img.shields.io/badge/chat-on%20discord-7289DA.svg" alt="Discord Chat" />
+  <a href="https://nodejs.org/" target="_blank">
+    <img src="https://img.shields.io/badge/Node.js-%5E20-brightgreen" alt="Node.js ^20">
   </a>
-  <a href="https://twitter.com/intent/follow?screen_name=medusajs">
-    <img src="https://img.shields.io/twitter/follow/medusajs.svg?label=Follow%20@medusajs" alt="Follow @medusajs" />
+  <a href="https://twitter.com/intent/follow?screen_name=Agilo">
+    <img src="https://img.shields.io/twitter/follow/Agilo" alt="X (formerly Twitter) Follow">
   </a>
 </p>
 
-## Compatibility
+## Features
 
-This starter is compatible with versions >= 1.8.0 of `@medusajs/medusa`. 
+- Give store credit to customers that they can spend in your shop.
+- Store credit allows customers to make multiple purchases until the credit is exhausted.
+- It can be used as a personal refund or compensation card in case there’s a problem with your product or service.
 
-## Getting Started
+---
 
-Visit the [Quickstart Guide](https://docs.medusajs.com/create-medusa-app) to set up a server.
+## Prerequisites
 
-Visit the [Docs](https://docs.medusajs.com/development/backend/prepare-environment) to learn more about our system requirements.
+- [Medusa backend](https://docs.medusajs.com/development/backend/install)
 
-## What is Medusa
+---
 
-Medusa is a set of commerce modules and tools that allow you to build rich, reliable, and performant commerce applications without reinventing core commerce logic. The modules can be customized and used to build advanced ecommerce stores, marketplaces, or any product that needs foundational commerce primitives. All modules are open-source and freely available on npm.
+## How to Install
 
-Learn more about [Medusa’s architecture](https://docs.medusajs.com/development/fundamentals/architecture-overview) and [commerce modules](https://docs.medusajs.com/modules/overview) in the Docs.
+1\. Run the following command in the directory of the Medusa backend:
 
-## Roadmap, Upgrades & Plugins
+```bash
+npm i @agilo/medusa-plugin-store-credit
+```
 
-You can view the planned, started and completed features in the [Roadmap discussion](https://github.com/medusajs/medusa/discussions/categories/roadmap).
+2\. In `medusa-config.js` add the following at the end of the `plugins` array:
 
-Follow the [Upgrade Guides](https://docs.medusajs.com/upgrade-guides/) to keep your Medusa project up-to-date.
+```js
+const plugins = [
+  // ...
+  {
+    resolve: "@agilo/medusa-plugin-store-credit",
+    options: {
+      enableUI: true,
+    },
+  },
+];
+```
 
-Check out all [available Medusa plugins](https://medusajs.com/plugins/).
+3\. Run the following command in the directory of the Medusa backend to run the migrations:
 
-## Community & Contributions
+```bash
+medusa migrations run
+```
 
-The community and core team are available in [GitHub Discussions](https://github.com/medusajs/medusa/discussions), where you can ask for support, discuss roadmap, and share ideas.
+---
 
-Join our [Discord server](https://discord.com/invite/medusajs) to meet other community members.
+## Test the Plugin
 
-## Other channels
+1\. Start your Medusa backend and admin dashboard, eg.:
 
-- [GitHub Issues](https://github.com/medusajs/medusa/issues)
-- [Twitter](https://twitter.com/medusajs)
-- [LinkedIn](https://www.linkedin.com/company/medusajs)
-- [Medusa Blog](https://medusajs.com/blog/)
+```bash
+npm run dev
+```
+
+2\. todo
+
+3\. todo
+
+## Contributing
+
+We welcome contributions from the community to help make this project even better. Please feel free to open pull requests or issues. Thank you for considering contributing, and we look forward to collaborating with you!
+
+Below you can find the [plugin development guide](#plugin-development) that will help you get started with running Medusa Store Credit in your local environment.
+
+### Plugin Development
+
+#### Prerequisites
+
+- [Docker](https://docs.docker.com/get-docker/)
+- [Node.js v20](https://nodejs.org/en/download/)
+  - We suggest using [nvm](https://github.com/nvm-sh/nvm) or [fnm](https://github.com/Schniz/fnm) to manage your Node.js versions.
+- [Yarn v3](https://v3.yarnpkg.com/getting-started/install)
+- [Yalc](https://github.com/wclr/yalc)
+
+#### Running Locally
+
+Follow these step-by-step instructions to run the project locally:
+
+1. `git clone https://github.com/Agilo/medusa-plugin-store-credit.git` - clone the monorepo
+2. `cd medusa-plugin-store-credit` - position into the project directory
+3. `cp .env.example .env` - set up docker-compose environment variables
+4. `docker compose up` - start Medusa Docker containers
+5. Open a new terminal tab
+6. `yarn install && yarn run setup` - install dependencies in all packages
+7. `cd packages/medusa && medusa migrations run && cd ../..` - run the migrations
+8. `cd packages/medusa && yarn run seed:plugin && cd ../..` - seed the database
+9. `yarn run start` - build the packages and start the Medusa dev server and plugin watcher
+
+Medusa Admin is now available at http://localhost:7001 and Medusa Storefront at http://localhost:8000
+
+Default credentials for Medusa Admin are:
+
+```
+admin@medusa-test.com
+supersecret
+```
+
+Once you have the project running locally you can start making changes to the plugin in `packages/medusa-plugin-store-credit/src` and see them reflected in the Medusa Admin and Storefront.
+
+#### Generating migrations
+
+Unfortunately DX when generating migrations which extend or relate to core entities is not great, but here's a workflow that works:
+
+1. `yarn run start` - make sure workflow is running
+2. `cp packages/medusa-plugin-store-credit/.env.example packages/medusa-plugin-store-credit/.env` - copy and edit environment variables
+3. `cd packages/medusa-plugin-store-credit/src/migrations` - navigate to the plugin dir
+4. `npx typeorm migration:generate -d datasource.js src/migrations/StoreCreditUpdate` - this will generate a migration file with a bunch of migrations in `src/migrations/<timestamp>-StoreCreditUpdate.ts`, the migration file will contain migrations for both core medusa entities and your plugin entities. You can now cherry pick the migrations you want to run and delete the rest.
+5. In the `packages/medusa` dir run `medusa migrations run`
+
+#### Available Commands
+
+- `yarn run setup` - install dependencies in all packages
+- `yarn run start` - build the packages and start the Medusa dev server and plugin watcher
+- `yarn run sync` - use yalc to publish and push `medusa-plugin-store-credit` to Medusa backend
+
+#### Docker Services
+
+Docker services are defined in `docker-compose.yml` file.
+
+- `postgres` - PostgreSQL database server for Medusa available on localhost:5432, you can change credentials and port in `.env` and `packages/medusa/.env` files
+- `pgadmin` - pgAdmin available on http://localhost:5050
+- `redis` - Redis server for Medusa available on localhost:6379
+
+## Additional Resources
+
+- [Medusa Documentation](https://docs.medusajs.com/)
+- [Medusa Development Documentation](https://docs.medusajs.com/development/overview)
+
+## License
+
+This project is licensed under the [MIT License](./LICENSE).
+
+## Credits
+
+MedusaWP is developed and maintained by [AGILO](https://agilo.co/).  
+Huge thanks to [all contributors](https://github.com/Agilo/medusa-plugin-store-credit/graphs/contributors).
