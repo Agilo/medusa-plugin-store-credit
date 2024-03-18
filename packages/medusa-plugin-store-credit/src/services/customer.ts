@@ -2,20 +2,20 @@ import {
   FindConfig,
   Customer as MedusaCustomer,
   CustomerService as MedusaCustomerService,
-  RegionService,
 } from "@medusajs/medusa";
 import { Customer } from "../models/customer";
 import StoreCreditService from "./store-credit";
+import RegionRepository from "@medusajs/medusa/dist/repositories/region";
 
 class CustomerService extends MedusaCustomerService {
-  protected readonly regionService_: RegionService;
+  protected readonly regionRepository_: typeof RegionRepository;
   protected readonly storeCreditService_: StoreCreditService;
 
-  constructor({ regionService, storeCreditService }) {
+  constructor({ regionRepository, storeCreditService }) {
     // eslint-disable-next-line prefer-rest-params
     super(arguments[0]);
 
-    this.regionService_ = regionService;
+    this.regionRepository_ = regionRepository;
     this.storeCreditService_ = storeCreditService;
   }
 
@@ -28,14 +28,14 @@ class CustomerService extends MedusaCustomerService {
   }
 
   async decorateStoreCredits(customer: MedusaCustomer): Promise<Customer> {
-    const regionService = this.regionService_.withTransaction(
-      this.activeManager_,
+    const regionRepo = this.activeManager_.withRepository(
+      this.regionRepository_,
     );
     const storeCreditService = this.storeCreditService_.withTransaction(
       this.activeManager_,
     );
 
-    const regions = await regionService.list(undefined, { take: 99999 });
+    const regions = await regionRepo.find({ skip: 0, take: 99999 });
 
     const storeCredits = await storeCreditService.getValidStoreCredits(
       customer.id,
