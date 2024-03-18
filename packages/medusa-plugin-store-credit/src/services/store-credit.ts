@@ -1,12 +1,12 @@
 import {
   EventBusService,
   FindConfig,
-  RegionService,
   Selector,
   TransactionBaseService,
   buildQuery,
   setMetadata,
 } from "@medusajs/medusa";
+import RegionRepository from "@medusajs/medusa/dist/repositories/region";
 import { MedusaError, isDefined } from "medusa-core-utils";
 import { EntityManager } from "typeorm";
 import { StoreCredit } from "../models/store-credit";
@@ -41,7 +41,7 @@ type InjectedDependencies = {
   manager: EntityManager;
   storeCreditRepository: typeof StoreCreditRepository;
   storeCreditTransactionRepository: typeof StoreCreditTransactionRepository;
-  regionService: RegionService;
+  regionRepository: typeof RegionRepository;
   eventBusService: EventBusService;
 };
 /**
@@ -50,7 +50,7 @@ type InjectedDependencies = {
 class StoreCreditService extends TransactionBaseService {
   protected readonly storeCreditRepository_: typeof StoreCreditRepository;
   protected readonly storeCreditTransactionRepo_: typeof StoreCreditTransactionRepository;
-  protected readonly regionService_: RegionService;
+  protected readonly regionRepository_: typeof RegionRepository;
   protected readonly eventBus_: EventBusService;
 
   static Events = {
@@ -58,9 +58,9 @@ class StoreCreditService extends TransactionBaseService {
   };
 
   constructor({
-    regionService,
     storeCreditRepository,
     storeCreditTransactionRepository,
+    regionRepository,
     eventBusService,
   }: InjectedDependencies) {
     // eslint-disable-next-line prefer-rest-params
@@ -68,7 +68,7 @@ class StoreCreditService extends TransactionBaseService {
 
     this.storeCreditRepository_ = storeCreditRepository;
     this.storeCreditTransactionRepo_ = storeCreditTransactionRepository;
-    this.regionService_ = regionService;
+    this.regionRepository_ = regionRepository;
     this.eventBus_ = eventBusService;
   }
 
@@ -123,13 +123,21 @@ class StoreCreditService extends TransactionBaseService {
 
   async create(storeCredit: CreateStoreCreditInput): Promise<StoreCredit> {
     return await this.atomicPhase_(async (manager) => {
+      const regionRepo = manager.withRepository(this.regionRepository_);
       const storeCreditRepo = manager.withRepository(
         this.storeCreditRepository_,
       );
 
-      const region = await this.regionService_
-        .withTransaction(manager)
-        .retrieve(storeCredit.region_id);
+      const region = await regionRepo.findOne({
+        where: { id: storeCredit.region_id },
+      });
+
+      if (!region) {
+        throw new MedusaError(
+          MedusaError.Types.NOT_FOUND,
+          `Region with ${storeCredit.region_id} was not found`,
+        );
+      }
 
       const toCreate = {
         ...storeCredit,
@@ -195,6 +203,7 @@ class StoreCreditService extends TransactionBaseService {
     update: UpdateStoreCreditInput,
   ): Promise<StoreCredit> {
     return await this.atomicPhase_(async (manager) => {
+      const regionRepo = manager.withRepository(this.regionRepository_);
       const storeCreditRepo = manager.withRepository(
         this.storeCreditRepository_,
       );
@@ -204,9 +213,17 @@ class StoreCreditService extends TransactionBaseService {
       const { region_id, metadata, balance, ...rest } = update;
 
       if (region_id && region_id !== storeCredit.region_id) {
-        const region = await this.regionService_
-          .withTransaction(manager)
-          .retrieve(region_id);
+        const region = await regionRepo.findOne({
+          where: { id: region_id },
+        });
+
+        if (!region) {
+          throw new MedusaError(
+            MedusaError.Types.NOT_FOUND,
+            `Region with ${storeCredit.region_id} was not found`,
+          );
+        }
+
         storeCredit.region_id = region.id;
       }
 
