@@ -45,10 +45,8 @@ export default async (req: Request, res: Response) => {
 
   const validated = await validator(
     AdminPostStoreCreditsStoreCreditReq,
-    req.body
+    req.body,
   );
-
-  // TODO: make sure balance is not greater than original amount
 
   const storeCreditService: StoreCreditService =
     req.scope.resolve("storeCreditService");
@@ -60,13 +58,7 @@ export default async (req: Request, res: Response) => {
       .update(id, validated);
   });
 
-  const storeCredit = await storeCreditService.retrieve(
-    updated.id
-    // {},
-    // {
-    //   relations: ["products"],
-    // }
-  );
+  const storeCredit = await storeCreditService.retrieve(updated.id);
 
   res.status(200).json({ store_credit: storeCredit });
 };

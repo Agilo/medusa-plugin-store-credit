@@ -70,7 +70,6 @@ const StoreCreditDetail = () => {
   const notification = useNotification();
 
   const updateStatus = (data: { is_disabled?: boolean }) => {
-    console.log("updateStoreCredit.mutate todo...");
     updateStoreCredit.mutate(
       { is_disabled: data.is_disabled },
       {

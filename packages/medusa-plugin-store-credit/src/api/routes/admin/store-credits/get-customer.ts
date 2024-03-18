@@ -32,22 +32,13 @@ export default async (req, res) => {
   const storeCreditCustomerService: StoreCreditCustomerService =
     req.scope.resolve("storeCreditCustomerService");
 
-  // console.log("req", req);
-  // console.log("req.filterableFields", req.filterableFields);
-  // console.log("req.listConfig", req.listConfig);
-  // console.log("req.retrieveConfig", req.retrieveConfig);
-
   const customer = await storeCreditCustomerService.retrieve(
     id,
-    req.filterableFields.region_id
+    req.filterableFields.region_id,
   );
   res.json({ customer });
 };
 
-/**
- * TODO: is there a way to only require region_id and to not use FindParams here?
- * transformQuery requires something like FindParams to work.
- */
 export class AdminGetStoreCreditsCustomersCustomerParams extends FindParams {
   @IsString()
   @IsNotEmpty()
