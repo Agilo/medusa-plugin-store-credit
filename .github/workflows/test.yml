@@ -61,7 +61,7 @@ jobs:
         run: yarn install
 
       - name: Install dependencies
-        run: cd medusa-plugin-store-credit && yarn install && yalc publish && cd ../packages/medusa && yalc add @agilo/medusa-plugin-store-credit && yarn install
+        run: cd packages/medusa-plugin-store-credit && yarn install && yalc publish && cd ../../packages/medusa && yalc add @agilo/medusa-plugin-store-credit && yarn install
 
       - name: Install dependencies
         run: cd tests && yarn install
