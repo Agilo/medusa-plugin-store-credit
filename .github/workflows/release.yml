@@ -10,7 +10,7 @@ jobs:
   #   secrets: inherit
 
   publish-medusa-plugin-store-credit:
-    needs: test
+    # needs: test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
