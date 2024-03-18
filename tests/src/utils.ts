@@ -34,6 +34,7 @@ export function getEphemeralCartProps(prefix: string = "data.cart"): string[] {
     `${prefix}.billing_address.created_at`,
     `${prefix}.billing_address.id`,
     `${prefix}.billing_address.updated_at`,
+    `${prefix}.context.user_agent`,
     `${prefix}.created_at`,
     `${prefix}.customer_id`,
     `${prefix}.customer.created_at`,

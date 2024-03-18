@@ -23,7 +23,7 @@
       "completed_at": null,
       "context": {
         "ip": "::1",
-        "user_agent": "undici",
+        "user_agent": "--stripped--",
       },
       "created_at": "--stripped--",
       "customer_id": "--stripped--",
