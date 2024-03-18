@@ -19,9 +19,9 @@ npm-debug.log*
 .vscode/settings.json
 
 # env
-.env*
-!.env.example
-!dev/medusa/.env
+/.env*
+/!.env.example
+/!dev/medusa/.env
 
 .yarn/*
 !.yarn/patches
