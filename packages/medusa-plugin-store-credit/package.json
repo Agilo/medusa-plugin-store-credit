@@ -67,8 +67,7 @@
     "typeorm": "^0.3.16"
   },
   "files": [
-    "dist",
-    "src"
+    "dist"
   ],
   "jest": {
     "globals": {
