@@ -50,20 +50,3 @@ export const useAdminUpdateStoreCredit = (
     )
   );
 };
-
-// export const useAdminDeleteBundle = (
-//   id: string,
-//   options?: UseMutationOptions<Response<AdminBundlesDeleteRes>, Error, void>
-// ) => {
-//   const { client } = useMedusa();
-//   const queryClient = useQueryClient();
-
-//   return useMutation(
-//     () => client.client.request("DELETE", `/admin/bundles/${id}`),
-//     buildOptions(
-//       queryClient,
-//       [adminBundleKeys.lists(), adminBundleKeys.detail(id)],
-//       options
-//     )
-//   );
-// };
