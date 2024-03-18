@@ -1,6 +1,6 @@
 {
   "name": "@agilo/medusa-plugin-store-credit",
-  "version": "1.0.0-alpha.0",
+  "version": "1.0.0-alpha.5",
   "description": "Offer store credit to customers that they can spend in your shop.",
   "author": "Ivo Limić <ivo@agilo.co>",
   "license": "MIT",
