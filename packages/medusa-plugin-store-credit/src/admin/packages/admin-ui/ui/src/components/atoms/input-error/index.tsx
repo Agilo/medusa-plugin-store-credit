@@ -14,9 +14,6 @@ const InputError = ({ errors, name, className }: InputErrorProps) => {
     return null
   }
 
-  console.log('InputError::errors', errors);
-  console.log('InputError::name', name);
-
   return (
     <ErrorMessage
       name={name}

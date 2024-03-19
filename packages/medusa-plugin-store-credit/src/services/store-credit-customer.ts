@@ -118,8 +118,6 @@ class StoreCreditCustomerService extends TransactionBaseService {
 
     const [store_credits, count] = await storeCreditRepo.findAndCount(query);
 
-    console.log("store_credits", store_credits);
-
     return [store_credits, count];
   }
 

@@ -74,9 +74,6 @@ export const StoreCreditRepository = dataSource
     > {
       const date = new Date();
 
-      // console.log("repo::selector", selector);
-      // console.log("repo::config", config);
-
       /**
        * Query looks something like this:
        *
@@ -107,7 +104,6 @@ export const StoreCreditRepository = dataSource
         .select([
           "store_credit.customer_id AS customer_id",
           "store_credit.region_id AS region_id",
-          // "COUNT(DISTINCT store_credit.customer_id,store_credit.region_id) AS count", // function count(character varying, character varying) does not exist
         ])
         .addSelect(
           "SUM(store_credit.value) FILTER (WHERE is_disabled = false AND (ends_at IS NULL OR ends_at > :date))",
@@ -145,20 +141,13 @@ export const StoreCreditRepository = dataSource
         parameters
       );
 
-      console.log("qbCount", qbCount);
       const count = parseInt(qbCount[0].count, 10);
 
       // add skip and take to the main query
 
       qb.offset(config.skip).limit(config.take);
 
-      console.log("qb.getQuery()", qb.getQuery());
-      console.log("qb.getQueryAndParameters()", qb.getQueryAndParameters());
-
       const customers = await qb.getRawMany();
-
-      console.log("count", count);
-      console.log("customers", customers);
 
       return [customers, count];
     },

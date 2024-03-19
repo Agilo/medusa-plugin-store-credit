@@ -37,16 +37,6 @@ const CustomerTable = () => {
   const { customers, isLoading, count } = useAdminCustomers({
     ...queryObject,
   });
-  // console.log('customers2', customers2);
-
-  // const { customers, isLoading, count } = useAdminCustomers(
-  //   {
-  //     ...queryObject,
-  //   },
-  //   {
-  //     keepPreviousData: true,
-  //   }
-  // );
 
   const [query, setQuery] = useState(queryObject.query);
   const [numPages, setNumPages] = useState(0);
@@ -180,20 +170,7 @@ const CustomerTable = () => {
             return (
               <Table.Row
                 color={"inherit"}
-                actions={
-                  [
-                    // {
-                    //   label: t("customer-table-edit", "Edit"),
-                    //   onClick: () => navigate(row.original.id),
-                    //   icon: <EditIcon size={20} />,
-                    // },
-                    // {
-                    //   label: t("customer-table-details", "Details"),
-                    //   onClick: () => navigate(row.original.id),
-                    //   icon: <DetailsIcon size={20} />,
-                    // },
-                  ]
-                }
+                actions={[]}
                 linkTo={`/a/store-credits/customers/${row.original.customer.id}?region_id=${row.original.region.id}`}
                 {...row.getRowProps()}
               >

@@ -58,16 +58,7 @@ const NewStoreCredit = ({ onClose }: NewStoreCreditProps) => {
 
   const customerWatcher = watch("customer");
 
-  console.log("NewStoreCredit::render");
-  console.log("currencyCode", currencyCode);
-  console.log("regionWatcher", regionWatcher);
-  console.log("store.default_currency_code", store?.default_currency_code);
-
-  console.log("customerWatcher", customerWatcher);
-
   const onSubmit: SubmitHandler<StoreCreditFormType> = (data) => {
-    console.log("NewStoreCredit::data", data);
-
     mutate(
       {
         value: data.balance.amount,

@@ -70,13 +70,6 @@ const CustomerStoreCreditsTable = ({ customerId, regionId }: Props) => {
     usePagination
   );
 
-  // console.log("canPreviousPage", canPreviousPage);
-  // console.log("canNextPage", canNextPage);
-  // console.log("pageCount", pageCount);
-  // console.log("offset", offset);
-  // console.log("pageIndex", Math.floor(offset / LIMIT));
-  // console.log("pageCount", Math.ceil((count || 0) / LIMIT));
-
   const handleNext = () => {
     if (canNextPage) {
       setOffset(offset + LIMIT);

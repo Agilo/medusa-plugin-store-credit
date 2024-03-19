@@ -1,4 +1,3 @@
-// import Medusa from "@medusajs/admin-ui/dist/index";
 import { useMedusa } from "medusa-react";
 import qs from "query-string";
 import { Controller } from "react-hook-form";
@@ -44,27 +43,7 @@ const StoreCreditCustomerForm = ({ form }: StoreCreditCustomerFormProps) => {
         }));
       })
       .catch(() => []);
-
-    // return await Medusa.customers
-    //   .list(`?${prepared}`)
-    //   .then(({ data }) =>
-    //     data.customers.map(({ id, first_name, last_name, email }) => ({
-    //       label: `${first_name || ""} ${last_name || ""} (${email})`,
-    //       value: id,
-    //     }))
-    //   )
-    //   .catch(() => []);
   };
-
-  // const onCustomerSelect = (val: Option) => {
-  //   const email = /\(([^()]*)\)$/.exec(val?.label);
-
-  //   if (email) {
-  //     form.setValue("email", email[1]);
-  //   } else {
-  //     form.setValue("email", "");
-  //   }
-  // };
 
   return (
     <Controller
@@ -72,7 +51,6 @@ const StoreCreditCustomerForm = ({ form }: StoreCreditCustomerFormProps) => {
       control={control}
       name={path("customer")}
       render={({ field: { value, onChange, name }, formState: { errors } }) => {
-        console.log("formState::errors", errors);
         return (
           <AdjacentContainer
             // ref={containerRef}
@@ -90,11 +68,8 @@ const StoreCreditCustomerForm = ({ form }: StoreCreditCustomerFormProps) => {
               options={[]}
               enableSearch
               value={value ? { label: value.email, value: value.id } : null}
-              // value={{ label: "test1", value: "test2" } || null}
               onChange={(val) => {
                 // onCustomerSelect(val);
-                console.log("StoreCreditCustomerForm::onChange::val", val);
-                // alert("StoreCreditCustomerForm::onChange::val");
                 onChange(val ? { email: val.label, id: val.value } : null);
               }}
               filterOptions={debouncedFetch as any}

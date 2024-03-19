@@ -28,8 +28,6 @@ class TotalsService extends MedusaTotalsService {
     const storeCreditableAmount =
       newTotalsService.getStoreCreditableAmount(total);
 
-    console.log(cartOrOrder);
-
     let storeCreditTotal = 0;
 
     if (cartOrOrder.object === "cart" && cartOrOrder.customer_id) {

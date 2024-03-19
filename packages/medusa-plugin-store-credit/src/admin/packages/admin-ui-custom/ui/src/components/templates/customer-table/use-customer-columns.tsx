@@ -12,7 +12,6 @@ export const useCustomerColumns = () => {
         Header: t("store-credits-customer-table-name", "Name"),
         accessor: "customer",
         Cell: ({ row }) => {
-          console.log("row", row);
           return (
             <CustomerAvatarItem
               customer={row.original.customer}
