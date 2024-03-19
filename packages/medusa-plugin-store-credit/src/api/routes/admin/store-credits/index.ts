@@ -28,7 +28,7 @@ export default function adminRoutes(router: Router, admin_cors: string) {
     cors({
       origin: parseCorsOrigins(admin_cors),
       credentials: true,
-    })
+    }),
   );
   adminRouter.use(authenticate());
 
@@ -37,19 +37,19 @@ export default function adminRoutes(router: Router, admin_cors: string) {
     transformQuery(AdminGetStoreCreditsParams, {
       isList: true,
     }),
-    wrapHandler(require("./list-store-credits").default)
+    wrapHandler(require("./list-store-credits").default),
   );
 
   adminRouter.post(
     "/",
     transformBody(AdminPostStoreCreditsReq),
-    wrapHandler(require("./create-store-credit").default)
+    wrapHandler(require("./create-store-credit").default),
   );
 
   adminRouter.post(
     "/:id",
     transformBody(AdminPostStoreCreditsStoreCreditReq),
-    wrapHandler(require("./update-store-credit").default)
+    wrapHandler(require("./update-store-credit").default),
   );
 
   adminRouter.get(
@@ -57,7 +57,7 @@ export default function adminRoutes(router: Router, admin_cors: string) {
     transformQuery(AdminGetStoreCreditsCustomersParams, {
       isList: true,
     }),
-    wrapHandler(require("./list-customers").default)
+    wrapHandler(require("./list-customers").default),
   );
 
   adminRouter.get(
@@ -65,7 +65,7 @@ export default function adminRoutes(router: Router, admin_cors: string) {
     transformQuery(AdminGetStoreCreditsCustomersCustomerParams, {
       isList: false,
     }),
-    wrapHandler(require("./get-customer").default)
+    wrapHandler(require("./get-customer").default),
   );
 
   adminRouter.get(
@@ -74,7 +74,7 @@ export default function adminRoutes(router: Router, admin_cors: string) {
       isList: true,
       defaultRelations: ["region"],
     }),
-    wrapHandler(require("./list-customer-store-credits").default)
+    wrapHandler(require("./list-customer-store-credits").default),
   );
 
   adminRouter.get(
@@ -83,35 +83,13 @@ export default function adminRoutes(router: Router, admin_cors: string) {
       // defaultRelations: ["store_credit_transactions"],
       isList: false,
     }),
-    wrapHandler(require("./get-store-credit").default)
+    wrapHandler(require("./get-store-credit").default),
   );
 
   adminRouter.delete(
     "/:id",
-    wrapHandler(require("./delete-store-credit").default)
+    wrapHandler(require("./delete-store-credit").default),
   );
-
-  // adminRouter.post(
-  //   "/:id/products/batch",
-  //   transformBody(AdminPostProductsToBundleReq),
-  //   wrapHandler(require("./add-products").default)
-  // );
-
-  // adminRouter.get(
-  //   "/:id/products",
-  //   transformQuery(AdminGetBundlesBundleProductsParams, {
-  //     defaultRelations: defaultAdminProductRelations,
-  //     defaultFields: defaultAdminProductFields,
-  //     isList: true,
-  //   }),
-  //   wrapHandler(require("./list-products").default)
-  // );
-
-  // adminRouter.delete(
-  //   "/:id/products/batch",
-  //   transformBody(AdminDeleteProductsFromBundleReq),
-  //   wrapHandler(require("./remove-products").default)
-  // );
 }
 
 /**
