@@ -1,7 +1,7 @@
 "use client"
 
 import { medusaClient } from "@lib/config"
-import { Customer } from "@medusajs/medusa"
+import { Customer } from 'types/medusa'
 import { useMutation } from "@tanstack/react-query"
 import { useMeCustomer } from "medusa-react"
 import { useRouter } from "next/navigation"

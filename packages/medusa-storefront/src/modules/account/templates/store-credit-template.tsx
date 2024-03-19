@@ -7,10 +7,10 @@ const StoreCreditTemplate = () => {
   const { customer, retrievingCustomer: customerIsLoading } = useAccount()
   const { regions, isLoading: regionsIsLoading } = useRegions()
 
-  // TODO: Add store_credits definition to customer type
-  // prettier-ignore
-  // @ts-ignore
-  const storeCredits = customer && customer.store_credits ? customer.store_credits.filter((sc) => sc.balance) : []
+  const storeCredits =
+    customer && customer.store_credits
+      ? customer.store_credits.filter((sc) => sc.balance)
+      : []
 
   if (customerIsLoading || !customer || regionsIsLoading || !regions) {
     return null

@@ -1,8 +1,8 @@
-import { Order } from "@medusajs/medusa"
+import { Order } from "types/medusa"
 import { formatAmount } from "medusa-react"
 
 type OrderSummaryProps = {
-  order: Order & { store_credit_total: number }
+  order: Order
 }
 
 const OrderSummary = ({ order }: OrderSummaryProps) => {
@@ -13,8 +13,6 @@ const OrderSummary = ({ order }: OrderSummaryProps) => {
 
     return formatAmount({ amount, region: order.region, includeTaxes: false })
   }
-
-  console.log("OrderSummary::order", order)
 
   return (
     <div>
@@ -37,7 +35,7 @@ const OrderSummary = ({ order }: OrderSummaryProps) => {
               <span>- {getAmount(order.gift_card_total)}</span>
             </div>
           )}
-          {order.store_credit_total > 0 && (
+          {order.store_credit_total && order.store_credit_total > 0 && (
             <div className="flex items-center justify-between">
               <span>Store credit</span>
               <span>- {getAmount(order.store_credit_total)}</span>
