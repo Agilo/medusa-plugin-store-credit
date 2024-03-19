@@ -41,18 +41,20 @@ class CustomerService extends MedusaCustomerService {
       customer.id,
     );
 
-    customer.store_credits = storeCredits.reduce(
-      (acc, curr) => {
-        const region = acc.find(
-          (region) => region.region_id === curr.region_id,
-        );
-        if (region) {
-          region.balance += curr.balance;
-        }
-        return acc;
-      },
-      regions.map((region) => ({ region_id: region.id, balance: 0 })),
-    );
+    customer.store_credits = storeCredits
+      .reduce(
+        (acc, curr) => {
+          const region = acc.find(
+            (region) => region.region_id === curr.region_id,
+          );
+          if (region) {
+            region.balance += curr.balance;
+          }
+          return acc;
+        },
+        regions.map((region) => ({ region_id: region.id, balance: 0 })),
+      )
+      .sort((a, b) => b.balance - a.balance);
 
     return customer;
   }
