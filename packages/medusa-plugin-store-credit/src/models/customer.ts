@@ -8,5 +8,5 @@ export interface RegionStoreCredit {
 
 @Entity()
 export class Customer extends MedusaCustomer {
-  store_credit?: RegionStoreCredit[];
+  store_credits?: RegionStoreCredit[];
 }
