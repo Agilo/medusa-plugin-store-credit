@@ -54,8 +54,8 @@ const UpdateBalanceModal = ({
           notification(
             t("details-balance-updated", "Balance updated"),
             t(
-              "details-gift-card-balance-was-updated",
-              "Gift card balance was updated"
+              "details-store-credit-balance-was-updated",
+              "Store Credit balance was updated"
             ),
             "success"
           );

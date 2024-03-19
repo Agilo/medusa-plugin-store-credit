@@ -77,8 +77,8 @@ const StoreCreditDetail = () => {
           notification(
             t("details-updated-status", "Updated status"),
             t(
-              "details-successfully-updated-the-status-of-the-gift-card",
-              "Successfully updated the status of the Gift Card",
+              "details-successfully-updated-the-status-of-the-store-credit",
+              "Successfully updated the status of the Store Credit",
             ),
             "success",
           );

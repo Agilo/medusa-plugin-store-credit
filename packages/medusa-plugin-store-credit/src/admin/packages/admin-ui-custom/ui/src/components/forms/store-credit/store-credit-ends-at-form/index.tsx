@@ -32,8 +32,8 @@ const StoreCreditEndsAtForm = ({ form }: StoreCreditEndsAtFormProps) => {
                 )
               }
             }}
-            title="Gift Card has an expiry date?"
-            description="Schedule the Gift Card to deactivate in the future."
+            title="Store Credit has an expiry date?"
+            description="Schedule the Store Credit to deactivate in the future."
           >
             <div className="gap-x-xsmall flex items-center">
               <DatePicker

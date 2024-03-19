@@ -64,10 +64,10 @@ const EditStoreCreditModal = ({
       {
         onSuccess: () => {
           notification(
-            t("details-updated-gift-card", "Updated Gift card"),
+            t("details-updated-store-credit", "Updated Store Credit"),
             t(
-              "details-gift-card-was-successfully-updated",
-              "Gift card was successfully updated"
+              "details-store-credit-was-successfully-updated",
+              "Store Credit was successfully updated"
             ),
             "success"
           );
@@ -77,8 +77,8 @@ const EditStoreCreditModal = ({
         onError: (err) => {
           notification(
             t(
-              "details-failed-to-update-gift-card",
-              "Failed to update Gift card"
+              "details-failed-to-update-store-credit",
+              "Failed to update Store Credit"
             ),
             getErrorMessage(err),
             "error"
@@ -99,7 +99,7 @@ const EditStoreCreditModal = ({
       <Modal.Body>
         <Modal.Header handleClose={onClose}>
           <h1 className="inter-xlarge-semibold">
-            {t("details-edit-gift-card", "Edit Gift Card")}
+            {t("details-edit-store-credit", "Edit Store Credit")}
           </h1>
         </Modal.Header>
         <form onSubmit={onSubmit}>
@@ -109,7 +109,6 @@ const EditStoreCreditModal = ({
                 <h2 className="inter-base-semibold mb-base">
                   {t("details-details", "Details")}
                 </h2>
-                {/* <GiftCardRegionForm form={nestedForm(form, "region")} /> */}
               </div>
               <StoreCreditEndsAtForm form={nestedForm(form, "ends_at")} />
               <TextArea
