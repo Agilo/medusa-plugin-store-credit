@@ -125,7 +125,7 @@ beforeAll(async () => {
   customer.email = `john-${randomize("a0", 5)}@example.com`;
 });
 
-describe("Customer flow (john)", () => {
+describe.sequential("Customer flow (john)", () => {
   test("Create customer (john)", async () => {
     const response = await fetch(`${config.apiUrl}/store/customers`, {
       method: "POST",
