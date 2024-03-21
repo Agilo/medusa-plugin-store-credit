@@ -18,14 +18,15 @@ export const useAdminCreateStoreCredit = (
     Response<AdminStoreCreditsRes>,
     Error,
     AdminPostStoreCreditsReq
-  >
+  >,
 ) => {
   const { client } = useMedusa();
   const queryClient = useQueryClient();
+
   return useMutation(
     (payload: AdminPostStoreCreditsReq) =>
       client.client.request("POST", "/admin/store-credits", payload),
-    buildOptions(queryClient, adminStoreCreditKeys.lists(), options)
+    buildOptions(queryClient, adminStoreCreditKeys.all, options),
   );
 };
 
@@ -35,7 +36,7 @@ export const useAdminUpdateStoreCredit = (
     Response<AdminStoreCreditsRes>,
     Error,
     AdminPostStoreCreditsStoreCreditReq
-  >
+  >,
 ) => {
   const { client } = useMedusa();
   const queryClient = useQueryClient();
@@ -43,10 +44,6 @@ export const useAdminUpdateStoreCredit = (
   return useMutation(
     (payload: AdminPostStoreCreditsStoreCreditReq) =>
       client.client.request("POST", `/admin/store-credits/${id}`, payload),
-    buildOptions(
-      queryClient,
-      [adminStoreCreditKeys.lists(), adminStoreCreditKeys.detail(id)],
-      options
-    )
+    buildOptions(queryClient, [adminStoreCreditKeys.all], options),
   );
 };
