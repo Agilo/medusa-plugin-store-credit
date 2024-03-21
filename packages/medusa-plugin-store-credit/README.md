@@ -53,7 +53,7 @@ const plugins = [
 3\. Run the following command in the directory of the Medusa backend to run the migrations:
 
 ```bash
-medusa migrations run
+npx medusa migrations run
 ```
 
 ---
@@ -66,9 +66,17 @@ medusa migrations run
 npm run dev
 ```
 
-2\. todo
+2\. Visit Store Credit screen in the admin dashboard to assign store credit to a customer.
 
-3\. todo
+3\. Implement your storefront.
+
+The plugin extends the storefront `Cart`, `Customer` and `Order` models with store credit information you can use to implement your storefront, eg.:
+
+- `/store/carts/{id}` - `cart` will contain `store_credit_total` field which is the total store credit available to be used in that cart
+- `/store/customers/me` - `customer` will contain `store_credits` array with all store credits available per region for the logged in customer
+- `/store/customers/me/orders` - `order` will contain `store_credit_total`, `store_credit_transactions` and `store_credits` which were used in the order
+
+An example storefront implementation can be found in https://github.com/Agilo/medusa-plugin-store-credit/tree/master/packages/medusa-storefront
 
 ## Contributing
 
