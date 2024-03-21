@@ -41,11 +41,6 @@ class CustomerService extends MedusaCustomerService {
       customer.id,
     );
 
-    console.log(
-      "CustomerService::decorateStoreCredits::storeCredits",
-      storeCredits,
-    );
-
     customer.store_credits = storeCredits
       .reduce(
         (acc, curr) => {
