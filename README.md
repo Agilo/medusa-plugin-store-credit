@@ -53,7 +53,7 @@ const plugins = [
 3\. Run the following command in the directory of the Medusa backend to run the migrations:
 
 ```bash
-medusa migrations run
+npx medusa migrations run
 ```
 
 ---
