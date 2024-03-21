@@ -123,6 +123,8 @@ class StoreCreditService extends TransactionBaseService {
 
   async create(storeCredit: CreateStoreCreditInput): Promise<StoreCredit> {
     return await this.atomicPhase_(async (manager) => {
+      console.log("StoreCreditService::create::mark1", storeCredit);
+
       const regionRepo = manager.withRepository(this.regionRepository_);
       const storeCreditRepo = manager.withRepository(
         this.storeCreditRepository_,
@@ -152,6 +154,8 @@ class StoreCreditService extends TransactionBaseService {
         .emit(StoreCreditService.Events.CREATED, {
           id: result.id,
         });
+
+      console.log("StoreCreditService::create::mark2", result);
 
       return result;
     });
