@@ -147,41 +147,43 @@ describe.sequential("Customer flow (john)", () => {
     recursiveStripProps(data, [...getEphemeralCustomerProps()]);
 
     expect({ data, status: response.status }).toMatchFileSnapshot(
-      `${__dirname}/fixtures/customer-john/create-customer.json`
+      `${__dirname}/fixtures/customer-john/create-customer.json`,
     );
   });
 
   test("Create store credit (john)", async () => {
-    customer.store_credits.forEach(async (storeCredit, index) => {
-      const response = await fetch(`${config.apiUrl}/admin/store-credits`, {
-        method: "POST",
-        headers: {
-          "x-medusa-access-token": config.apiToken,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          value: storeCredit.value,
-          ends_at: storeCredit.ends_at,
-          is_disabled: storeCredit.is_disabled,
-          region_id: getRegionByIso2(regions, storeCredit.country).id,
-          customer_id: customer.id,
-          description: storeCredit.description,
-        }),
-      });
-      const data = await response.json();
+    await Promise.all(
+      customer.store_credits.map(async (storeCredit, index) => {
+        const response = await fetch(`${config.apiUrl}/admin/store-credits`, {
+          method: "POST",
+          headers: {
+            "x-medusa-access-token": config.apiToken,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            value: storeCredit.value,
+            ends_at: storeCredit.ends_at,
+            is_disabled: storeCredit.is_disabled,
+            region_id: getRegionByIso2(regions, storeCredit.country).id,
+            customer_id: customer.id,
+            description: storeCredit.description,
+          }),
+        });
+        const data = await response.json();
 
-      recursiveStripProps(data, [
-        "data.storeCredit.created_at",
-        "data.storeCredit.customer_id",
-        "data.storeCredit.id",
-        "data.storeCredit.region_id",
-        "data.storeCredit.updated_at",
-      ]);
+        recursiveStripProps(data, [
+          "data.storeCredit.created_at",
+          "data.storeCredit.customer_id",
+          "data.storeCredit.id",
+          "data.storeCredit.region_id",
+          "data.storeCredit.updated_at",
+        ]);
 
-      expect({ data, status: response.status }).toMatchFileSnapshot(
-        `${__dirname}/fixtures/customer-john/store-credit-${index + 1}.json`
-      );
-    });
+        expect({ data, status: response.status }).toMatchFileSnapshot(
+          `${__dirname}/fixtures/customer-john/store-credit-${index + 1}.json`,
+        );
+      }),
+    );
   });
 
   // todo: create store credit for customer
@@ -205,7 +207,7 @@ describe.sequential("Customer flow (john)", () => {
     recursiveStripProps(data, [...getEphemeralCustomerProps()]);
 
     expect({ data, status: response.status }).toMatchFileSnapshot(
-      `${__dirname}/fixtures/customer-john/john-login-flow-01-customer-01.json`
+      `${__dirname}/fixtures/customer-john/john-login-flow-01-customer-01.json`,
     );
   });
 
@@ -221,7 +223,7 @@ describe.sequential("Customer flow (john)", () => {
     recursiveStripProps(data, [...getEphemeralCustomerProps()]);
 
     expect({ data, status: response.status }).toMatchFileSnapshot(
-      `${__dirname}/fixtures/customer-john/john-login-flow-01-customer-02.json`
+      `${__dirname}/fixtures/customer-john/john-login-flow-01-customer-02.json`,
     );
   });
 
@@ -243,7 +245,7 @@ describe.sequential("Customer flow (john)", () => {
     recursiveStripProps(data, [...getEphemeralCartProps()]);
 
     expect({ data, status: response.status }).toMatchFileSnapshot(
-      `${__dirname}/fixtures/customer-john/john-purchase-flow-01-cart-01.json`
+      `${__dirname}/fixtures/customer-john/john-purchase-flow-01-cart-01.json`,
     );
   });
 
@@ -267,14 +269,14 @@ describe.sequential("Customer flow (john)", () => {
           variant_id: product.variants[0].id,
           quantity: 2,
         }),
-      }
+      },
     );
     const data = await response.json();
 
     recursiveStripProps(data, [...getEphemeralCartProps()]);
 
     expect({ data, status: response.status }).toMatchFileSnapshot(
-      `${__dirname}/fixtures/customer-john/john-purchase-flow-01-cart-02.json`
+      `${__dirname}/fixtures/customer-john/john-purchase-flow-01-cart-02.json`,
     );
   });
 
@@ -296,7 +298,7 @@ describe.sequential("Customer flow (john)", () => {
     recursiveStripProps(data, [...getEphemeralCartProps()]);
 
     expect({ data, status: response.status }).toMatchFileSnapshot(
-      `${__dirname}/fixtures/customer-john/john-purchase-flow-01-cart-03.json`
+      `${__dirname}/fixtures/customer-john/john-purchase-flow-01-cart-03.json`,
     );
   });
 
@@ -307,7 +309,7 @@ describe.sequential("Customer flow (john)", () => {
         headers: {
           Cookie: cookies.join(";"),
         },
-      }
+      },
     );
     const { shipping_options } = await response.json();
 
@@ -322,14 +324,14 @@ describe.sequential("Customer flow (john)", () => {
         body: JSON.stringify({
           option_id: shipping_options[0].id,
         }),
-      }
+      },
     );
     const data = await response.json();
 
     recursiveStripProps(data, [...getEphemeralCartProps()]);
 
     expect({ data, status: response.status }).toMatchFileSnapshot(
-      `${__dirname}/fixtures/customer-john/john-purchase-flow-01-cart-04.json`
+      `${__dirname}/fixtures/customer-john/john-purchase-flow-01-cart-04.json`,
     );
   });
 
@@ -343,14 +345,14 @@ describe.sequential("Customer flow (john)", () => {
           Cookie: cookies.join(";"),
         },
         body: JSON.stringify({}),
-      }
+      },
     );
     const data = await response.json();
 
     recursiveStripProps(data, [...getEphemeralOrderProps()]);
 
     expect({ data, status: response.status }).toMatchFileSnapshot(
-      `${__dirname}/fixtures/customer-john/john-purchase-flow-01-order-01.json`
+      `${__dirname}/fixtures/customer-john/john-purchase-flow-01-order-01.json`,
     );
   });
 
@@ -372,7 +374,7 @@ describe.sequential("Customer flow (john)", () => {
     recursiveStripProps(data, [...getEphemeralCartProps()]);
 
     expect({ data, status: response.status }).toMatchFileSnapshot(
-      `${__dirname}/fixtures/customer-john/john-purchase-flow-02-cart-01.json`
+      `${__dirname}/fixtures/customer-john/john-purchase-flow-02-cart-01.json`,
     );
   });
 
@@ -396,14 +398,14 @@ describe.sequential("Customer flow (john)", () => {
           variant_id: product.variants[0].id,
           quantity: 1,
         }),
-      }
+      },
     );
     const data = await response.json();
 
     recursiveStripProps(data, [...getEphemeralCartProps()]);
 
     expect({ data, status: response.status }).toMatchFileSnapshot(
-      `${__dirname}/fixtures/customer-john/john-purchase-flow-02-cart-02.json`
+      `${__dirname}/fixtures/customer-john/john-purchase-flow-02-cart-02.json`,
     );
   });
 
@@ -427,14 +429,14 @@ describe.sequential("Customer flow (john)", () => {
           variant_id: product.variants[0].id,
           quantity: 1,
         }),
-      }
+      },
     );
     const data = await response.json();
 
     recursiveStripProps(data, [...getEphemeralCartProps()]);
 
     expect({ data, status: response.status }).toMatchFileSnapshot(
-      `${__dirname}/fixtures/customer-john/john-purchase-flow-02-cart-03.json`
+      `${__dirname}/fixtures/customer-john/john-purchase-flow-02-cart-03.json`,
     );
   });
 });
