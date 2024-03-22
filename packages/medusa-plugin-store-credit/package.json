@@ -6,6 +6,8 @@
   "license": "MIT",
   "keywords": [
     "medusa",
+    "medusa-plugin",
+    "medusa-plugin-bundles",
     "ecommerce",
     "headless"
   ],
