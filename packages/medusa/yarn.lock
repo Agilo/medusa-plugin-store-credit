@@ -6,8 +6,8 @@ __metadata:
   cacheKey: 8
 
 "@agilo/medusa-plugin-store-credit@file:.yalc/@agilo/medusa-plugin-store-credit::locator=medusa-starter-default%40workspace%3A.":
-  version: 1.0.0-alpha.9
-  resolution: "@agilo/medusa-plugin-store-credit@file:.yalc/@agilo/medusa-plugin-store-credit#.yalc/@agilo/medusa-plugin-store-credit::hash=5e50a6&locator=medusa-starter-default%40workspace%3A."
+  version: 1.0.0
+  resolution: "@agilo/medusa-plugin-store-credit@file:.yalc/@agilo/medusa-plugin-store-credit#.yalc/@agilo/medusa-plugin-store-credit::hash=26e6cb&locator=medusa-starter-default%40workspace%3A."
   dependencies:
     medusa-core-utils: ^1.2.0
   peerDependencies:
@@ -41,7 +41,7 @@ __metadata:
     react-select: "*"
     react-table: "*"
     typeorm: "*"
-  checksum: ff20215d074d969c3f856976620bc48fe67510477178b267abbb023bb0d48fcdd14aceab2303b0dd590d21c9394732a14a072077e74150eb59d4406028f201b7
+  checksum: 5fed599faab746d440893558d9c5fec5c943f20899bbea7568c5a56552046f1a3809b10aeff5b8956d4fa09c650a4cb65e6e720d9482b3c9cd8e9c3a4015bde6
   languageName: node
   linkType: hard
 
