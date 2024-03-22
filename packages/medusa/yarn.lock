@@ -7,41 +7,10 @@ __metadata:
 
 "@agilo/medusa-plugin-store-credit@file:.yalc/@agilo/medusa-plugin-store-credit::locator=medusa-starter-default%40workspace%3A.":
   version: 1.0.1
-  resolution: "@agilo/medusa-plugin-store-credit@file:.yalc/@agilo/medusa-plugin-store-credit#.yalc/@agilo/medusa-plugin-store-credit::hash=0c104b&locator=medusa-starter-default%40workspace%3A."
+  resolution: "@agilo/medusa-plugin-store-credit@file:.yalc/@agilo/medusa-plugin-store-credit#.yalc/@agilo/medusa-plugin-store-credit::hash=edfc3e&locator=medusa-starter-default%40workspace%3A."
   dependencies:
     medusa-core-utils: ^1.2.0
-  peerDependencies:
-    "@hookform/error-message": "*"
-    "@medusajs/admin": ^7.1.1
-    "@medusajs/medusa": ^1.18.0
-    "@radix-ui/react-avatar": "*"
-    "@radix-ui/react-collapsible": "*"
-    "@radix-ui/react-dialog": "*"
-    "@radix-ui/react-dropdown-menu": "*"
-    "@radix-ui/react-popover": "*"
-    "@radix-ui/react-portal": "*"
-    "@radix-ui/react-select": "*"
-    "@radix-ui/react-switch": "*"
-    "@radix-ui/react-tooltip": "*"
-    clsx: "*"
-    copy-to-clipboard: "*"
-    emoji-picker-react: "*"
-    lodash: "*"
-    medusa-interfaces: ^1.3.7
-    medusa-react: ^9.0.11
-    moment: "*"
-    qs: "*"
-    react-datepicker: "*"
-    react-highlight-words: "*"
-    react-hook-form: "*"
-    react-hot-toast: "*"
-    react-i18next: "*"
-    react-json-tree: "*"
-    react-router-dom: "*"
-    react-select: "*"
-    react-table: "*"
-    typeorm: "*"
-  checksum: d0ec9939291691c6541c54f8f9cd75ff85bdda1e836d5df616d2a0f30cb82c459d64cb0b12aeccd0495157a5fcd5f066e3721dada03e947b765fc67836da0d9f
+  checksum: fca1a26139b6cc0eae841489f9f4bc1791b5a2f28bc51cec728770fb68fd71e7c66a24e519ab7e8a2eab894589bb689d7c72c37efdaec95dd7c8774613fbd949
   languageName: node
   linkType: hard
 
@@ -17975,8 +17944,8 @@ __metadata:
   linkType: hard
 
 "webpack-dev-middleware@npm:^5.3.1":
-  version: 5.3.3
-  resolution: "webpack-dev-middleware@npm:5.3.3"
+  version: 5.3.4
+  resolution: "webpack-dev-middleware@npm:5.3.4"
   dependencies:
     colorette: ^2.0.10
     memfs: ^3.4.3
@@ -17985,7 +17954,7 @@ __metadata:
     schema-utils: ^4.0.0
   peerDependencies:
     webpack: ^4.0.0 || ^5.0.0
-  checksum: dd332cc6da61222c43d25e5a2155e23147b777ff32fdf1f1a0a8777020c072fbcef7756360ce2a13939c3f534c06b4992a4d659318c4a7fe2c0530b52a8a6621
+  checksum: 90cf3e27d0714c1a745454a1794f491b7076434939340605b9ee8718ba2b85385b120939754e9fdbd6569811e749dee53eec319e0d600e70e0b0baffd8e3fb13
   languageName: node
   linkType: hard
 
