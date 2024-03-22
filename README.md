@@ -140,7 +140,6 @@ Unfortunately DX when generating migrations which extend or relate to core entit
 Docker services are defined in `docker-compose.yml` file.
 
 - `postgres` - PostgreSQL database server for Medusa available on localhost:5432, you can change credentials and port in `.env` and `packages/medusa/.env` files
-- `pgadmin` - pgAdmin available on http://localhost:5050
 - `redis` - Redis server for Medusa available on localhost:6379
 
 ## Additional Resources
