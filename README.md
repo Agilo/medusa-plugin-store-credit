@@ -125,7 +125,7 @@ Unfortunately DX when generating migrations which extend or relate to core entit
 
 1. `yarn run start` - make sure workflow is running
 2. `cp packages/medusa-plugin-store-credit/.env.example packages/medusa-plugin-store-credit/.env` - copy and edit environment variables
-3. `cd packages/medusa-plugin-store-credit/src/migrations` - navigate to the plugin dir
+3. `cd packages/medusa-plugin-store-credit/` - navigate to the plugin dir
 4. `npx typeorm migration:generate -d datasource.js src/migrations/StoreCreditUpdate` - this will generate a migration file with a bunch of migrations in `src/migrations/<timestamp>-StoreCreditUpdate.ts`, the migration file will contain migrations for both core medusa entities and your plugin entities. You can now cherry pick the migrations you want to run and delete the rest.
 5. In the `packages/medusa` dir run `medusa migrations run`
 
